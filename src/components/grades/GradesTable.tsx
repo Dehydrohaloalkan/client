@@ -19,11 +19,12 @@ function GradesTable({ grades, isLoading }: Props) {
         () => [
             {
                 header: 'Lesson',
-                accessorKey: 'lesson',
+                accessorKey: 'lesson.name',
             },
             {
                 header: 'Date',
-                accessorFn: (item) => item.date.toLocaleDateString('ru-RU'),
+                accessorFn: (grade) =>
+                    grade.lesson.date.toLocaleDateString('ru-RU'),
                 enableGrouping: false,
             },
             {
@@ -67,7 +68,7 @@ function GradesTable({ grades, isLoading }: Props) {
                 enablePagination={false}
                 enableBottomToolbar={false}
                 initialState={{
-                    grouping: ['lesson'],
+                    grouping: ['lesson.name'],
                     expanded: true,
                     isLoading: true,
                 }}
@@ -83,7 +84,6 @@ function GradesTable({ grades, isLoading }: Props) {
                     sx: { maxHeight: '100%' },
                 }}
             />
-            ;
         </Container>
     );
 }

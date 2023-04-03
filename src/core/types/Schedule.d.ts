@@ -1,13 +1,18 @@
-export type SubjectType = {
+export type LessonType = {
+    id: number;
+    subject: {
+        id: number;
+        name: string;
+        type: string;
+    };
     startTime: Date;
     endTime: Date;
-    title: string;
-    room: string;
+    location: string;
     absence?: boolean;
     grade?: number;
 };
 
 export type ScheduleType = {
     date: Date;
-    subjects: SubjectType[];
+    subjects: LessonType[];
 };

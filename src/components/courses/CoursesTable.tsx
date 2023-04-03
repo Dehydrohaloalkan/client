@@ -1,27 +1,27 @@
 import { Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { CourseType } from '../../core/types/Courses';
+import { SubjectType } from '../../core/types/Subject';
 
 type Props = {
-    courses: CourseType[];
+    subjects: SubjectType[];
     isLoading: boolean;
 };
 
-function CoursesTable({ courses, isLoading }: Props) {
-    const columns = useMemo<MRT_ColumnDef<CourseType>[]>(
+function SubjectsTable({ subjects, isLoading }: Props) {
+    const columns = useMemo<MRT_ColumnDef<SubjectType>[]>(
         () => [
             {
                 header: 'Type',
                 accessorKey: 'type',
             },
             {
-                header: 'Title',
-                accessorKey: 'title',
+                header: 'Name',
+                accessorKey: 'name',
             },
             {
                 header: 'Teacher',
-                accessorKey: 'teacher',
+                accessorKey: 'teacher.fullName',
             },
             {
                 header: 'Start date',
@@ -33,14 +33,14 @@ function CoursesTable({ courses, isLoading }: Props) {
                 accessorFn: (item) => item.endDate.toLocaleDateString('ru-RU'),
             },
         ],
-        [courses]
+        [subjects]
     );
 
     return (
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={courses}
+                data={subjects}
                 enableRowNumbers
                 enableColumnResizing
                 enablePagination={false}
@@ -62,4 +62,4 @@ function CoursesTable({ courses, isLoading }: Props) {
     );
 }
 
-export default CoursesTable;
+export default SubjectsTable;

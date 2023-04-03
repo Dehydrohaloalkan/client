@@ -10,6 +10,7 @@ type Props = {
     icon: JSX.Element;
     text: string;
     path: string;
+    key: number;
 };
 
 function MainSideBarItem({ icon, text, path }: Props) {

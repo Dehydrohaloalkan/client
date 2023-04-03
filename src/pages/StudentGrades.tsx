@@ -11,8 +11,8 @@ function StudentGrades({}: Props) {
     const [grades, setGrades] = useState<GradeType[]>([]);
 
     const [fetchGrades, isLoading, error] = useFetching(async () => {
-        const grades = await getGrades();
-        setGrades(grades);
+        const data = await getGrades();
+        setGrades(data);
     });
 
     useEffect(() => {

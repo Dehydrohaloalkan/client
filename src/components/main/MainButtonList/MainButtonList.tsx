@@ -18,9 +18,9 @@ function MainButtonList({ routes }: Props) {
                     justifyContent: 'center',
                 }}
             >
-                {routes.map((item) => (
+                {routes.map((item, index) => (
                     <Grid xs='auto' sx={{ maxWidth: 600 }}>
-                        <MainButtonListItem item={item} />
+                        <MainButtonListItem item={item} key={index} />
                     </Grid>
                 ))}
             </Grid>

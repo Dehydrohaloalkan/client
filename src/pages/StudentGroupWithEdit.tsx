@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
-import GroupTableWithEdit from '../components/GroupWithEdit/GroupTableWithEdit';
+import GroupTableWithEdit from '../components/groupWithEdit/GroupTableWithEdit';
 import MainContentContainer from '../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../core/hooks/useFetching';
 import { getGroup } from '../core/services/Group';
-import { PersonType } from '../core/types/Group';
+import { StudentType } from '../core/types/Group';
 
 type Props = {};
 
 function StudentEditGroup({}: Props) {
-    const [group, setGroup] = useState<PersonType[]>([]);
+    const [students, setStudents] = useState<StudentType[]>([]);
 
     const [fetchGroup, isLoading, error] = useFetching(async () => {
-        const group = await getGroup();
-        setGroup(Array.from(group));
+        const data = await getGroup();
+        setStudents(Array.from(data.students));
     });
 
     useEffect(() => {
@@ -21,13 +21,12 @@ function StudentEditGroup({}: Props) {
 
     const onEdit = () => {
         fetchGroup();
-        console.log(group);
     };
 
     return (
         <MainContentContainer header='Group'>
             <GroupTableWithEdit
-                persons={group}
+                students={students}
                 editCallback={onEdit}
                 isLoading={isLoading}
             />

@@ -2,16 +2,15 @@ import { Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
 import { dateToWeekDay } from '../../core/services/Schedule';
-import { ScheduleType, SubjectType } from '../../core/types/Schedule';
+import { LessonType, ScheduleType } from '../../core/types/Schedule';
 
 type Props = {
     item: ScheduleType;
-    key: number;
     isLoading: boolean;
 };
 
 function ScheduleTable({ item, isLoading }: Props) {
-    const columns = useMemo<MRT_ColumnDef<SubjectType>[]>(
+    const columns = useMemo<MRT_ColumnDef<LessonType>[]>(
         () => [
             {
                 header: 'Start',
@@ -33,11 +32,11 @@ function ScheduleTable({ item, isLoading }: Props) {
             },
             {
                 header: 'Title',
-                accessorKey: 'title',
+                accessorKey: 'subject.name',
             },
             {
                 header: 'Location',
-                accessorKey: 'room',
+                accessorKey: 'location',
                 size: 50,
             },
             {

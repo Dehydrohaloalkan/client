@@ -5,19 +5,19 @@ import MaterialReactTable, {
 } from 'material-react-table';
 import { useContext, useMemo } from 'react';
 import { setIsMarking, setSubGroup } from '../../core/services/Group';
-import { PersonType } from '../../core/types/Group';
+import { StudentType } from '../../core/types/Group';
 import { Context } from '../GlobalContext';
 
 type Props = {
-    persons: PersonType[];
+    students: StudentType[];
     editCallback: Function;
     isLoading: boolean;
 };
 
-function GroupTableWithEdit({ persons, editCallback, isLoading }: Props) {
+function GroupTableWithEdit({ students, editCallback, isLoading }: Props) {
     const { user } = useContext(Context);
 
-    const columns = useMemo<MRT_ColumnDef<PersonType>[]>(
+    const columns = useMemo<MRT_ColumnDef<StudentType>[]>(
         () => [
             {
                 header: 'Name',
@@ -82,13 +82,13 @@ function GroupTableWithEdit({ persons, editCallback, isLoading }: Props) {
                 },
             },
         ],
-        [persons]
+        [students]
     );
 
-    const handleSaveRowEdits: MaterialReactTableProps<PersonType>['onEditingRowSave'] =
+    const handleSaveRowEdits: MaterialReactTableProps<StudentType>['onEditingRowSave'] =
         async ({ exitEditingMode, row, values }) => {
-            setIsMarking(persons[row.index].id, values.Role == 'Marking');
-            setSubGroup(persons[row.index].id, values.SubGroup == '2');
+            setIsMarking(students[row.index].id, values.Role == 'Marking');
+            setSubGroup(students[row.index].id, values.SubGroup == '2');
             editCallback();
             exitEditingMode();
         };
@@ -97,7 +97,7 @@ function GroupTableWithEdit({ persons, editCallback, isLoading }: Props) {
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={persons}
+                data={students}
                 enableEditing={user?.role == 'GroupLeader'}
                 enableGrouping
                 enableRowNumbers

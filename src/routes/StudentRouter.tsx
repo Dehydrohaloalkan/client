@@ -9,11 +9,11 @@ import { Context } from '../components/GlobalContext';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
-import StudentCourses from '../pages/StudentCourses';
 import StudentGrades from '../pages/StudentGrades';
 import StudentGroupWithEdit from '../pages/StudentGroupWithEdit';
 import StudentPasses from '../pages/StudentPasses';
 import StudentSchedule from '../pages/StudentSchedule';
+import StudentSubjects from '../pages/StudentSubjects';
 
 type Props = {};
 
@@ -47,10 +47,10 @@ const studentRoutes: RouteType[] = [
             'On this page you can find the information about your group',
     },
     {
-        name: 'Courses',
-        route: 'courses',
-        path: 'courses',
-        element: <StudentCourses />,
+        name: 'Subjects',
+        route: 'subjects',
+        path: 'subjects',
+        element: <StudentSubjects />,
         icon: <ClassIcon />,
         picture: {
             //TODO Change
@@ -58,7 +58,7 @@ const studentRoutes: RouteType[] = [
             alt: 'text',
         },
         description:
-            'On this page you can find the information about your courses',
+            'On this page you can find the information about your subjects',
     },
     {
         name: 'Passes',
@@ -120,8 +120,12 @@ function StudentRouter({}: Props) {
                     index
                     element={<MainButtonList routes={studentRoutes} />}
                 />
-                {studentRoutes.map((item) => (
-                    <Route element={item.element} path={item.route} />
+                {studentRoutes.map((item, index) => (
+                    <Route
+                        element={item.element}
+                        path={item.route}
+                        key={index}
+                    />
                 ))}
             </Route>
             <Route path='*' element={<Navigate to='/' replace />} />

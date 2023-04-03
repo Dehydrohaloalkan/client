@@ -23,12 +23,13 @@ function MainSideBar({ items }: Props) {
         <WideDrawer variant='permanent'>
             <Toolbar />
             <List>
-                {items.map((item) => {
+                {items.map((item, index) => {
                     return (
                         <MainSideBarItem
                             icon={item.icon}
                             text={item.name}
                             path={item.path}
+                            key={index}
                         />
                     );
                 })}

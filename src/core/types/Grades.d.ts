@@ -1,5 +1,11 @@
 export type GradeType = {
-    lesson: string;
-    date: Date;
+    lesson: {
+        id: number;
+        name: string;
+        date: Date;
+    };
+    student: {
+        id: number;
+    };
     grade: number;
 };

@@ -6,7 +6,10 @@ export type RoleType =
     | 'Admin';
 
 export type AuthType = {
-    role: RoleType;
+    id: number;
     name: string;
     surName: string;
+    patronymic: string;
+    email: string;
+    role: RoleType;
 };

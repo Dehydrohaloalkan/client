@@ -1,66 +1,140 @@
 import { GradeType } from '../types/Grades';
 
+const grades: GradeType[] = [
+    {
+        lesson: {
+            id: 1,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Англ',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Русский',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Англ',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Русский',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Англ',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+    {
+        lesson: {
+            id: 1,
+            name: 'Русский',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: 1,
+        },
+        grade: 8,
+    },
+];
+
 export const getGrades = async (): Promise<GradeType[]> => {
-    return [
-        {
-            lesson: 'Math',
-            date: new Date('01.01.2004'),
-            grade: 10,
-        },
-        {
-            lesson: 'Math',
-            date: new Date('01.01.2004'),
-            grade: 9,
-        },
-        {
-            lesson: 'English',
-            date: new Date('01.01.2004'),
-            grade: 8,
-        },
-        {
-            lesson: 'Math',
-            date: new Date('01.01.2004'),
-            grade: 10,
-        },
-        {
-            lesson: 'Russian',
-            date: new Date('01.01.2004'),
-            grade: 9,
-        },
-        {
-            lesson: 'English',
-            date: new Date('01.01.2004'),
-            grade: 8,
-        },
-        {
-            lesson: 'Math',
-            date: new Date('01.01.2004'),
-            grade: 10,
-        },
-        {
-            lesson: 'Math',
-            date: new Date('01.01.2004'),
-            grade: 9,
-        },
-        {
-            lesson: 'English',
-            date: new Date('01.01.2004'),
-            grade: 8,
-        },
-        {
-            lesson: 'Math',
-            date: new Date('01.01.2004'),
-            grade: 10,
-        },
-        {
-            lesson: 'Russian',
-            date: new Date('01.01.2004'),
-            grade: 9,
-        },
-        {
-            lesson: 'English',
-            date: new Date('01.01.2004'),
-            grade: 8,
-        },
-    ];
+    return grades;
 };

@@ -1,5 +1,11 @@
 export type PassType = {
-    lesson: string;
-    date: Date;
+    lesson: {
+        id: number;
+        name: string;
+        date: Date;
+    };
+    student: {
+        id: number;
+    };
     hours: number;
 };

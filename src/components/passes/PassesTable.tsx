@@ -17,11 +17,12 @@ function PassesTable({ passes, isLoading }: Props) {
         () => [
             {
                 header: 'Lesson',
-                accessorKey: 'lesson',
+                accessorKey: 'lesson.name',
             },
             {
                 header: 'Date',
-                accessorFn: (item) => item.date.toLocaleDateString('ru-RU'),
+                accessorFn: (pass) =>
+                    pass.lesson.date.toLocaleDateString('ru-RU'),
             },
             {
                 header: 'Hours',
