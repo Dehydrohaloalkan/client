@@ -57,7 +57,7 @@ function ScheduleTable({ item, isLoading }: Props) {
             </Typography>
             <MaterialReactTable
                 columns={columns}
-                data={item.subjects}
+                data={item.lessons}
                 enableColumnResizing
                 enableTopToolbar={false}
                 enableBottomToolbar={false}

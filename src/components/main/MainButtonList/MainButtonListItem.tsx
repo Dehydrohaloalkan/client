@@ -10,14 +10,13 @@ import { RouteType } from '../../../core/types/Route';
 
 type Props = {
     item: RouteType;
-    key: number;
 };
 
-function MainButtonListItem({ item, key }: Props) {
+function MainButtonListItem({ item }: Props) {
     const navigate = useNavigate();
 
     return (
-        <Card sx={{ minWidth: 300 }} key={key}>
+        <Card sx={{ minWidth: 300 }}>
             <CardActionArea onClick={() => navigate(item.path)}>
                 {item.picture && (
                     <CardMedia

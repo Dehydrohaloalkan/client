@@ -1,4 +1,4 @@
-import { GroupType } from '../types/Group';
+import { GroupType, StudentType } from '../types/Group';
 
 const group: GroupType = {
     id: 1,
@@ -202,3 +202,6 @@ export const setSubGroup = async (id: number, newValue: boolean) => {
         group.students.findIndex((student) => student.id === id)
     ].subGroup = newValue;
 };
+
+export const getStudentFullName = (student: StudentType) =>
+    `${student.name} ${student.surName} ${student.patronymic}`;

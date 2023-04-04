@@ -1,5 +1,6 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import ClassIcon from '@mui/icons-material/Class';
+import CrisisAlertIcon from '@mui/icons-material/CrisisAlert';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import GradeIcon from '@mui/icons-material/Grade';
 import GroupIcon from '@mui/icons-material/Group';
@@ -10,6 +11,7 @@ import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
 import StudentGrades from '../pages/StudentGrades';
+import StudentGroupPasses from '../pages/StudentGroupPasses';
 import StudentGroupWithEdit from '../pages/StudentGroupWithEdit';
 import StudentPasses from '../pages/StudentPasses';
 import StudentSchedule from '../pages/StudentSchedule';
@@ -92,18 +94,17 @@ const studentRoutes: RouteType[] = [
 
 const addMarkingRoutes = () => {
     studentRoutes.push({
-        name: 'Schedule',
-        route: 'schedule/:week',
-        path: 'schedule/0',
-        element: <StudentSchedule />,
-        icon: <EventNoteIcon />,
+        name: 'Add Passes',
+        route: 'passes/edit/:week',
+        path: 'passes/edit/0',
+        element: <StudentGroupPasses />,
+        icon: <CrisisAlertIcon />,
         picture: {
             //TODO Change
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can add passes',
     });
 };
 

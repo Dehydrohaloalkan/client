@@ -10,131 +10,49 @@ const passes: PassType[] = [
         student: {
             id: 1,
         },
-        hours: 8,
+        hours: 2,
     },
     {
         lesson: {
-            id: 1,
+            id: 3,
             name: 'Матеша',
             date: new Date('01.02.2020'),
         },
         student: {
-            id: 1,
+            id: 2,
         },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Англ',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Русский',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Матеша',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Матеша',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Англ',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Русский',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Матеша',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Матеша',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Англ',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
-    },
-    {
-        lesson: {
-            id: 1,
-            name: 'Русский',
-            date: new Date('01.02.2020'),
-        },
-        student: {
-            id: 1,
-        },
-        hours: 8,
+        hours: 2,
     },
 ];
 
 export const getPasses = async (): Promise<PassType[]> => {
     return passes;
+};
+
+export const addPass = async (
+    lessonId: number,
+    studentId: number
+): Promise<void> => {
+    passes.push({
+        lesson: {
+            id: lessonId,
+            name: 'Матеша',
+            date: new Date('01.02.2020'),
+        },
+        student: {
+            id: studentId,
+        },
+        hours: 2,
+    });
+    console.log('🚀 ~ file: Passes.ts:47 ~ passes:', passes);
+};
+
+export const removePass = async (lessonId: number, studentId: number) => {
+    passes.splice(
+        passes.findIndex(
+            (pass) => pass.student.id == studentId && pass.lesson.id == lessonId
+        ),
+        1
+    );
+    console.log('🚀 ~ file: Passes.ts:56 ~ removePass ~ passes:', passes);
 };

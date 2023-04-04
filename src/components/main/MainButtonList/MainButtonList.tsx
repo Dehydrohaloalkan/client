@@ -19,8 +19,8 @@ function MainButtonList({ routes }: Props) {
                 }}
             >
                 {routes.map((item, index) => (
-                    <Grid xs='auto' sx={{ maxWidth: 600 }}>
-                        <MainButtonListItem item={item} key={index} />
+                    <Grid xs='auto' sx={{ maxWidth: 600 }} key={index}>
+                        <MainButtonListItem item={item} />
                     </Grid>
                 ))}
             </Grid>

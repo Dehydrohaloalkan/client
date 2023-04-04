@@ -14,5 +14,5 @@ export type LessonType = {
 
 export type ScheduleType = {
     date: Date;
-    subjects: LessonType[];
+    lessons: LessonType[];
 };

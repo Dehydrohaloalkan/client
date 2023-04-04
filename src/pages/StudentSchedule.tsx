@@ -39,8 +39,20 @@ function StudentSchedule({}: Props) {
     return (
         <MainContentContainer header='Schedule'>
             <Container>
-                <Button onClick={() => goToPrevWeek()}>Previous Week</Button>
-                <Button onClick={() => goToNextWeek()}>Next Week</Button>
+                <Button
+                    sx={{ margin: 1 }}
+                    variant='contained'
+                    onClick={() => goToPrevWeek()}
+                >
+                    Previous Week
+                </Button>
+                <Button
+                    sx={{ margin: 1 }}
+                    variant='contained'
+                    onClick={() => goToNextWeek()}
+                >
+                    Next Week
+                </Button>
 
                 <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
                     {schedule.map((item, index) => (
