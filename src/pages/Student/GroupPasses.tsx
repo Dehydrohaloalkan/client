@@ -1,19 +1,19 @@
 import { Button, Checkbox, Container, FormControlLabel } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import GroupPassesTable from '../components/groupPasses/GroupPassesTable';
-import MainContentContainer from '../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../core/hooks/useFetching';
-import { getGroup } from '../core/services/Group';
-import { addPass, getPasses, removePass } from '../core/services/Passes';
-import { getSchedule } from '../core/services/Schedule';
-import { StudentType } from '../core/types/Group';
-import { PassType } from '../core/types/Passes';
-import { ScheduleType } from '../core/types/Schedule';
+import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import { useFetching } from '../../core/hooks/useFetching';
+import { getGroup } from '../../core/services/Group';
+import { addPass, getPasses, removePass } from '../../core/services/Passes';
+import { getSchedule } from '../../core/services/Schedule';
+import { StudentType } from '../../core/types/Group';
+import { PassType } from '../../core/types/Passes';
+import { ScheduleType } from '../../core/types/Schedule';
 
 type Props = {};
 
-function StudentGroupPasses({}: Props) {
+function GroupPasses({}: Props) {
     const [schedule, setSchedule] = useState<ScheduleType[]>([]);
     const [students, setStudents] = useState<StudentType[]>([]);
     const [passes, setPasses] = useState<PassType[]>([]);
@@ -23,7 +23,7 @@ function StudentGroupPasses({}: Props) {
 
     const [fetchData, isLoading, error] = useFetching(async () => {
         setPasses(Array.from(await getPasses()));
-        setSchedule(Array.from(await getSchedule(0)));
+        setSchedule(Array.from(await getSchedule(week)));
         setStudents(Array.from((await getGroup()).students));
     });
 
@@ -107,4 +107,4 @@ function StudentGroupPasses({}: Props) {
     );
 }
 
-export default StudentGroupPasses;
+export default GroupPasses;

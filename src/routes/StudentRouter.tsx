@@ -10,12 +10,12 @@ import { Context } from '../components/GlobalContext';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
-import StudentGrades from '../pages/StudentGrades';
-import StudentGroupPasses from '../pages/StudentGroupPasses';
-import StudentGroupWithEdit from '../pages/StudentGroupWithEdit';
-import StudentPasses from '../pages/StudentPasses';
-import StudentSchedule from '../pages/StudentSchedule';
-import StudentSubjects from '../pages/StudentSubjects';
+import Grades from '../pages/Student/Grades';
+import GroupPasses from '../pages/Student/GroupPasses';
+import GroupWithEdit from '../pages/Student/GroupWithEdit';
+import Passes from '../pages/Student/Passes';
+import Schedule from '../pages/Student/Schedule';
+import Subjects from '../pages/Student/Subjects';
 
 type Props = {};
 
@@ -24,7 +24,7 @@ const studentRoutes: RouteType[] = [
         name: 'Schedule',
         route: 'schedule/:week',
         path: 'schedule/0',
-        element: <StudentSchedule />,
+        element: <Schedule />,
         icon: <EventNoteIcon />,
         picture: {
             //TODO Change
@@ -38,7 +38,7 @@ const studentRoutes: RouteType[] = [
         name: 'Group',
         route: 'group',
         path: 'group',
-        element: <StudentGroupWithEdit />,
+        element: <GroupWithEdit />,
         icon: <GroupIcon />,
         picture: {
             //TODO Change
@@ -52,7 +52,7 @@ const studentRoutes: RouteType[] = [
         name: 'Subjects',
         route: 'subjects',
         path: 'subjects',
-        element: <StudentSubjects />,
+        element: <Subjects />,
         icon: <ClassIcon />,
         picture: {
             //TODO Change
@@ -66,7 +66,7 @@ const studentRoutes: RouteType[] = [
         name: 'Passes',
         route: 'passes',
         path: 'passes',
-        element: <StudentPasses />,
+        element: <Passes />,
         icon: <CancelIcon />,
         picture: {
             //TODO Change
@@ -80,7 +80,7 @@ const studentRoutes: RouteType[] = [
         name: 'Grades',
         route: 'grades',
         path: 'grades',
-        element: <StudentGrades />,
+        element: <Grades />,
         icon: <GradeIcon />,
         picture: {
             //TODO Change
@@ -97,7 +97,7 @@ const addMarkingRoutes = () => {
         name: 'Add Passes',
         route: 'passes/edit/:week',
         path: 'passes/edit/0',
-        element: <StudentGroupPasses />,
+        element: <GroupPasses />,
         icon: <CrisisAlertIcon />,
         picture: {
             //TODO Change

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import MainContentContainer from '../components/main/ContentContainer/MainContentContainer';
-import PassesTable from '../components/passes/PassesTable';
-import { useFetching } from '../core/hooks/useFetching';
-import { getPasses } from '../core/services/Passes';
-import { PassType } from '../core/types/Passes';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import PassesTable from '../../components/passes/PassesTable';
+import { useFetching } from '../../core/hooks/useFetching';
+import { getPasses } from '../../core/services/Passes';
+import { PassType } from '../../core/types/Passes';
 
 type Props = {};
 
-function StudentPasses({}: Props) {
+function Passes({}: Props) {
     const [passes, setPasses] = useState<PassType[]>([]);
 
     const [fetchPasses, isLoading, error] = useFetching(async () => {
@@ -26,4 +26,4 @@ function StudentPasses({}: Props) {
     );
 }
 
-export default StudentPasses;
+export default Passes;

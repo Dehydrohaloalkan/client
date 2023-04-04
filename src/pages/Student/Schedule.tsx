@@ -2,15 +2,15 @@ import { Button, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import MainContentContainer from '../components/main/ContentContainer/MainContentContainer';
-import ScheduleTable from '../components/schedule/ScheduleTable';
-import { useFetching } from '../core/hooks/useFetching';
-import { getSchedule } from '../core/services/Schedule';
-import { ScheduleType } from '../core/types/Schedule';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import ScheduleTable from '../../components/schedule/ScheduleTable';
+import { useFetching } from '../../core/hooks/useFetching';
+import { getSchedule } from '../../core/services/Schedule';
+import { ScheduleType } from '../../core/types/Schedule';
 
 type Props = {};
 
-function StudentSchedule({}: Props) {
+function Schedule({}: Props) {
     const [schedule, setSchedule] = useState<ScheduleType[]>([]);
     const [week, setWeek] = useState(0);
     const navigate = useNavigate();
@@ -66,4 +66,4 @@ function StudentSchedule({}: Props) {
     );
 }
 
-export default StudentSchedule;
+export default Schedule;

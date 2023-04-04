@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import SubjectsTable from '../components/courses/CoursesTable';
-import MainContentContainer from '../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../core/hooks/useFetching';
-import { getSubjects } from '../core/services/Subjects';
-import { SubjectType } from '../core/types/Subject';
+import SubjectsTable from '../../components/courses/CoursesTable';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import { useFetching } from '../../core/hooks/useFetching';
+import { getSubjects } from '../../core/services/Subjects';
+import { SubjectType } from '../../core/types/Subject';
 
 type Props = {};
 
-function StudentSubjects({}: Props) {
+function Subjects({}: Props) {
     const [subjects, setSubjects] = useState<SubjectType[]>([]);
 
     const [fetchSubjects, isLoading, error] = useFetching(async () => {
@@ -26,4 +26,4 @@ function StudentSubjects({}: Props) {
     );
 }
 
-export default StudentSubjects;
+export default Subjects;

@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import GroupTableWithEdit from '../components/groupWithEdit/GroupTableWithEdit';
-import MainContentContainer from '../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../core/hooks/useFetching';
-import { getGroup } from '../core/services/Group';
-import { StudentType } from '../core/types/Group';
+import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import { useFetching } from '../../core/hooks/useFetching';
+import { getGroup } from '../../core/services/Group';
+import { StudentType } from '../../core/types/Group';
 
 type Props = {};
 
-function StudentEditGroup({}: Props) {
+function GroupWithEdit({}: Props) {
     const [students, setStudents] = useState<StudentType[]>([]);
 
     const [fetchGroup, isLoading, error] = useFetching(async () => {
@@ -34,4 +34,4 @@ function StudentEditGroup({}: Props) {
     );
 }
 
-export default StudentEditGroup;
+export default GroupWithEdit;
