@@ -10,6 +10,10 @@ export type LessonType = {
     location: string;
     absence?: boolean;
     grade?: number;
+    group?: {
+        id: number;
+        number: string;
+    };
 };
 
 export type ScheduleType = {

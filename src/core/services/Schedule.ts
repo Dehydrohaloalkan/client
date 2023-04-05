@@ -257,7 +257,10 @@ const schedule: ScheduleType[] = [
     },
 ];
 
-export const getSchedule = async (week: number): Promise<ScheduleType[]> => {
+export const getSchedule = async (
+    week: number,
+    groupId?: number
+): Promise<ScheduleType[]> => {
     //await new Promise((r) => setTimeout(r, 2000));
     return schedule;
 };

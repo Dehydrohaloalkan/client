@@ -57,7 +57,11 @@ function Schedule({}: Props) {
                 <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
                     {schedule.map((item, index) => (
                         <Grid xs={6} sx={{ maxWidth: 650 }} key={index}>
-                            <ScheduleTable item={item} isLoading={isLoading} />
+                            <ScheduleTable
+                                day={item}
+                                isLoading={isLoading}
+                                isFor='Student'
+                            />
                         </Grid>
                     ))}
                 </Grid>

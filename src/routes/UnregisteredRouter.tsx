@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
-import Schedule from '../pages/public/Schedule';
+import Schedule from '../pages/student/Schedule';
 
 const teacherRoutes: RouteType[] = [
     {

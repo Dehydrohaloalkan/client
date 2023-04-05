@@ -1,17 +1,17 @@
-import EventNoteIcon from '@mui/icons-material/EventNote';
+import GroupIcon from '@mui/icons-material/Group';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
-import Schedule from '../pages/public/Schedule';
+import Students from '../pages/admin/Students';
 
 const adminRoutes: RouteType[] = [
     {
-        name: 'Schedule',
-        route: 'schedule/:week',
-        path: 'schedule/0',
-        element: <Schedule />,
-        icon: <EventNoteIcon />,
+        name: 'Students',
+        route: 'students',
+        path: 'students',
+        element: <Students />,
+        icon: <GroupIcon />,
         picture: {
             //TODO Change
             src: 'src/assets/cat.jpg',

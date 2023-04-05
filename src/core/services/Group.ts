@@ -1,4 +1,9 @@
-import { GroupInfoType, GroupType, StudentType } from '../types/Group';
+import {
+    GroupInfoType,
+    GroupType,
+    GroupedGroupsType,
+    StudentType,
+} from '../types/Group';
 
 const group: GroupType = {
     id: 1,
@@ -212,7 +217,7 @@ const groups: GroupInfoType[] = [
 ];
 
 export const getGroup = async (id: number): Promise<GroupType> => {
-    await new Promise((r) => setTimeout(r, 2000));
+    //await new Promise((r) => setTimeout(r, 2000));
     return group;
 };
 
@@ -228,6 +233,19 @@ export const addStudent = async (newStudent: StudentType) => {
 
 export const getStudentFullName = (student: StudentType) =>
     `${student.name} ${student.surName} ${student.patronymic}`;
+
+export const reduceGroupsByForm = (
+    groups: GroupInfoType[]
+): GroupedGroupsType => {
+    return groups.reduce<GroupedGroupsType>((result, group) => {
+        const key = group.form;
+        if (!result[key]) {
+            result[key] = [];
+        }
+        result[key].push(group);
+        return result;
+    }, {});
+};
 
 export const getGroups = async () => {
     return groups;

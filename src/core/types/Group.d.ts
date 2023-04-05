@@ -8,6 +8,8 @@ export type GroupType = GroupInfoType & {
     students: StudentType[];
 };
 
+export type GroupedGroupsType = { [key: number]: GroupInfoType[] };
+
 export type StudentType = {
     id: number;
     name: string;

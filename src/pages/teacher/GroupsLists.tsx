@@ -10,10 +10,12 @@ import { useEffect, useState } from 'react';
 import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { getGroup, getGroups } from '../../core/services/Group';
+import {
+    getGroup,
+    getGroups,
+    reduceGroupsByForm,
+} from '../../core/services/Group';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
-
-type GroupedGroupsType = { [key: number]: GroupInfoType[] };
 
 type Props = {};
 
@@ -41,17 +43,6 @@ function GroupsLists({}: Props) {
         if (selectedGroupId != -1) fetchGroup(selectedGroupId);
     }, [selectedGroupId]);
 
-    const reduceByForm = (groups: GroupInfoType[]): GroupedGroupsType => {
-        return groups.reduce<GroupedGroupsType>((result, group) => {
-            const key = group.form;
-            if (!result[key]) {
-                result[key] = [];
-            }
-            result[key].push(group);
-            return result;
-        }, {});
-    };
-
     return (
         <MainContentContainer header='Groups Lists'>
             <Container>
@@ -71,7 +62,7 @@ function GroupsLists({}: Props) {
                             <MenuItem value={-1}>
                                 <em>None</em>
                             </MenuItem>
-                            {Object.entries(reduceByForm(groups)).map(
+                            {Object.entries(reduceGroupsByForm(groups)).map(
                                 (item) => [
                                     <ListSubheader
                                         key={Number.parseInt(item[0])}
@@ -92,7 +83,7 @@ function GroupsLists({}: Props) {
                     </FormControl>
                 )}
 
-                {students.length != 0 && (
+                {selectedGroupId != -1 && (
                     <GroupTableWithEdit
                         students={students}
                         isLoading={isLoading}

@@ -5,13 +5,14 @@ import { dateToWeekDay } from '../../core/services/Schedule';
 import { LessonType, ScheduleType } from '../../core/types/Schedule';
 
 type Props = {
-    item: ScheduleType;
+    day: ScheduleType;
     isLoading: boolean;
+    isFor: 'Teacher' | 'Student';
 };
 
-function ScheduleTable({ item, isLoading }: Props) {
-    const columns = useMemo<MRT_ColumnDef<LessonType>[]>(
-        () => [
+function ScheduleTable({ day, isLoading, isFor }: Props) {
+    const columns = useMemo<MRT_ColumnDef<LessonType>[]>(() => {
+        const columns: MRT_ColumnDef<LessonType>[] = [
             {
                 header: 'Start',
                 accessorFn: (item) =>
@@ -39,25 +40,35 @@ function ScheduleTable({ item, isLoading }: Props) {
                 accessorKey: 'location',
                 size: 50,
             },
-            {
+        ];
+        if (isFor == 'Student') {
+            console.log('first');
+            columns.push({
                 header: 'Grade',
                 accessorKey: 'grade',
                 size: 50,
-            },
-        ],
-        [item]
-    );
+            });
+        }
+        if (isFor == 'Teacher') {
+            columns.push({
+                header: 'Group',
+                accessorKey: 'group.number',
+                size: 50,
+            });
+        }
+        return columns;
+    }, [day]);
 
     return (
         <>
             <Typography variant='h4' component={'p'}>
-                {dateToWeekDay(item.date) +
+                {dateToWeekDay(day.date) +
                     '   ' +
-                    item.date.toLocaleDateString('ru-RU')}
+                    day.date.toLocaleDateString('ru-RU')}
             </Typography>
             <MaterialReactTable
                 columns={columns}
-                data={item.lessons}
+                data={day.lessons}
                 enableColumnResizing
                 enableTopToolbar={false}
                 enableBottomToolbar={false}

@@ -12,18 +12,18 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../../components/GlobalContext';
-import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
+import GroupGradesTable from '../../components/groupGrades/GroupGradesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
+import { addGrade, getGrades, removeGrade } from '../../core/services/Grades';
 import {
     getGroup,
     getGroups,
     reduceGroupsByForm,
 } from '../../core/services/Group';
-import { addPass, getPasses, removePass } from '../../core/services/Passes';
 import { getSchedule } from '../../core/services/Schedule';
+import { GradeType } from '../../core/types/Grades';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
-import { PassType } from '../../core/types/Passes';
 import { ScheduleType } from '../../core/types/Schedule';
 
 type Props = {};
@@ -34,7 +34,7 @@ function GroupsPasses({}: Props) {
 
     const [schedule, setSchedule] = useState<ScheduleType[]>([]);
     const [students, setStudents] = useState<StudentType[]>([]);
-    const [passes, setPasses] = useState<PassType[]>([]);
+    const [grades, setGrades] = useState<GradeType[]>([]);
     const [week, setWeek] = useState(0);
 
     const navigate = useNavigate();
@@ -43,7 +43,7 @@ function GroupsPasses({}: Props) {
 
     const [fetchData, isLoading, error] = useFetching(async () => {
         if (selectedGroupId != -1) {
-            setPasses(Array.from(await getPasses()));
+            setGrades(Array.from(await getGrades()));
             setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
             setStudents(Array.from((await getGroup(selectedGroupId)).students));
         }
@@ -66,17 +66,21 @@ function GroupsPasses({}: Props) {
 
     const goToPrevWeek = () => {
         setWeek(week - 1);
-        navigate(`/groupsPasses/${week - 1}`);
+        navigate(`/groupsGrades/${week - 1}`);
     };
 
     const goToNextWeek = () => {
         setWeek(week + 1);
-        navigate(`/groupsPasses/${week + 1}`);
+        navigate(`/groupsGrades/${week + 1}`);
     };
 
-    const onAddPass = async (lessonId: number, studentId: number) => {
-        addPass(lessonId, studentId);
-        passes.push({
+    const onAddGrade = async (
+        lessonId: number,
+        studentId: number,
+        grade: number
+    ) => {
+        addGrade(lessonId, studentId, grade);
+        grades.push({
             lesson: {
                 id: lessonId,
                 name: 'Матеша',
@@ -85,24 +89,24 @@ function GroupsPasses({}: Props) {
             student: {
                 id: studentId,
             },
-            hours: 2,
+            grade: grade,
         });
-        setPasses(Array.from(passes));
+        setGrades(Array.from(grades));
     };
-    const onRemovePass = async (lessonId: number, studentId: number) => {
-        removePass(lessonId, studentId);
-        passes.splice(
-            passes.findIndex(
-                (pass) =>
-                    pass.student.id == studentId && pass.lesson.id == lessonId
+    const onRemoveGrade = async (lessonId: number, studentId: number) => {
+        removeGrade(lessonId, studentId);
+        grades.splice(
+            grades.findIndex(
+                (grade) =>
+                    grade.student.id == studentId && grade.lesson.id == lessonId
             ),
             1
         );
-        setPasses(Array.from(passes));
+        setGrades(Array.from(grades));
     };
 
     return (
-        <MainContentContainer header='Groups Passes'>
+        <MainContentContainer header='Groups Grades'>
             <Container>
                 {!isLoadingGroups && (
                     <FormControl sx={{ margin: 3, minWidth: 150 }}>
@@ -166,12 +170,12 @@ function GroupsPasses({}: Props) {
                                 Save
                             </Button>
                         </div>
-                        <GroupPassesTable
+                        <GroupGradesTable
                             schedule={schedule}
                             students={students}
-                            passes={passes}
-                            addPass={onAddPass}
-                            removePass={onRemovePass}
+                            grades={grades}
+                            addGrade={onAddGrade}
+                            removeGrade={onRemoveGrade}
                             isLoading={isLoading}
                         />
                         <FormControlLabel
