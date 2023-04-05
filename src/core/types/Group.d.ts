@@ -1,6 +1,10 @@
-export type GroupType = {
+export type GroupInfoType = {
     id: number;
     number: string;
+    form: number;
+};
+
+export type GroupType = GroupInfoType & {
     students: StudentType[];
 };
 

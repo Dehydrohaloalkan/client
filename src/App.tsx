@@ -1,12 +1,12 @@
 import { BrowserRouter } from 'react-router-dom';
 import GlobalContext from './components/GlobalContext';
-import StudentRouter from './routes/StudentRouter';
+import ComplexRouter from './routes/ComplexRouter';
 
 function App() {
     return (
         <GlobalContext>
             <BrowserRouter>
-                <StudentRouter />
+                <ComplexRouter />
             </BrowserRouter>
         </GlobalContext>
     );

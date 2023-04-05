@@ -1,9 +1,9 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
-import Schedule from '../pages/Student/Schedule';
-import EventNoteIcon from '@mui/icons-material/EventNote';
+import Schedule from '../pages/public/Schedule';
 
 const teacherRoutes: RouteType[] = [
     {

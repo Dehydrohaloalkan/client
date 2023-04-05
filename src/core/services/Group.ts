@@ -1,8 +1,9 @@
-import { GroupType, StudentType } from '../types/Group';
+import { GroupInfoType, GroupType, StudentType } from '../types/Group';
 
 const group: GroupType = {
     id: 1,
     number: '051003',
+    form: 1,
     students: [
         {
             id: 1,
@@ -187,21 +188,47 @@ const group: GroupType = {
     ],
 };
 
-export const getGroup = async (): Promise<GroupType> => {
+const groups: GroupInfoType[] = [
+    {
+        id: 1,
+        number: '051003',
+        form: 1,
+    },
+    {
+        id: 2,
+        number: '051004',
+        form: 1,
+    },
+    {
+        id: 3,
+        number: '151003',
+        form: 2,
+    },
+    {
+        id: 4,
+        number: '151004',
+        form: 2,
+    },
+];
+
+export const getGroup = async (id: number): Promise<GroupType> => {
+    await new Promise((r) => setTimeout(r, 2000));
     return group;
 };
 
-export const setIsMarking = async (id: number, newValue: boolean) => {
+export const updateStudent = async (newStudent: StudentType) => {
     group.students[
-        group.students.findIndex((student) => student.id === id)
-    ].isMarking = newValue;
+        group.students.findIndex((student) => student.id === newStudent.id)
+    ] = newStudent;
 };
 
-export const setSubGroup = async (id: number, newValue: boolean) => {
-    group.students[
-        group.students.findIndex((student) => student.id === id)
-    ].subGroup = newValue;
+export const addStudent = async (newStudent: StudentType) => {
+    group.students.push(newStudent);
 };
 
 export const getStudentFullName = (student: StudentType) =>
     `${student.name} ${student.surName} ${student.patronymic}`;
+
+export const getGroups = async () => {
+    return groups;
+};

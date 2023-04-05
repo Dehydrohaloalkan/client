@@ -10,12 +10,12 @@ import { Context } from '../components/GlobalContext';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
-import Grades from '../pages/Student/Grades';
-import GroupPasses from '../pages/Student/GroupPasses';
-import GroupWithEdit from '../pages/Student/GroupWithEdit';
-import Passes from '../pages/Student/Passes';
-import Schedule from '../pages/Student/Schedule';
-import Subjects from '../pages/Student/Subjects';
+import Schedule from '../pages/public/Schedule';
+import Grades from '../pages/student/Grades';
+import GroupPasses from '../pages/student/GroupPasses';
+import GroupWithEdit from '../pages/student/GroupWithEdit';
+import Passes from '../pages/student/Passes';
+import Subjects from '../pages/student/Subjects';
 
 type Props = {};
 

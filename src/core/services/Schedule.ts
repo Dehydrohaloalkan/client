@@ -258,7 +258,6 @@ const schedule: ScheduleType[] = [
 ];
 
 export const getSchedule = async (week: number): Promise<ScheduleType[]> => {
-    console.log('🚀 ~ file: Schedule.ts:261 ~ getSchedule ~ week:', week);
-    await new Promise((r) => setTimeout(r, 2000));
+    //await new Promise((r) => setTimeout(r, 2000));
     return schedule;
 };

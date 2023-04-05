@@ -12,4 +12,7 @@ export type AuthType = {
     patronymic: string;
     email: string;
     role: RoleType;
+    student?: {
+        groupId: number;
+    };
 };

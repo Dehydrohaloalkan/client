@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Context } from '../../components/GlobalContext';
 import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
@@ -9,9 +10,10 @@ type Props = {};
 
 function GroupWithEdit({}: Props) {
     const [students, setStudents] = useState<StudentType[]>([]);
+    const { user } = useContext(Context);
 
     const [fetchGroup, isLoading, error] = useFetching(async () => {
-        const data = await getGroup();
+        const data = await getGroup(user!.student!.groupId);
         setStudents(Array.from(data.students));
     });
 

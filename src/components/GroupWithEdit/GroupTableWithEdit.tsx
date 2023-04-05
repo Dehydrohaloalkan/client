@@ -4,13 +4,13 @@ import MaterialReactTable, {
     MaterialReactTableProps,
 } from 'material-react-table';
 import { useContext, useMemo } from 'react';
-import { setIsMarking, setSubGroup } from '../../core/services/Group';
+import { updateStudent } from '../../core/services/Group';
 import { StudentType } from '../../core/types/Group';
 import { Context } from '../GlobalContext';
 
 type Props = {
     students: StudentType[];
-    editCallback: Function;
+    editCallback?: Function;
     isLoading: boolean;
 };
 
@@ -87,9 +87,15 @@ function GroupTableWithEdit({ students, editCallback, isLoading }: Props) {
 
     const handleSaveRowEdits: MaterialReactTableProps<StudentType>['onEditingRowSave'] =
         async ({ exitEditingMode, row, values }) => {
-            setIsMarking(students[row.index].id, values.Role == 'Marking');
-            setSubGroup(students[row.index].id, values.SubGroup == '2');
-            editCallback();
+            updateStudent({
+                ...students[row.index],
+                isMarking: values.Role == 'Marking',
+                subGroup: values.SubGroup == '2',
+            });
+
+            // setIsMarking(students[row.index].id, values.Role == 'Marking');
+            // setSubGroup(students[row.index].id, values.SubGroup == '2');
+            editCallback?.();
             exitEditingMode();
         };
 

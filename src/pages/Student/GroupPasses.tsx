@@ -1,6 +1,7 @@
 import { Button, Checkbox, Container, FormControlLabel } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Context } from '../../components/GlobalContext';
 import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
@@ -20,11 +21,14 @@ function GroupPasses({}: Props) {
     const [week, setWeek] = useState(0);
     const navigate = useNavigate();
     const params = useParams();
+    const { user } = useContext(Context);
 
     const [fetchData, isLoading, error] = useFetching(async () => {
         setPasses(Array.from(await getPasses()));
         setSchedule(Array.from(await getSchedule(week)));
-        setStudents(Array.from((await getGroup()).students));
+        setStudents(
+            Array.from((await getGroup(user!.student!.groupId)).students)
+        );
     });
 
     useEffect(() => {

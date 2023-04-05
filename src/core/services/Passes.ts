@@ -44,7 +44,6 @@ export const addPass = async (
         },
         hours: 2,
     });
-    console.log('🚀 ~ file: Passes.ts:47 ~ passes:', passes);
 };
 
 export const removePass = async (lessonId: number, studentId: number) => {
@@ -54,5 +53,4 @@ export const removePass = async (lessonId: number, studentId: number) => {
         ),
         1
     );
-    console.log('🚀 ~ file: Passes.ts:56 ~ removePass ~ passes:', passes);
 };
