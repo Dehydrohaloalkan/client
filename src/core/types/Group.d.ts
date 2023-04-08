@@ -19,4 +19,8 @@ export type StudentType = {
     subGroup: boolean;
     isGroupLeader: boolean;
     isMarking: boolean;
+    group?: {
+        id: number;
+        number: string;
+    };
 };

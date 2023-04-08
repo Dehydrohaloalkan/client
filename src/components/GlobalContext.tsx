@@ -13,17 +13,18 @@ type Props = {
 };
 
 function GlobalContext({ children }: Props) {
-    const [user, setUser] = useState<AuthType>({
-        id: 1,
-        role: 'Admin',
-        name: 'Alex',
-        surName: 'Man',
-        patronymic: 'Woman',
-        email: 'test@gmail.com',
-        student: {
-            groupId: 1,
-        },
-    });
+    const [user, setUser] = useState<AuthType>();
+    // {
+    // id: '530d7ac4-2167-4e2f-9da2-d47289ca807b',
+    // role: 'GroupLeader',
+    // name: 'Alex',
+    // surName: 'Man',
+    // patronymic: 'Woman',
+    // email: 'test@gmail.com',
+    // student: {
+    //     groupId: 1,
+    // },
+    // }
 
     return (
         <Context.Provider

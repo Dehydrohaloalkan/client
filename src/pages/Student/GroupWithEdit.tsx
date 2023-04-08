@@ -31,6 +31,7 @@ function GroupWithEdit({}: Props) {
                 students={students}
                 editCallback={onEdit}
                 isLoading={isLoading}
+                isFor='Student'
             />
         </MainContentContainer>
     );

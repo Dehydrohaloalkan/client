@@ -12,7 +12,7 @@ const group: GroupType = {
     students: [
         {
             id: 1,
-            name: 'Alex',
+            name: 'Ars',
             surName: 'Grayrat',
             patronymic: 'Rydeysavich',
             email: 'test@test.com',
@@ -249,4 +249,8 @@ export const reduceGroupsByForm = (
 
 export const getGroups = async () => {
     return groups;
+};
+
+export const getAllStudents = async () => {
+    return group.students;
 };

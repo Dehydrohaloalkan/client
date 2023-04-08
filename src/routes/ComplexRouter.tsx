@@ -11,11 +11,11 @@ function ComplexRouter({}: Props) {
 
     return (
         <>
-            {(user?.role == 'Student' ||
-                user?.role == 'GroupLeader' ||
-                user?.role == 'Marking') && <StudentRouter />}
-            {user?.role == 'Teacher' && <TeacherRouter />}
-            {user?.role == 'Admin' && <AdminRouter />}
+            {(user?.role == 'student' ||
+                user?.role == 'groupLeader' ||
+                user?.role == 'marking') && <StudentRouter />}
+            {user?.role == 'teacher' && <TeacherRouter />}
+            {user?.role == 'admin' && <AdminRouter />}
             {(user == undefined || user.role == undefined) && (
                 <UnregisteredRouter />
             )}

@@ -52,7 +52,7 @@ function ScheduleTable({ day, isLoading, isFor }: Props) {
         if (isFor == 'Teacher') {
             columns.push({
                 header: 'Group',
-                accessorKey: 'group.number',
+                accessorFn: (lesson) => lesson.group?.number,
                 size: 50,
             });
         }

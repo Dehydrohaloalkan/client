@@ -111,7 +111,7 @@ const addMarkingRoutes = () => {
 function StudentRouter({}: Props) {
     const { user } = useContext(Context);
 
-    if (user?.role == 'GroupLeader' || user?.role == 'Marking')
+    if (user?.role == 'groupLeader' || user?.role == 'marking')
         addMarkingRoutes();
 
     return (
