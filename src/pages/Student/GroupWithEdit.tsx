@@ -3,35 +3,36 @@ import { Context } from '../../components/GlobalContext';
 import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { getGroup } from '../../core/services/Group';
-import { StudentType } from '../../core/types/Group';
+import { IGroup } from '../../core/models';
+import GroupService from '../../core/services/group.service';
 
 type Props = {};
 
 function GroupWithEdit({}: Props) {
-    const [students, setStudents] = useState<StudentType[]>([]);
-    const { user } = useContext(Context);
+    const [group, setGroup] = useState<IGroup>();
+    const { store } = useContext(Context);
 
     const [fetchGroup, isLoading, error] = useFetching(async () => {
-        const data = await getGroup(user!.student!.groupId);
-        setStudents(Array.from(data.students));
+        const group: IGroup = await GroupService.getStudentGroup();
+        setGroup(group);
     });
 
     useEffect(() => {
         fetchGroup();
     }, []);
 
-    const onEdit = () => {
-        fetchGroup();
-    };
+    // const onEdit = () => {
+    //     fetchGroup();
+    // };
 
     return (
         <MainContentContainer header='Group'>
             <GroupTableWithEdit
-                students={students}
-                editCallback={onEdit}
+                group={group}
+                //students={students}
+                //editCallback={onEdit}
                 isLoading={isLoading}
-                isFor='Student'
+                //isFor='Student'
             />
         </MainContentContainer>
     );
