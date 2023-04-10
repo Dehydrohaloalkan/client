@@ -31,8 +31,7 @@ const studentRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can find the schedule of classes for your group',
     },
     {
         name: 'Group',
@@ -45,8 +44,7 @@ const studentRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the information about your group',
+        description: 'On this page you can find the information about your group',
     },
     {
         name: 'Subjects',
@@ -59,8 +57,7 @@ const studentRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the information about your subjects',
+        description: 'On this page you can find the information about your subjects',
     },
     {
         name: 'Passes',
@@ -73,8 +70,7 @@ const studentRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the information about your passes',
+        description: 'On this page you can find the information about your passes',
     },
     {
         name: 'Grades',
@@ -87,8 +83,7 @@ const studentRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the information about your grades',
+        description: 'On this page you can find the information about your grades',
     },
 ];
 
@@ -109,24 +104,16 @@ const addMarkingRoutes = () => {
 };
 
 function StudentRouter({}: Props) {
-    const { user } = useContext(Context);
+    const { store } = useContext(Context);
 
-    if (user?.role == 'groupLeader' || user?.role == 'marking')
-        addMarkingRoutes();
+    if (store.user.role == 'groupLeader' || store.user.role == 'marking') addMarkingRoutes();
 
     return (
         <Routes>
             <Route path='/' element={<MainLayout routes={studentRoutes} />}>
-                <Route
-                    index
-                    element={<MainButtonList routes={studentRoutes} />}
-                />
+                <Route index element={<MainButtonList routes={studentRoutes} />} />
                 {studentRoutes.map((item, index) => (
-                    <Route
-                        element={item.element}
-                        path={item.route}
-                        key={index}
-                    />
+                    <Route element={item.element} path={item.route} key={index} />
                 ))}
             </Route>
             <Route path='*' element={<Navigate to='/' replace />} />

@@ -1,8 +1,5 @@
 import { Container, MenuItem } from '@mui/material';
-import MaterialReactTable, {
-    MRT_ColumnDef,
-    MaterialReactTableProps,
-} from 'material-react-table';
+import MaterialReactTable, { MRT_ColumnDef, MaterialReactTableProps } from 'material-react-table';
 import { useContext, useMemo } from 'react';
 import { updateStudent } from '../../core/services/Group';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
@@ -13,20 +10,13 @@ type Props = {
     groups?: GroupInfoType[];
     editCallback?: Function;
     isLoading: boolean;
-    isFor: 'Student' | 'Admin';
 };
 
-function GroupTableWithEdit({
-    students,
-    groups,
-    editCallback,
-    isLoading,
-    isFor,
-}: Props) {
-    const { user } = useContext(Context);
+function GroupTableWithEdit({ students, groups, editCallback, isLoading }: Props) {
+    const { store } = useContext(Context);
 
     const getMenuOptions = (cellValue: string) => {
-        if (user?.role === 'groupLeader') {
+        if (store.user.role === 'groupLeader') {
             return getGroupLeaderMenuOptions(cellValue);
         } else {
             return getDefaultMenuOptions();
@@ -132,7 +122,7 @@ function GroupTableWithEdit({
             },
         ];
 
-        if (user?.role == 'admin') {
+        if (store.user.role == 'admin') {
             columns.push({
                 id: 'group',
                 header: 'group',
@@ -149,39 +139,35 @@ function GroupTableWithEdit({
         }
 
         return columns;
-    }, [students]);
+    }, []);
 
-    const handleSaveRowEdits: MaterialReactTableProps<StudentType>['onEditingRowSave'] =
-        async ({ exitEditingMode, row, values }) => {
-            console.log(
-                '🚀 ~ file: GroupTableWithEdit.tsx:143 ~ values:',
-                values
-            );
-            updateStudent({
-                ...students[row.index],
+    const handleSaveRowEdits: MaterialReactTableProps<StudentType>['onEditingRowSave'] = async ({
+        exitEditingMode,
+        row,
+        values,
+    }) => {
+        console.log('🚀 ~ file: GroupTableWithEdit.tsx:143 ~ values:', values);
+        updateStudent({
+            ...students[row.index],
 
-                name: values.name,
-                surName: values.surName,
-                patronymic: values.patronymic,
-                email: values.email,
-                subGroup: values.subGroup == '2',
-                isMarking: values.role == 'Marking',
-                isGroupLeader: values.role == 'Group Leader',
-                group:
-                    user?.role == 'admin'
-                        ? {
-                              id: groups!.find(
-                                  (group) => group.id == values.group
-                              )!.id,
-                              number: groups!.find(
-                                  (group) => group.id == values.group
-                              )!.number,
-                          }
-                        : students[row.index].group,
-            });
-            editCallback?.();
-            exitEditingMode();
-        };
+            name: values.name,
+            surName: values.surName,
+            patronymic: values.patronymic,
+            email: values.email,
+            subGroup: values.subGroup == '2',
+            isMarking: values.role == 'Marking',
+            isGroupLeader: values.role == 'Group Leader',
+            group:
+                store.user.role == 'admin'
+                    ? {
+                          id: groups!.find((group) => group.id == values.group)!.id,
+                          number: groups!.find((group) => group.id == values.group)!.number,
+                      }
+                    : students[row.index].group,
+        });
+        editCallback?.();
+        exitEditingMode();
+    };
 
     return (
         <Container>
@@ -197,9 +183,7 @@ function GroupTableWithEdit({
                 enablePagination={isFor == 'Admin'}
                 enableBottomToolbar={isFor == 'Admin'}
                 onEditingRowSave={handleSaveRowEdits}
-                enableEditing={
-                    user?.role == 'groupLeader' || user?.role == 'admin'
-                }
+                enableEditing={store.user.role == 'groupLeader' || store.user.role == 'admin'}
                 initialState={{
                     density: 'compact',
                     isLoading: true,

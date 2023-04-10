@@ -1,9 +1,4 @@
-export type RoleType =
-    | 'student'
-    | 'groupLeader'
-    | 'marking'
-    | 'teacher'
-    | 'admin';
+export type RoleType = 'student' | 'groupLeader' | 'marking' | 'teacher' | 'admin';
 
 export type AuthType = {
     id: string;
@@ -12,7 +7,4 @@ export type AuthType = {
     patronymic?: string;
     email: string;
     role: RoleType;
-    student?: {
-        groupId: number;
-    };
 };

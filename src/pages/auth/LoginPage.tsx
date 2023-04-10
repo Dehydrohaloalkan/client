@@ -1,7 +1,7 @@
 import { Button, Paper, TextField, Typography, styled } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 import { useContext, useState } from 'react';
 import { Context } from '../../components/GlobalContext';
-import { login as loginFn } from '../../core/services/Auth';
 
 type Props = {};
 
@@ -23,9 +23,9 @@ const CenteredPaper = styled(Paper)({
 });
 
 function LoginPage({}: Props) {
-    const [login, setLogin] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
-    const { user, setUser } = useContext(Context);
+    const { store } = useContext(Context);
 
     return (
         <CenteredPaper elevation={4}>
@@ -33,12 +33,12 @@ function LoginPage({}: Props) {
                 Login
             </Typography>
             <TextField
-                id='login'
-                type='login'
-                label='login'
+                id='email'
+                type='email'
+                label='email'
                 variant='outlined'
-                value={login}
-                onChange={(event) => setLogin(event.target.value)}
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
             />
             <TextField
                 id='password'
@@ -51,10 +51,7 @@ function LoginPage({}: Props) {
             <Button
                 variant='contained'
                 sx={{ padding: 1 }}
-                onClick={async () => {
-                    const response = await loginFn({ login, password });
-                    setUser?.(response!.data!.data);
-                }}
+                onClick={async () => store.login(email, password)}
             >
                 login
             </Button>
@@ -62,4 +59,4 @@ function LoginPage({}: Props) {
     );
 }
 
-export default LoginPage;
+export default observer(LoginPage);

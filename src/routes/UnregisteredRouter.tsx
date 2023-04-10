@@ -6,8 +6,8 @@ type Props = {};
 function UnregisteredRouter({}: Props) {
     return (
         <Routes>
-            <Route path='/' element={<LoginPage></LoginPage>} />
-            <Route path='*' element={<Navigate to='/' replace />} />
+            <Route path='/login' element={<LoginPage></LoginPage>} />
+            <Route path='*' element={<Navigate to='/login' replace />} />
         </Routes>
     );
 }

@@ -1,4 +1,7 @@
 import { Menu, MenuItem } from '@mui/material';
+import { observer } from 'mobx-react-lite';
+import { useContext } from 'react';
+import { Context } from '../../GlobalContext';
 
 type Props = {
     open: boolean;
@@ -6,6 +9,8 @@ type Props = {
 };
 
 function MainProfileMenu({ open, setOpen }: Props) {
+    const { store } = useContext(Context);
+
     return (
         <Menu
             id='demo-positioned-menu'
@@ -21,10 +26,9 @@ function MainProfileMenu({ open, setOpen }: Props) {
                 horizontal: 'right',
             }}
         >
-            <MenuItem>Profile</MenuItem>
-            <MenuItem>Logout</MenuItem>
+            <MenuItem onClick={() => store.logout()}>Logout</MenuItem>
         </Menu>
     );
 }
 
-export default MainProfileMenu;
+export default observer(MainProfileMenu);

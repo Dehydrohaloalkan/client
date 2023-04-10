@@ -14,16 +14,13 @@ const MainToolbar = styled(Toolbar)({
 function MainAppBar({}: Props) {
     const [open, setOpen] = useState(false);
     return (
-        <AppBar
-            position='sticky'
-            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        >
+        <AppBar position='sticky' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
             <MainToolbar>
                 <MainLogo />
                 <Avatar
                     onClick={() => setOpen(true)}
                     // TODO Change
-                    src='src/assets/cat.jpg'
+                    src='/src/assets/cat.jpg'
                 />
             </MainToolbar>
             <MainProfileMenu open={open} setOpen={setOpen} />
