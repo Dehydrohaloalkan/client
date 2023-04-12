@@ -1,6 +1,6 @@
 import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../components/GlobalContext';
-import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
+import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
 import { IGroup } from '../../core/models';
@@ -8,7 +8,7 @@ import GroupService from '../../core/services/group.service';
 
 type Props = {};
 
-function GroupWithEdit({}: Props) {
+function Group({}: Props) {
     const [group, setGroup] = useState<IGroup>();
     const { store } = useContext(Context);
 
@@ -27,7 +27,7 @@ function GroupWithEdit({}: Props) {
 
     return (
         <MainContentContainer header='Group'>
-            <GroupTableWithEdit
+            <GroupTable
                 group={group}
                 //students={students}
                 //editCallback={onEdit}
@@ -38,4 +38,4 @@ function GroupWithEdit({}: Props) {
     );
 }
 
-export default GroupWithEdit;
+export default Group;

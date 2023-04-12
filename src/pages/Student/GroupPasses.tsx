@@ -21,7 +21,7 @@ function GroupPasses({}: Props) {
     const [week, setWeek] = useState(0);
     const navigate = useNavigate();
     const params = useParams();
-    const { user } = useContext(Context);
+    const { store } = useContext(Context);
 
     const [fetchData, isLoading, error] = useFetching(async () => {
         setPasses(Array.from(await getPasses()));

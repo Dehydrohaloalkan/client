@@ -1,39 +1,38 @@
 import { Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { SubjectType } from '../../core/types/Subject';
+import { ISubject } from '../../core/models';
 
 type Props = {
-    subjects: SubjectType[];
+    subjects: ISubject[];
     isLoading: boolean;
 };
 
 function SubjectsTable({ subjects, isLoading }: Props) {
-    const columns = useMemo<MRT_ColumnDef<SubjectType>[]>(
+    const columns = useMemo<MRT_ColumnDef<ISubject>[]>(
         () => [
             {
                 header: 'Type',
-                accessorKey: 'type',
+                accessorKey: 'type.name',
             },
             {
                 header: 'Name',
-                accessorKey: 'name',
+                accessorKey: 'course.name',
             },
             {
                 header: 'Teacher',
-                accessorKey: 'teacher.fullName',
+                accessorFn: (item) => `${item.teacher.name} ${item.teacher.surname}`,
             },
             {
                 header: 'Start date',
-                accessorFn: (item) =>
-                    item.startDate.toLocaleDateString('ru-RU'),
+                accessorFn: (item) => new Date(item.course.start_date).toLocaleDateString('ru-RU'),
             },
             {
                 header: 'End date',
-                accessorFn: (item) => item.endDate.toLocaleDateString('ru-RU'),
+                accessorFn: (item) => new Date(item.course.end_date).toLocaleDateString('ru-RU'),
             },
         ],
-        [subjects]
+        []
     );
 
     return (
@@ -45,6 +44,9 @@ function SubjectsTable({ subjects, isLoading }: Props) {
                 enableColumnResizing
                 enablePagination={false}
                 enableBottomToolbar={false}
+                localization={{
+                    noRecordsToDisplay: 'No subjects',
+                }}
                 initialState={{
                     density: 'spacious',
                     isLoading: true,

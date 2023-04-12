@@ -1,20 +1,9 @@
-import {
-    Container,
-    FormControl,
-    InputLabel,
-    ListSubheader,
-    MenuItem,
-    Select,
-} from '@mui/material';
+import { Container, FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
-import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
+import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import {
-    getGroup,
-    getGroups,
-    reduceGroupsByForm,
-} from '../../core/services/Group';
+import { getGroup, getGroups, reduceGroupsByForm } from '../../core/services/Group';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
 
 type Props = {};
@@ -29,11 +18,9 @@ function GroupsLists({}: Props) {
             setStudents(Array.from((await getGroup(selectedGroupId)).students));
     });
 
-    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(
-        async () => {
-            setGroups(Array.from(await getGroups()));
-        }
-    );
+    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
+        setGroups(Array.from(await getGroups()));
+    });
 
     useEffect(() => {
         fetchGroups();
@@ -54,41 +41,27 @@ function GroupsLists({}: Props) {
                             id='group-select'
                             label='Group'
                             onChange={(event) => {
-                                setSelectedGroupId(
-                                    parseInt(event.target.value as string, 10)
-                                );
+                                setSelectedGroupId(parseInt(event.target.value as string, 10));
                             }}
                         >
                             <MenuItem value={-1}>
                                 <em>None</em>
                             </MenuItem>
-                            {Object.entries(reduceGroupsByForm(groups)).map(
-                                (item) => [
-                                    <ListSubheader
-                                        key={Number.parseInt(item[0])}
-                                    >
-                                        Form {item[0]}
-                                    </ListSubheader>,
-                                    item[1].map((group) => (
-                                        <MenuItem
-                                            value={group.id}
-                                            key={group.id}
-                                        >
-                                            {group.number}
-                                        </MenuItem>
-                                    )),
-                                ]
-                            )}
+                            {Object.entries(reduceGroupsByForm(groups)).map((item) => [
+                                <ListSubheader key={Number.parseInt(item[0])}>
+                                    Form {item[0]}
+                                </ListSubheader>,
+                                item[1].map((group) => (
+                                    <MenuItem value={group.id} key={group.id}>
+                                        {group.number}
+                                    </MenuItem>
+                                )),
+                            ])}
                         </Select>
                     </FormControl>
                 )}
 
-                {selectedGroupId != -1 && (
-                    <GroupTableWithEdit
-                        students={students}
-                        isLoading={isLoading}
-                    />
-                )}
+                {selectedGroupId != -1 && <GroupTable students={students} isLoading={isLoading} />}
             </Container>
         </MainContentContainer>
     );

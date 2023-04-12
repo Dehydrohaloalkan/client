@@ -1,8 +1,8 @@
 import { Button } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { Context } from '../../components/GlobalContext';
-import GroupTableWithEdit from '../../components/groupWithEdit/GroupTableWithEdit';
-import StudentInputForm from '../../components/groupWithEdit/StudentInputForm';
+import GroupTable from '../../components/group/GroupTable';
+import StudentInputForm from '../../components/group/StudentInputForm';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
 import { getAllStudents, getGroups } from '../../core/services/Group';
@@ -34,18 +34,14 @@ function Students({}: Props) {
         <MainContentContainer header='Group'>
             <>
                 <Button onClick={() => setOpen(true)}>modal</Button>
-                <GroupTableWithEdit
+                <GroupTable
                     students={students}
                     groups={groups}
                     editCallback={onEdit}
                     isLoading={isLoading}
                     isFor='Admin'
                 />
-                <StudentInputForm
-                    title={'Edit'}
-                    open={open}
-                    onClose={() => setOpen(false)}
-                />
+                <StudentInputForm title={'Edit'} open={open} onClose={() => setOpen(false)} />
             </>
         </MainContentContainer>
     );

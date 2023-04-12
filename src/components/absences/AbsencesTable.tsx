@@ -1,28 +1,27 @@
 import { Box, Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { PassType } from '../../core/types/Passes';
+import { IStudentAbsences } from '../../core/models';
 
 type Props = {
-    passes: PassType[];
+    absences: IStudentAbsences[];
     isLoading: boolean;
 };
 
-function PassesTable({ passes, isLoading }: Props) {
+function AbsencesTable({ absences, isLoading }: Props) {
     const allHours = useMemo(() => {
-        return passes.reduce((acc, curr) => acc + curr.hours, 0);
-    }, [passes]);
+        return absences.reduce((acc, curr) => acc + curr.hours, 0);
+    }, [absences]);
 
-    const columns = useMemo<MRT_ColumnDef<PassType>[]>(
+    const columns = useMemo<MRT_ColumnDef<IStudentAbsences>[]>(
         () => [
             {
                 header: 'Lesson',
-                accessorKey: 'lesson.name',
+                accessorKey: 'lesson',
             },
             {
                 header: 'Date',
-                accessorFn: (pass) =>
-                    pass.lesson.date.toLocaleDateString('ru-RU'),
+                accessorFn: (item) => new Date(item.date).toLocaleDateString('ru-RU'),
             },
             {
                 header: 'Hours',
@@ -39,19 +38,22 @@ function PassesTable({ passes, isLoading }: Props) {
                 ),
             },
         ],
-        [passes, allHours]
+        []
     );
 
     return (
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={passes}
+                data={absences}
                 enableRowNumbers
                 enableStickyFooter
                 enableColumnResizing
                 enablePagination={false}
                 enableBottomToolbar={false}
+                localization={{
+                    noRecordsToDisplay: 'No absences',
+                }}
                 initialState={{
                     density: 'spacious',
                     isLoading: true,
@@ -69,4 +71,4 @@ function PassesTable({ passes, isLoading }: Props) {
     );
 }
 
-export default PassesTable;
+export default AbsencesTable;

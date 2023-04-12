@@ -10,10 +10,10 @@ import { Context } from '../components/GlobalContext';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { RouteType } from '../core/types/Route';
+import Absences from '../pages/student/Absences';
 import Grades from '../pages/student/Grades';
+import Group from '../pages/student/Group';
 import GroupPasses from '../pages/student/GroupPasses';
-import GroupWithEdit from '../pages/student/GroupWithEdit';
-import Passes from '../pages/student/Passes';
 import Schedule from '../pages/student/Schedule';
 import Subjects from '../pages/student/Subjects';
 
@@ -37,7 +37,7 @@ const studentRoutes: RouteType[] = [
         name: 'Group',
         route: 'group',
         path: 'group',
-        element: <GroupWithEdit />,
+        element: <Group />,
         icon: <GroupIcon />,
         picture: {
             //TODO Change
@@ -63,7 +63,7 @@ const studentRoutes: RouteType[] = [
         name: 'Passes',
         route: 'passes',
         path: 'passes',
-        element: <Passes />,
+        element: <Absences />,
         icon: <CancelIcon />,
         picture: {
             //TODO Change

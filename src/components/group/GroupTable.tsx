@@ -12,7 +12,7 @@ type Props = {
     isLoading: boolean;
 };
 
-function GroupTableWithEdit({ group, isLoading }: Props) {
+function GroupTable({ group, isLoading }: Props) {
     const { store } = useContext(Context);
 
     // const getMenuOptions = (cellValue: string) => {
@@ -175,4 +175,4 @@ function GroupTableWithEdit({ group, isLoading }: Props) {
     );
 }
 
-export default GroupTableWithEdit;
+export default GroupTable;
