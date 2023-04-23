@@ -1,16 +1,14 @@
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../../components/GlobalContext';
+import { useEffect, useState } from 'react';
 import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
 import { IGroup } from '../../core/models';
-import GroupService from '../../core/services/group.service';
+import { GroupService } from '../../core/services';
 
 type Props = {};
 
 function Group({}: Props) {
     const [group, setGroup] = useState<IGroup>();
-    const { store } = useContext(Context);
 
     const [fetchGroup, isLoading, error] = useFetching(async () => {
         const group: IGroup = await GroupService.getStudentGroup();

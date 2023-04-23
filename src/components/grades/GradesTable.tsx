@@ -10,9 +10,7 @@ type Props = {
 
 function GradesTable({ grades, isLoading }: Props) {
     const averageGrade = useMemo(() => {
-        return (
-            grades.reduce((acc, curr) => acc + curr.grade, 0) / grades.length
-        );
+        return grades.reduce((acc, curr) => acc + curr.grade, 0) / grades.length;
     }, [grades]);
 
     const columns = useMemo<MRT_ColumnDef<GradeType>[]>(
@@ -23,8 +21,7 @@ function GradesTable({ grades, isLoading }: Props) {
             },
             {
                 header: 'Date',
-                accessorFn: (grade) =>
-                    grade.lesson.date.toLocaleDateString('ru-RU'),
+                accessorFn: (grade) => grade.lesson.date.toLocaleDateString('ru-RU'),
                 enableGrouping: false,
             },
             {
@@ -45,15 +42,17 @@ function GradesTable({ grades, isLoading }: Props) {
                     <>
                         Average grade
                         <Box sx={{ color: 'warning.main', fontWeight: 'bold' }}>
-                            {averageGrade.toLocaleString?.('en-US', {
-                                maximumFractionDigits: 3,
-                            })}
+                            {averageGrade
+                                ? averageGrade.toLocaleString?.('en-US', {
+                                      maximumFractionDigits: 3,
+                                  })
+                                : '0'}
                         </Box>
                     </>
                 ),
             },
         ],
-        [averageGrade, grades]
+        [averageGrade]
     );
 
     return (
@@ -67,6 +66,9 @@ function GradesTable({ grades, isLoading }: Props) {
                 enableGrouping
                 enablePagination={false}
                 enableBottomToolbar={false}
+                localization={{
+                    noRecordsToDisplay: 'No grades',
+                }}
                 initialState={{
                     grouping: ['lesson.name'],
                     expanded: true,

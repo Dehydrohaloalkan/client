@@ -1,7 +1,6 @@
 import { Box, Checkbox, Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { getStudentFullName } from '../../core/services/Group';
 import { StudentType } from '../../core/types/Group';
 import { PassType } from '../../core/types/Passes';
 import { ScheduleType } from '../../core/types/Schedule';
@@ -15,14 +14,7 @@ type Props = {
     isLoading: boolean;
 };
 
-function GroupPassesTable({
-    students,
-    schedule,
-    passes,
-    addPass,
-    removePass,
-    isLoading,
-}: Props) {
+function GroupPassesTable({ students, schedule, passes, addPass, removePass, isLoading }: Props) {
     const columns = useMemo<MRT_ColumnDef<StudentType>[]>(() => {
         const lessonsColumns: MRT_ColumnDef<StudentType>[] = [];
 
@@ -47,30 +39,20 @@ function GroupPassesTable({
                                         checked={
                                             passes.findIndex(
                                                 (pass) =>
-                                                    pass.lesson.id ==
-                                                        Number.parseInt(
-                                                            column.id
-                                                        ) &&
+                                                    pass.lesson.id == Number.parseInt(column.id) &&
                                                     pass.student.id ==
-                                                        cell.getValue<StudentType>()
-                                                            .id
+                                                        cell.getValue<StudentType>().id
                                             ) != -1
                                         }
                                         onChange={async (event) => {
                                             event.target.checked
                                                 ? addPass(
-                                                      Number.parseInt(
-                                                          column.id
-                                                      ),
-                                                      cell.getValue<StudentType>()
-                                                          .id
+                                                      Number.parseInt(column.id),
+                                                      cell.getValue<StudentType>().id
                                                   )
                                                 : removePass(
-                                                      Number.parseInt(
-                                                          column.id
-                                                      ),
-                                                      cell.getValue<StudentType>()
-                                                          .id
+                                                      Number.parseInt(column.id),
+                                                      cell.getValue<StudentType>().id
                                                   );
                                         }}
                                     />
@@ -89,7 +71,7 @@ function GroupPassesTable({
                 accessorFn: (student) => student,
                 Cell: ({ cell }) => (
                     <Typography variant='subtitle2' sx={{ paddingLeft: 1 }}>
-                        {getStudentFullName(cell.getValue<StudentType>())}
+                        {/* {getStudentFullName(cell.getValue<StudentType>())} */}
                     </Typography>
                 ),
             },

@@ -5,23 +5,14 @@ import {
     FormControl,
     FormControlLabel,
     InputLabel,
-    ListSubheader,
     MenuItem,
     Select,
 } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Context } from '../../components/GlobalContext';
 import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import {
-    getGroup,
-    getGroups,
-    reduceGroupsByForm,
-} from '../../core/services/Group';
-import { addPass, getPasses, removePass } from '../../core/services/Passes';
-import { getSchedule } from '../../core/services/Schedule';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
 import { PassType } from '../../core/types/Passes';
 import { ScheduleType } from '../../core/types/Schedule';
@@ -39,21 +30,19 @@ function GroupsPasses({}: Props) {
 
     const navigate = useNavigate();
     const params = useParams();
-    const { user } = useContext(Context);
+    //const { user } = useContext(Context);
 
     const [fetchData, isLoading, error] = useFetching(async () => {
         if (selectedGroupId != -1) {
-            setPasses(Array.from(await getPasses()));
-            setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
-            setStudents(Array.from((await getGroup(selectedGroupId)).students));
+            //setPasses(Array.from(await getPasses()));
+            //setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
+            //setStudents(Array.from((await getGroup(selectedGroupId)).students));
         }
     });
 
-    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(
-        async () => {
-            setGroups(Array.from(await getGroups()));
-        }
-    );
+    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
+        //setGroups(Array.from(await getGroups()));
+    });
 
     useEffect(() => {
         fetchGroups();
@@ -75,7 +64,7 @@ function GroupsPasses({}: Props) {
     };
 
     const onAddPass = async (lessonId: number, studentId: number) => {
-        addPass(lessonId, studentId);
+        //addPass(lessonId, studentId);
         passes.push({
             lesson: {
                 id: lessonId,
@@ -90,12 +79,9 @@ function GroupsPasses({}: Props) {
         setPasses(Array.from(passes));
     };
     const onRemovePass = async (lessonId: number, studentId: number) => {
-        removePass(lessonId, studentId);
+        //removePass(lessonId, studentId);
         passes.splice(
-            passes.findIndex(
-                (pass) =>
-                    pass.student.id == studentId && pass.lesson.id == lessonId
-            ),
+            passes.findIndex((pass) => pass.student.id == studentId && pass.lesson.id == lessonId),
             1
         );
         setPasses(Array.from(passes));
@@ -112,15 +98,13 @@ function GroupsPasses({}: Props) {
                             id='group-select'
                             label='Group'
                             onChange={(event) => {
-                                setSelectedGroupId(
-                                    parseInt(event.target.value as string, 10)
-                                );
+                                setSelectedGroupId(parseInt(event.target.value as string, 10));
                             }}
                         >
                             <MenuItem value={-1}>
                                 <em>None</em>
                             </MenuItem>
-                            {Object.entries(reduceGroupsByForm(groups)).map(
+                            {/* {Object.entries(reduceGroupsByForm(groups)).map(
                                 (item) => [
                                     <ListSubheader
                                         key={Number.parseInt(item[0])}
@@ -136,7 +120,7 @@ function GroupsPasses({}: Props) {
                                         </MenuItem>
                                     )),
                                 ]
-                            )}
+                            )} */}
                         </Select>
                     </FormControl>
                 )}
@@ -158,11 +142,7 @@ function GroupsPasses({}: Props) {
                             >
                                 Save and go to Next Week
                             </Button>
-                            <Button
-                                sx={{ margin: 1 }}
-                                variant='contained'
-                                color='success'
-                            >
+                            <Button sx={{ margin: 1 }} variant='contained' color='success'>
                                 Save
                             </Button>
                         </div>

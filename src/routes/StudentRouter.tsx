@@ -60,9 +60,9 @@ const studentRoutes: RouteType[] = [
         description: 'On this page you can find the information about your subjects',
     },
     {
-        name: 'Passes',
-        route: 'passes',
-        path: 'passes',
+        name: 'Absences',
+        route: 'absences',
+        path: 'absences',
         element: <Absences />,
         icon: <CancelIcon />,
         picture: {

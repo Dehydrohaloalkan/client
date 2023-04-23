@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import AbsencesTable from '../../components/absences/AbsencesTable';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
 import { IStudentAbsences } from '../../core/models';
-import AbsencesService from '../../core/services/absences.service';
+import { AbsencesService } from '../../core/services';
 
 type Props = {};
 
@@ -20,7 +20,7 @@ function Absences({}: Props) {
     }, []);
 
     return (
-        <MainContentContainer header='Passes'>
+        <MainContentContainer header='Absences'>
             <AbsencesTable absences={absences} isLoading={isLoading} />
         </MainContentContainer>
     );

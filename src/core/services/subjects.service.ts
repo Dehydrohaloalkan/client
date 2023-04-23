@@ -1,7 +1,7 @@
 import api from '../http/api';
-import { ISubject } from '../models/subjects/ISubject';
+import { ISubject } from '../models';
 
-export default class SubjectsService {
+export class SubjectsService {
     static async getStudentSubjects() {
         return (await api.get<ISubject[]>('/subjects/info')).data;
     }

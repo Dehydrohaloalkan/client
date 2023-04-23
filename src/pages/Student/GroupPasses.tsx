@@ -5,8 +5,6 @@ import { Context } from '../../components/GlobalContext';
 import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { getGroup } from '../../core/services/Group';
-import { addPass, getPasses, removePass } from '../../core/services/Passes';
 import { getSchedule } from '../../core/services/Schedule';
 import { StudentType } from '../../core/types/Group';
 import { PassType } from '../../core/types/Passes';
@@ -24,11 +22,11 @@ function GroupPasses({}: Props) {
     const { store } = useContext(Context);
 
     const [fetchData, isLoading, error] = useFetching(async () => {
-        setPasses(Array.from(await getPasses()));
+        //setPasses(Array.from(await getPasses()));
         setSchedule(Array.from(await getSchedule(week)));
-        setStudents(
-            Array.from((await getGroup(user!.student!.groupId)).students)
-        );
+        //setStudents(
+        //Array.from((await getGroup(user!.student!.groupId)).students)
+        //);
     });
 
     useEffect(() => {
@@ -37,7 +35,7 @@ function GroupPasses({}: Props) {
     }, [week]);
 
     const onAddPass = async (lessonId: number, studentId: number) => {
-        addPass(lessonId, studentId);
+        //addPass(lessonId, studentId);
         passes.push({
             lesson: {
                 id: lessonId,
@@ -52,12 +50,9 @@ function GroupPasses({}: Props) {
         setPasses(Array.from(passes));
     };
     const onRemovePass = async (lessonId: number, studentId: number) => {
-        removePass(lessonId, studentId);
+        //removePass(lessonId, studentId);
         passes.splice(
-            passes.findIndex(
-                (pass) =>
-                    pass.student.id == studentId && pass.lesson.id == lessonId
-            ),
+            passes.findIndex((pass) => pass.student.id == studentId && pass.lesson.id == lessonId),
             1
         );
         setPasses(Array.from(passes));
@@ -76,18 +71,10 @@ function GroupPasses({}: Props) {
     return (
         <MainContentContainer header='Add Passes'>
             <Container>
-                <Button
-                    sx={{ margin: 1 }}
-                    variant='contained'
-                    onClick={() => goToPrevWeek()}
-                >
+                <Button sx={{ margin: 1 }} variant='contained' onClick={() => goToPrevWeek()}>
                     Save and go to Previous Week
                 </Button>
-                <Button
-                    sx={{ margin: 1 }}
-                    variant='contained'
-                    onClick={() => goToNextWeek()}
-                >
+                <Button sx={{ margin: 1 }} variant='contained' onClick={() => goToNextWeek()}>
                     Save and go to Next Week
                 </Button>
                 <Button sx={{ margin: 1 }} variant='contained' color='success'>
@@ -101,11 +88,7 @@ function GroupPasses({}: Props) {
                     removePass={onRemovePass}
                     isLoading={isLoading}
                 />
-                <FormControlLabel
-                    disabled
-                    control={<Checkbox defaultChecked />}
-                    label=' - pass'
-                />
+                <FormControlLabel disabled control={<Checkbox defaultChecked />} label=' - pass' />
             </Container>
         </MainContentContainer>
     );

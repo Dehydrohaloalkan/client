@@ -13,6 +13,7 @@ function MainProfileMenu({ open, setOpen }: Props) {
 
     return (
         <Menu
+            disableScrollLock={true}
             id='demo-positioned-menu'
             aria-labelledby='demo-positioned-button'
             open={open}

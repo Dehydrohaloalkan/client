@@ -5,23 +5,15 @@ import {
     FormControl,
     FormControlLabel,
     InputLabel,
-    ListSubheader,
     MenuItem,
     Select,
 } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Context } from '../../components/GlobalContext';
 import GroupGradesTable from '../../components/groupGrades/GroupGradesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { addGrade, getGrades, removeGrade } from '../../core/services/Grades';
-import {
-    getGroup,
-    getGroups,
-    reduceGroupsByForm,
-} from '../../core/services/Group';
-import { getSchedule } from '../../core/services/Schedule';
+
 import { GradeType } from '../../core/types/Grades';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
 import { ScheduleType } from '../../core/types/Schedule';
@@ -39,21 +31,19 @@ function GroupsPasses({}: Props) {
 
     const navigate = useNavigate();
     const params = useParams();
-    const { user } = useContext(Context);
+    //const { user } = useContext(Context);
 
     const [fetchData, isLoading, error] = useFetching(async () => {
         if (selectedGroupId != -1) {
-            setGrades(Array.from(await getGrades()));
-            setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
-            setStudents(Array.from((await getGroup(selectedGroupId)).students));
+            //setGrades(Array.from(await getGrades()));
+            //setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
+            //setStudents(Array.from((await getGroup(selectedGroupId)).students));
         }
     });
 
-    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(
-        async () => {
-            setGroups(Array.from(await getGroups()));
-        }
-    );
+    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
+        //setGroups(Array.from(await getGroups()));
+    });
 
     useEffect(() => {
         fetchGroups();
@@ -74,12 +64,8 @@ function GroupsPasses({}: Props) {
         navigate(`/groupsGrades/${week + 1}`);
     };
 
-    const onAddGrade = async (
-        lessonId: number,
-        studentId: number,
-        grade: number
-    ) => {
-        addGrade(lessonId, studentId, grade);
+    const onAddGrade = async (lessonId: number, studentId: number, grade: number) => {
+        //addGrade(lessonId, studentId, grade);
         grades.push({
             lesson: {
                 id: lessonId,
@@ -94,11 +80,10 @@ function GroupsPasses({}: Props) {
         setGrades(Array.from(grades));
     };
     const onRemoveGrade = async (lessonId: number, studentId: number) => {
-        removeGrade(lessonId, studentId);
+        //removeGrade(lessonId, studentId);
         grades.splice(
             grades.findIndex(
-                (grade) =>
-                    grade.student.id == studentId && grade.lesson.id == lessonId
+                (grade) => grade.student.id == studentId && grade.lesson.id == lessonId
             ),
             1
         );
@@ -116,15 +101,13 @@ function GroupsPasses({}: Props) {
                             id='group-select'
                             label='Group'
                             onChange={(event) => {
-                                setSelectedGroupId(
-                                    parseInt(event.target.value as string, 10)
-                                );
+                                setSelectedGroupId(parseInt(event.target.value as string, 10));
                             }}
                         >
                             <MenuItem value={-1}>
                                 <em>None</em>
                             </MenuItem>
-                            {Object.entries(reduceGroupsByForm(groups)).map(
+                            {/* {Object.entries(reduceGroupsByForm(groups)).map(
                                 (item) => [
                                     <ListSubheader
                                         key={Number.parseInt(item[0])}
@@ -140,7 +123,7 @@ function GroupsPasses({}: Props) {
                                         </MenuItem>
                                     )),
                                 ]
-                            )}
+                            )} */}
                         </Select>
                     </FormControl>
                 )}
@@ -162,11 +145,7 @@ function GroupsPasses({}: Props) {
                             >
                                 Save and go to Next Week
                             </Button>
-                            <Button
-                                sx={{ margin: 1 }}
-                                variant='contained'
-                                color='success'
-                            >
+                            <Button sx={{ margin: 1 }} variant='contained' color='success'>
                                 Save
                             </Button>
                         </div>

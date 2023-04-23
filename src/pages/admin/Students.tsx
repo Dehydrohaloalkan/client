@@ -1,11 +1,9 @@
 import { Button } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
-import { Context } from '../../components/GlobalContext';
+import { useEffect, useState } from 'react';
 import GroupTable from '../../components/group/GroupTable';
 import StudentInputForm from '../../components/group/StudentInputForm';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { getAllStudents, getGroups } from '../../core/services/Group';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
 
 type Props = {};
@@ -13,13 +11,13 @@ type Props = {};
 function Students({}: Props) {
     const [students, setStudents] = useState<StudentType[]>([]);
     const [groups, setGroups] = useState<GroupInfoType[]>([]);
-    const { user } = useContext(Context);
+    //const { user } = useContext(Context);
 
     const [open, setOpen] = useState<boolean>(false);
 
     const [fetchData, isLoading, error] = useFetching(async () => {
-        setStudents(Array.from(await getAllStudents()));
-        setGroups(Array.from(await getGroups()));
+        //setStudents(Array.from(await getAllStudents()));
+        //setGroups(Array.from(await getGroups()));
     });
 
     useEffect(() => {

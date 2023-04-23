@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import SubjectsTable from '../../components/subjects/SubjectsTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import SubjectsTable from '../../components/subjects/SubjectsTable';
 import { useFetching } from '../../core/hooks/useFetching';
-import { getSubjects } from '../../core/services/Subjects';
-import { SubjectType } from '../../core/types/Subject';
 import { ISubject } from '../../core/models';
-import SubjectsService from '../../core/services/subjects.service';
+import { SubjectsService } from '../../core/services';
 
 type Props = {};
 

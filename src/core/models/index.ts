@@ -11,3 +11,5 @@ export * from './subjects/ISubject';
 export * from './subjects/ITeacher';
 
 export * from './absences/IStudentAbsences';
+
+export * from './grades/IStudentGrades';

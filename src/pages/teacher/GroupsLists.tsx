@@ -1,9 +1,7 @@
-import { Container, FormControl, InputLabel, ListSubheader, MenuItem, Select } from '@mui/material';
+import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
-import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { getGroup, getGroups, reduceGroupsByForm } from '../../core/services/Group';
 import { GroupInfoType, StudentType } from '../../core/types/Group';
 
 type Props = {};
@@ -14,12 +12,12 @@ function GroupsLists({}: Props) {
     const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
 
     const [fetchGroup, isLoading, error] = useFetching(async () => {
-        if (selectedGroupId != undefined)
-            setStudents(Array.from((await getGroup(selectedGroupId)).students));
+        //if (selectedGroupId != undefined)
+        //setStudents(Array.from((await getGroup(selectedGroupId)).students));
     });
 
     const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
-        setGroups(Array.from(await getGroups()));
+        //setGroups(Array.from(await getGroups()));
     });
 
     useEffect(() => {
@@ -47,7 +45,7 @@ function GroupsLists({}: Props) {
                             <MenuItem value={-1}>
                                 <em>None</em>
                             </MenuItem>
-                            {Object.entries(reduceGroupsByForm(groups)).map((item) => [
+                            {/* {Object.entries(reduceGroupsByForm(groups)).map((item) => [
                                 <ListSubheader key={Number.parseInt(item[0])}>
                                     Form {item[0]}
                                 </ListSubheader>,
@@ -56,12 +54,12 @@ function GroupsLists({}: Props) {
                                         {group.number}
                                     </MenuItem>
                                 )),
-                            ])}
+                            ])} */}
                         </Select>
                     </FormControl>
                 )}
 
-                {selectedGroupId != -1 && <GroupTable students={students} isLoading={isLoading} />}
+                {/* {selectedGroupId != -1 && <GroupTable students={students} isLoading={isLoading} />} */}
             </Container>
         </MainContentContainer>
     );
