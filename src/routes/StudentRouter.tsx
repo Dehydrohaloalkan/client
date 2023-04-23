@@ -16,6 +16,7 @@ import Group from '../pages/student/Group';
 import GroupPasses from '../pages/student/GroupPasses';
 import Schedule from '../pages/student/Schedule';
 import Subjects from '../pages/student/Subjects';
+import { Role } from '../core/models';
 
 type Props = {};
 
@@ -106,7 +107,7 @@ const addMarkingRoutes = () => {
 function StudentRouter({}: Props) {
     const { store } = useContext(Context);
 
-    if (store.user.role == 'groupLeader' || store.user.role == 'marking') addMarkingRoutes();
+    if (store.user.role == Role.leader || store.user.role == Role.marking) addMarkingRoutes();
 
     return (
         <Routes>
