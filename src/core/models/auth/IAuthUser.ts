@@ -5,6 +5,5 @@ export interface IAuthUser {
     name: string;
     surName: string;
     patronymic?: string;
-    email: string;
     role: Role;
 }
