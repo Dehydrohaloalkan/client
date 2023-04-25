@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import GradesTable from '../../components/grades/GradesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import { useFetching } from '../../core/hooks/useFetching';
-import { GradeType } from '../../core/types/Grades';
 
 type Props = {};
 

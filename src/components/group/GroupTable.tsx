@@ -1,11 +1,11 @@
 import { Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useContext, useMemo } from 'react';
-import { IGroup, IStudent } from '../../core/models';
+import { IStudent, IStudentGroup } from '../../core/services/studentGroup.service';
 import { Context } from '../GlobalContext';
 
 type Props = {
-    group?: IGroup;
+    group?: IStudentGroup;
     //students: StudentType[];
     //groups?: GroupInfoType[];
     //editCallback?: Function;
@@ -61,25 +61,25 @@ function GroupTable({ group, isLoading }: Props) {
             {
                 id: 'name',
                 header: 'Name',
-                accessorKey: 'user.name',
+                accessorKey: 'name',
                 enableGrouping: false,
             },
             {
                 id: 'surname',
                 header: 'Surname',
-                accessorKey: 'user.surname',
+                accessorKey: 'surname',
                 enableGrouping: false,
             },
             {
                 id: 'patronymic',
                 header: 'Patronymic',
-                accessorKey: 'user.patronymic',
+                accessorKey: 'patronymic',
                 enableGrouping: false,
             },
             {
                 id: 'email',
                 header: 'Email',
-                accessorKey: 'user.email',
+                accessorKey: 'email',
                 enableClickToCopy: true,
                 enableGrouping: false,
             },
@@ -93,8 +93,8 @@ function GroupTable({ group, isLoading }: Props) {
                 id: 'role',
                 header: 'Role',
                 accessorFn: (student) => {
-                    if (student.is_group_leader) return 'Group Leader';
-                    if (student.is_marking) return 'Marking';
+                    if (student.isLeader) return 'Group Leader';
+                    if (student.isMarking) return 'Marking';
                     return 'None';
                 },
             },

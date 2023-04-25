@@ -6,7 +6,6 @@ import MainContentContainer from '../../components/main/ContentContainer/MainCon
 import ScheduleTable from '../../components/schedule/ScheduleTable';
 import { useFetching } from '../../core/hooks/useFetching';
 import { getSchedule } from '../../core/services/Schedule';
-import { ScheduleType } from '../../core/types/Schedule';
 
 type Props = {};
 
@@ -39,29 +38,17 @@ function Schedule({}: Props) {
     return (
         <MainContentContainer header='Schedule'>
             <Container>
-                <Button
-                    sx={{ margin: 1 }}
-                    variant='contained'
-                    onClick={() => goToPrevWeek()}
-                >
+                <Button sx={{ margin: 1 }} variant='contained' onClick={() => goToPrevWeek()}>
                     Previous Week
                 </Button>
-                <Button
-                    sx={{ margin: 1 }}
-                    variant='contained'
-                    onClick={() => goToNextWeek()}
-                >
+                <Button sx={{ margin: 1 }} variant='contained' onClick={() => goToNextWeek()}>
                     Next Week
                 </Button>
 
                 <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
                     {schedule.map((item, index) => (
                         <Grid xs={6} sx={{ maxWidth: 650 }} key={index}>
-                            <ScheduleTable
-                                day={item}
-                                isLoading={isLoading}
-                                isFor='Student'
-                            />
+                            <ScheduleTable day={item} isLoading={isLoading} isFor='Student' />
                         </Grid>
                     ))}
                 </Grid>
