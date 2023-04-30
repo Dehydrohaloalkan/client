@@ -14,7 +14,7 @@ import { IRoute } from '../core/models/route/IRoute';
 import Absences from '../pages/student/Absences';
 import Grades from '../pages/student/Grades';
 import Group from '../pages/student/Group';
-import GroupPasses from '../pages/student/GroupPasses';
+import GroupAbsences from '../pages/student/GroupAbsences';
 import Schedule from '../pages/student/Schedule';
 import Subjects from '../pages/student/Subjects';
 
@@ -93,7 +93,7 @@ const addMarkingRoutes = () => {
         name: 'Add Passes',
         route: 'passes/edit/:week',
         path: 'passes/edit/0',
-        element: <GroupPasses />,
+        element: <GroupAbsences />,
         icon: <CrisisAlertIcon />,
         picture: {
             //TODO Change

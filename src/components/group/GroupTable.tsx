@@ -4,16 +4,25 @@ import { useContext, useMemo } from 'react';
 import { IStudent, IStudentGroup } from '../../core/services/studentGroup.service';
 import { Context } from '../GlobalContext';
 
+// function that sort students by surname in IStudentGroup
+function sortStudents(a: IStudent, b: IStudent) {
+    if (a.surname < b.surname) {
+        return -1;
+    } else {
+        return 1;
+    }
+}
+
 type Props = {
     group?: IStudentGroup;
-    //students: StudentType[];
-    //groups?: GroupInfoType[];
     //editCallback?: Function;
     isLoading: boolean;
 };
 
 function GroupTable({ group, isLoading }: Props) {
     const { store } = useContext(Context);
+
+    const students = useMemo(() => Array.from(group?.students ?? []), [group?.students]);
 
     // const getMenuOptions = (cellValue: string) => {
     //     if (store.user.role === 'groupLeader') {
@@ -59,15 +68,15 @@ function GroupTable({ group, isLoading }: Props) {
     const columns = useMemo<MRT_ColumnDef<IStudent>[]>(() => {
         const columns: MRT_ColumnDef<IStudent>[] = [
             {
-                id: 'name',
-                header: 'Name',
-                accessorKey: 'name',
-                enableGrouping: false,
-            },
-            {
                 id: 'surname',
                 header: 'Surname',
                 accessorKey: 'surname',
+                enableGrouping: false,
+            },
+            {
+                id: 'name',
+                header: 'Name',
+                accessorKey: 'name',
                 enableGrouping: false,
             },
             {
@@ -150,7 +159,7 @@ function GroupTable({ group, isLoading }: Props) {
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={group?.students ?? []}
+                data={students.sort(sortStudents)}
                 enableGrouping
                 enableRowNumbers
                 enableStickyHeader

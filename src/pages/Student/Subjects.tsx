@@ -12,7 +12,7 @@ function Subjects({}: Props) {
 
     const { loading, data, refetch, error } = useQuery<IFetchStudentSubjects>(GET_SUBJECTS, {
         variables: { id: store.user.id },
-        pollInterval: 1000,
+        pollInterval: 1000 * 60 * 15,
     });
 
     return (

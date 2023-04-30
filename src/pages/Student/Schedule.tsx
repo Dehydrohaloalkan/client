@@ -25,7 +25,7 @@ function Schedule({}: Props) {
             id: store.user.id,
             week: week,
         },
-        pollInterval: 1000,
+        pollInterval: 1000 * 60 * 15,
     });
 
     useEffect(() => {
@@ -71,6 +71,7 @@ function Schedule({}: Props) {
                                 </Grid>
                             ))
                         ) : (
+                            // TODO Add loader
                             <p>Loading...</p>
                         )
 

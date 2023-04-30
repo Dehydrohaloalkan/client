@@ -8,9 +8,9 @@ import {
     MenuItem,
     Select,
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
+import GroupAbsencesTable from '../../components/groupAbsences/GroupAbsencesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 
 type Props = {};
@@ -142,12 +142,12 @@ function GroupsPasses({}: Props) {
                                 Save
                             </Button>
                         </div>
-                        <GroupPassesTable
+                        <GroupAbsencesTable
                             schedule={schedule}
                             students={students}
-                            passes={passes}
-                            addPass={onAddPass}
-                            removePass={onRemovePass}
+                            absences={passes}
+                            addAbsence={onAddPass}
+                            removeAbsence={onRemovePass}
                             // todo
                             isLoading={false}
                         />

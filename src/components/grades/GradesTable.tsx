@@ -4,7 +4,7 @@ import { useMemo } from 'react';
 import { IStudentGrade } from '../../core/services/studentGrades.service';
 
 type Props = {
-    grades: IStudentGrade[];
+    grades?: IStudentGrade[];
     isLoading: boolean;
 };
 

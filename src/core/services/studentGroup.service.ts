@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_GROUP = gql`
+export const GET_GROUP_WITH_STUDENTS = gql`
     query getGroup($id: String!) {
         studentByUser(id: $id) {
             group {
