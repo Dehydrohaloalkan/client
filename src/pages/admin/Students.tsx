@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import { useState } from 'react';
 import GroupTable from '../../components/group/GroupTable';
-import StudentInputForm from '../../components/group/StudentInputForm';
+import StudentEditForm from '../../components/group/StudentEditForm';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 
 type Props = {};
@@ -37,7 +37,7 @@ function Students({}: Props) {
                 //isLoading={isLoading}
                 //isFor='Admin'
                 />
-                <StudentInputForm title={'Edit'} open={open} onClose={() => setOpen(false)} />
+                <StudentEditForm title={'Edit'} open={open} onClose={() => setOpen(false)} />
             </>
         </MainContentContainer>
     );

@@ -1,7 +1,8 @@
 import { Button, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Context } from '../../components/GlobalContext';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import ScheduleTable from '../../components/schedule/ScheduleTable';
 
@@ -12,6 +13,7 @@ function Schedule({}: Props) {
     const [week, setWeek] = useState(0);
     const navigate = useNavigate();
     const params = useParams();
+    const { store } = useContext(Context);
 
     // const [fetchSchedule, isLoading, error] = useFetching(async () => {
     //     const schedule = await getSchedule(week);

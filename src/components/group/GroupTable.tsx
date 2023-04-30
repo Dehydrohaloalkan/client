@@ -1,8 +1,11 @@
-import { Container } from '@mui/material';
+import { Delete, Edit } from '@mui/icons-material';
+import { Box, Container, IconButton, Tooltip } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
+import { Role } from '../../core/models/auth/Role';
 import { IStudent, IStudentGroup } from '../../core/services/studentGroup.service';
 import { Context } from '../GlobalContext';
+import StudentEditForm from './StudentEditForm';
 
 // function that sort students by surname in IStudentGroup
 function sortStudents(a: IStudent, b: IStudent) {
@@ -15,55 +18,20 @@ function sortStudents(a: IStudent, b: IStudent) {
 
 type Props = {
     group?: IStudentGroup;
-    //editCallback?: Function;
+    editCallback?: Function;
     isLoading: boolean;
 };
 
-function GroupTable({ group, isLoading }: Props) {
+function GroupTable({ group, isLoading, editCallback }: Props) {
     const { store } = useContext(Context);
 
+    const [editOpen, setEditOpen] = useState(false);
+    const [addOpen, setAddOpen] = useState(false);
+    const [removeOpen, setRemoveOpen] = useState(false);
+
+    const [selectedStudent, setSelectedStudent] = useState<IStudent>();
+
     const students = useMemo(() => Array.from(group?.students ?? []), [group?.students]);
-
-    // const getMenuOptions = (cellValue: string) => {
-    //     if (store.user.role === 'groupLeader') {
-    //         return getGroupLeaderMenuOptions(cellValue);
-    //     } else {
-    //         return getDefaultMenuOptions();
-    //     }
-    // };
-
-    // const getGroupLeaderMenuOptions = (cellValue: string) => {
-    //     if (cellValue !== 'Group Leader') {
-    //         return [
-    //             <MenuItem key={'None'} value={'None'}>
-    //                 None
-    //             </MenuItem>,
-    //             <MenuItem key={'Marking'} value={'Marking'}>
-    //                 Marking
-    //             </MenuItem>,
-    //         ];
-    //     } else {
-    //         return (
-    //             <MenuItem key={'Group Leader'} value={'Group Leader'}>
-    //                 Group Leader
-    //             </MenuItem>
-    //         );
-    //     }
-    // };
-
-    // const getDefaultMenuOptions = () => {
-    //     return [
-    //         <MenuItem key={'None'} value={'None'}>
-    //             None
-    //         </MenuItem>,
-    //         <MenuItem key={'Marking'} value={'Marking'}>
-    //             Marking
-    //         </MenuItem>,
-    //         <MenuItem key={'Group Leader'} value={'Group Leader'}>
-    //             Group Leader
-    //         </MenuItem>,
-    //     ];
-    // };
 
     const columns = useMemo<MRT_ColumnDef<IStudent>[]>(() => {
         const columns: MRT_ColumnDef<IStudent>[] = [
@@ -102,7 +70,7 @@ function GroupTable({ group, isLoading }: Props) {
                 id: 'role',
                 header: 'Role',
                 accessorFn: (student) => {
-                    if (student.isLeader) return 'Group Leader';
+                    if (student.isLeader) return 'Leader';
                     if (student.isMarking) return 'Marking';
                     return 'None';
                 },
@@ -128,33 +96,55 @@ function GroupTable({ group, isLoading }: Props) {
         return columns;
     }, []);
 
-    // const handleSaveRowEdits: MaterialReactTableProps<StudentType>['onEditingRowSave'] = async ({
-    //     exitEditingMode,
-    //     row,
-    //     values,
-    // }) => {
-    //     updateStudent({
-    //         ...students[row.index],
+    const leaderActions = ({ row, table, cell }: any) => (
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+            }}
+        >
+            <Tooltip arrow placement='left' title='Edit'>
+                <IconButton
+                    onClick={() => {
+                        setEditOpen(true);
+                        setSelectedStudent(row.original);
+                    }}
+                >
+                    <Edit />
+                </IconButton>
+            </Tooltip>
+        </Box>
+    );
 
-    //         name: values.name,
-    //         surName: values.surName,
-    //         patronymic: values.patronymic,
-    //         email: values.email,
-    //         subGroup: values.subGroup == '2',
-    //         isMarking: values.role == 'Marking',
-    //         isGroupLeader: values.role == 'Group Leader',
-    //         group:
-    //             store.user.role == 'admin'
-    //                 ? {
-    //                       id: groups!.find((group) => group.id == values.group)!.id,
-    //                       number: groups!.find((group) => group.id == values.group)!.number,
-    //                   }
-    //                 : students[row.index].group,
-    //     });
-    //     editCallback?.();
-    //     exitEditingMode();
-    // };
-    // TODO Add sorting by surname
+    // TODO
+    const adminActions = ({ row, table }: any) => (
+        <Box
+            sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '1rem',
+            }}
+        >
+            <Tooltip arrow placement='left' title='Edit'>
+                <IconButton>
+                    <Edit />
+                </IconButton>
+            </Tooltip>
+            <Tooltip arrow placement='right' title='Delete'>
+                <IconButton color='error'>
+                    <Delete />
+                </IconButton>
+            </Tooltip>
+        </Box>
+    );
+
+    const onConfirmEdit = (newStudent: IStudent) => {
+        editCallback?.(newStudent);
+        setEditOpen(false);
+    };
+
     return (
         <Container>
             <MaterialReactTable
@@ -178,6 +168,21 @@ function GroupTable({ group, isLoading }: Props) {
                     maxSize: 500,
                     size: 100,
                 }}
+                displayColumnDefOptions={{
+                    'mrt-row-actions': {
+                        muiTableHeadCellProps: {
+                            align: 'center',
+                        },
+                    },
+                }}
+                enableEditing={store.user.role == Role.leader || store.user.role == Role.admin}
+                renderRowActions={store.user.role == Role.admin ? adminActions : leaderActions}
+            />
+            <StudentEditForm
+                open={editOpen}
+                onClose={() => setEditOpen(false)}
+                onConfirm={onConfirmEdit}
+                student={selectedStudent}
             />
         </Container>
     );

@@ -1,4 +1,4 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import { useContext } from 'react';
 import { Context } from '../../components/GlobalContext';
 import GroupTable from '../../components/group/GroupTable';
@@ -6,6 +6,8 @@ import MainContentContainer from '../../components/main/ContentContainer/MainCon
 import {
     GET_GROUP_WITH_STUDENTS,
     IFetchStudentGroup,
+    IStudent,
+    UPDATE_STUDENT,
 } from '../../core/services/studentGroup.service';
 
 type Props = {};
@@ -21,13 +23,30 @@ function Group({}: Props) {
         }
     );
 
+    const [updateStudent] = useMutation(UPDATE_STUDENT);
+
+    const onStudentEdit = (student: IStudent) => {
+        updateStudent({
+            variables: {
+                studentId: student.studentId,
+                name: student.name,
+                surname: student.surname,
+                patronymic: student.patronymic,
+                email: student.email,
+                subgroup: student.subgroup,
+                isLeader: student.isLeader,
+                isMarking: student.isMarking,
+            },
+        });
+        refetch();
+    };
+
     return (
         <MainContentContainer header='Group'>
             <GroupTable
                 group={data?.studentByUser.group}
-                //editCallback={onEdit}
+                editCallback={onStudentEdit}
                 isLoading={loading}
-                //isFor='Student'
             />
         </MainContentContainer>
     );

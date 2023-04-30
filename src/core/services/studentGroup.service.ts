@@ -41,3 +41,35 @@ export interface IStudent {
     isMarking: boolean;
     subgroup: boolean;
 }
+
+export const UPDATE_STUDENT = gql`
+    mutation updateStudent(
+        $studentId: String!
+        $name: String
+        $surname: String
+        $patronymic: String
+        $email: String
+        $subgroup: Boolean
+        $isLeader: Boolean
+        $isMarking: Boolean
+    ) {
+        updateStudent(
+            updateStudentInput: {
+                studentId: $studentId
+                name: $name
+                surname: $surname
+                patronymic: $patronymic
+                email: $email
+                subgroup: $subgroup
+                isLeader: $isLeader
+                isMarking: $isMarking
+            }
+        ) {
+            studentId
+        }
+    }
+`;
+
+export interface IUpdateStudent {
+    updateStudent: { studentId: string };
+}

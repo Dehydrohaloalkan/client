@@ -1,12 +1,13 @@
-import {
-    Box,
-    Button,
-    Modal,
-    Paper,
-    TextField,
-    Typography,
-    styled,
-} from '@mui/material';
+import { Box, Button, Modal, Paper, Typography, styled } from '@mui/material';
+
+type Props = {
+    open: boolean;
+    title: string;
+    onClose?: Function;
+    onConfirm?: Function;
+    confirmButtonText?: string;
+    children: React.ReactNode;
+};
 
 const CenteredPaper = styled(Paper)({
     position: 'absolute',
@@ -33,31 +34,25 @@ const ButtonBox = styled(Box)({
     gap: 15,
 });
 
-type Props = {
-    open: boolean;
-    onClose: Function;
-    title: string;
-};
-
-function StudentInputForm({ open, onClose, title }: Props) {
+function MainModalInput({ open, onClose, onConfirm, title, children, confirmButtonText }: Props) {
     return (
-        <Modal open={open} onClose={() => onClose()}>
+        <Modal open={open} onClose={() => onClose?.()}>
             <CenteredPaper elevation={3} sx={{}}>
                 <Typography textAlign='center' variant='h5'>
                     {title}
                 </Typography>
-
-                <TextField label='Standard' variant='standard' />
-
+                {children}
                 <ButtonBox>
-                    <Button variant='outlined' onClick={() => onClose()}>
+                    <Button variant='outlined' color='warning' onClick={() => onClose?.()}>
                         Cancel
                     </Button>
-                    <Button variant='contained'>Save</Button>
+                    <Button variant='contained' color='success' onClick={() => onConfirm?.()}>
+                        {confirmButtonText ?? 'Save'}
+                    </Button>
                 </ButtonBox>
             </CenteredPaper>
         </Modal>
     );
 }
 
-export default StudentInputForm;
+export default MainModalInput;
