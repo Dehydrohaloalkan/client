@@ -1,15 +1,9 @@
-import {
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    Typography,
-} from '@mui/material';
+import { Card, CardActionArea, CardContent, CardMedia, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { RouteType } from '../../../core/types/Route';
+import { IRoute } from '../../../core/models/route/IRoute';
 
 type Props = {
-    item: RouteType;
+    item: IRoute;
 };
 
 function MainButtonListItem({ item }: Props) {

@@ -1,11 +1,11 @@
 import { observer } from 'mobx-react-lite';
 import { useContext } from 'react';
 import { Context } from '../components/GlobalContext';
-import { Role } from '../core/models';
 import AdminRouter from './AdminRouter';
 import StudentRouter from './StudentRouter';
 import TeacherRouter from './TeacherRouter';
 import UnregisteredRouter from './UnregisteredRouter';
+import { Role } from '../core/models/auth/Role';
 type Props = {};
 
 function ComplexRouter({}: Props) {

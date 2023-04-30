@@ -1,8 +1,6 @@
 import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { useEffect, useState } from 'react';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../../core/hooks/useFetching';
-import { GroupInfoType, StudentType } from '../../core/types/Group';
 
 type Props = {};
 
@@ -11,27 +9,27 @@ function GroupsLists({}: Props) {
     const [groups, setGroups] = useState<GroupInfoType[]>([]);
     const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
 
-    const [fetchGroup, isLoading, error] = useFetching(async () => {
-        //if (selectedGroupId != undefined)
-        //setStudents(Array.from((await getGroup(selectedGroupId)).students));
-    });
+    // const [fetchGroup, isLoading, error] = useFetching(async () => {
+    //     //if (selectedGroupId != undefined)
+    //     //setStudents(Array.from((await getGroup(selectedGroupId)).students));
+    // });
 
-    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
-        //setGroups(Array.from(await getGroups()));
-    });
+    // const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
+    //     //setGroups(Array.from(await getGroups()));
+    // });
 
-    useEffect(() => {
-        fetchGroups();
-    }, []);
+    // useEffect(() => {
+    //     fetchGroups();
+    // }, []);
 
-    useEffect(() => {
-        if (selectedGroupId != -1) fetchGroup(selectedGroupId);
-    }, [selectedGroupId]);
+    // useEffect(() => {
+    //     if (selectedGroupId != -1) fetchGroup(selectedGroupId);
+    // }, [selectedGroupId]);
 
     return (
         <MainContentContainer header='Groups Lists'>
             <Container>
-                {!isLoadingGroups && (
+                {!true && (
                     <FormControl sx={{ margin: 3, minWidth: 150 }}>
                         <InputLabel htmlFor='grouped-select'>Group</InputLabel>
                         <Select

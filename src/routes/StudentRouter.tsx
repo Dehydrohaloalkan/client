@@ -9,18 +9,18 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { Context } from '../components/GlobalContext';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
-import { RouteType } from '../core/types/Route';
+import { Role } from '../core/models/auth/Role';
+import { IRoute } from '../core/models/route/IRoute';
 import Absences from '../pages/student/Absences';
 import Grades from '../pages/student/Grades';
 import Group from '../pages/student/Group';
 import GroupPasses from '../pages/student/GroupPasses';
 import Schedule from '../pages/student/Schedule';
 import Subjects from '../pages/student/Subjects';
-import { Role } from '../core/models';
 
 type Props = {};
 
-const studentRoutes: RouteType[] = [
+const studentRoutes: IRoute[] = [
     {
         name: 'Schedule',
         route: 'schedule/:week',

@@ -124,7 +124,6 @@ function GroupTable({ group, isLoading }: Props) {
     //     row,
     //     values,
     // }) => {
-    //     console.log('🚀 ~ file: GroupTableWithEdit.tsx:143 ~ values:', values);
     //     updateStudent({
     //         ...students[row.index],
 
@@ -146,12 +145,12 @@ function GroupTable({ group, isLoading }: Props) {
     //     editCallback?.();
     //     exitEditingMode();
     // };
-
+    // TODO Add sorting by surname
     return (
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={group?.students ? group?.students : []}
+                data={group?.students ?? []}
                 enableGrouping
                 enableRowNumbers
                 enableStickyHeader

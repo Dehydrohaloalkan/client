@@ -2,10 +2,10 @@ import GroupIcon from '@mui/icons-material/Group';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
-import { RouteType } from '../core/types/Route';
+import { IRoute } from '../core/models/route/IRoute';
 import Students from '../pages/admin/Students';
 
-const adminRoutes: RouteType[] = [
+const adminRoutes: IRoute[] = [
     {
         name: 'Students',
         route: 'students',
@@ -17,8 +17,7 @@ const adminRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can find the schedule of classes for your group',
     },
 ];
 
@@ -28,16 +27,9 @@ function AdminRouter({}: Props) {
     return (
         <Routes>
             <Route path='/' element={<MainLayout routes={adminRoutes} />}>
-                <Route
-                    index
-                    element={<MainButtonList routes={adminRoutes} />}
-                />
+                <Route index element={<MainButtonList routes={adminRoutes} />} />
                 {adminRoutes.map((item, index) => (
-                    <Route
-                        element={item.element}
-                        path={item.route}
-                        key={index}
-                    />
+                    <Route element={item.element} path={item.route} key={index} />
                 ))}
             </Route>
             <Route path='*' element={<Navigate to='/' replace />} />

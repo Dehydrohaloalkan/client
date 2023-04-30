@@ -1,27 +1,35 @@
+import { useQuery } from '@apollo/client';
 import { Button, Container } from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Context } from '../../components/GlobalContext';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import ScheduleTable from '../../components/schedule/ScheduleTable';
-import { useFetching } from '../../core/hooks/useFetching';
-import { getSchedule } from '../../core/services/Schedule';
+import {
+    GET_SCHEDULE,
+    IFetchStudentSchedule,
+    groupLessonsByDayOfWeek,
+} from '../../core/services/studentSchedule.service';
 
 type Props = {};
 
 function Schedule({}: Props) {
-    const [schedule, setSchedule] = useState<ScheduleType[]>([]);
     const [week, setWeek] = useState(0);
     const navigate = useNavigate();
     const params = useParams();
+    const { store } = useContext(Context);
 
-    const [fetchSchedule, isLoading, error] = useFetching(async () => {
-        const schedule = await getSchedule(week);
-        setSchedule(schedule);
+    const { loading, data, refetch, error } = useQuery<IFetchStudentSchedule>(GET_SCHEDULE, {
+        variables: {
+            id: store.user.id,
+            week: week,
+        },
+        pollInterval: 1000,
     });
 
     useEffect(() => {
-        fetchSchedule();
+        refetch();
         setWeek(Number.parseInt(params.week!));
     }, [week]);
 
@@ -35,6 +43,12 @@ function Schedule({}: Props) {
         navigate(`/schedule/${week + 1}`);
     };
 
+    useEffect(() => {
+        if (data) {
+            console.log(groupLessonsByDayOfWeek(data.studentByUser.group.schedule.lessons, week));
+        }
+    }, [data]);
+
     return (
         <MainContentContainer header='Schedule'>
             <Container>
@@ -46,11 +60,26 @@ function Schedule({}: Props) {
                 </Button>
 
                 <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
-                    {schedule.map((item, index) => (
+                    {
+                        data ? (
+                            groupLessonsByDayOfWeek(
+                                data.studentByUser.group.schedule.lessons,
+                                week
+                            ).map((item) => (
+                                <Grid xs={6} sx={{ maxWidth: 650 }} key={item.date.getTime()}>
+                                    <ScheduleTable day={item} isLoading={loading} isFor='Student' />
+                                </Grid>
+                            ))
+                        ) : (
+                            <p>Loading...</p>
+                        )
+
+                        /* {data.map((item, index) => (
                         <Grid xs={6} sx={{ maxWidth: 650 }} key={index}>
                             <ScheduleTable day={item} isLoading={isLoading} isFor='Student' />
                         </Grid>
-                    ))}
+                    ))} */
+                    }
                 </Grid>
             </Container>
         </MainContentContainer>

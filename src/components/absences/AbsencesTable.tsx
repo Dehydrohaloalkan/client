@@ -1,27 +1,32 @@
 import { Box, Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { IStudentAbsences } from '../../core/models';
+import { IStudentAbsence } from '../../core/services/studentAbsences.service';
 
 type Props = {
-    absences: IStudentAbsences[];
+    absences?: IStudentAbsence[];
     isLoading: boolean;
 };
 
 function AbsencesTable({ absences, isLoading }: Props) {
     const allHours = useMemo(() => {
-        return absences.reduce((acc, curr) => acc + curr.hours, 0);
+        return absences?.reduce((acc, curr) => acc + curr.hours, 0);
     }, [absences]);
 
-    const columns = useMemo<MRT_ColumnDef<IStudentAbsences>[]>(
+    const columns = useMemo<MRT_ColumnDef<IStudentAbsence>[]>(
         () => [
             {
                 header: 'Lesson',
-                accessorKey: 'lesson',
+                accessorFn: (absence) =>
+                    `${absence.lesson.subject.course.name}. ${absence.lesson.subject.type.name}`,
             },
             {
-                header: 'Date',
-                accessorFn: (item) => new Date(item.date).toLocaleDateString('ru-RU'),
+                header: 'Start Time',
+                accessorFn: (absence) => new Date(absence.lesson.startTime).toLocaleString('ru-RU'),
+            },
+            {
+                header: 'End Time',
+                accessorFn: (absence) => new Date(absence.lesson.endTime).toLocaleString('ru-RU'),
             },
             {
                 header: 'Hours',
@@ -29,23 +34,19 @@ function AbsencesTable({ absences, isLoading }: Props) {
                 Footer: () => (
                     <>
                         Total hours
-                        <Box sx={{ color: 'warning.main', fontWeight: 'bold' }}>
-                            {allHours.toLocaleString?.('en-US', {
-                                maximumFractionDigits: 3,
-                            })}
-                        </Box>
+                        <Box sx={{ color: 'warning.main', fontWeight: 'bold' }}>{allHours}</Box>
                     </>
                 ),
             },
         ],
-        []
+        [absences]
     );
 
     return (
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={absences}
+                data={absences ?? []}
                 enableRowNumbers
                 enableStickyFooter
                 enableColumnResizing

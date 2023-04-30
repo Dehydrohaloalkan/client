@@ -1,9 +1,4 @@
-import {
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-} from '@mui/material';
+import { ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
 type Props = {
@@ -17,7 +12,7 @@ function MainSideBarItem({ icon, text, path }: Props) {
     const navigate = useNavigate();
     return (
         <ListItem disablePadding>
-            <ListItemButton onClick={() => navigate(path)}>
+            <ListItemButton onClick={() => navigate(path, { replace: true })}>
                 <ListItemIcon>{icon}</ListItemIcon>
                 <ListItemText primary={text} />
             </ListItemButton>

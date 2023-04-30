@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { Drawer, List, Toolbar } from '@mui/material';
-import { RouteType } from '../../../core/types/Route';
+import { IRoute } from '../../../core/models/route/IRoute';
 import MainSideBarItem from './MainSideBarItem';
 
 type Props = {
-    items: RouteType[];
+    items: IRoute[];
 };
 
 export const drawerWidth = 200;

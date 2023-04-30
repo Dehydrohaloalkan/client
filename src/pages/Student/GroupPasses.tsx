@@ -1,14 +1,9 @@
 import { Button, Checkbox, Container, FormControlLabel } from '@mui/material';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../../components/GlobalContext';
 import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../../core/hooks/useFetching';
-import { getSchedule } from '../../core/services/Schedule';
-import { StudentType } from '../../core/types/Group';
-import { PassType } from '../../core/types/Passes';
-import { ScheduleType } from '../../core/types/Schedule';
 
 type Props = {};
 
@@ -21,18 +16,18 @@ function GroupPasses({}: Props) {
     const params = useParams();
     const { store } = useContext(Context);
 
-    const [fetchData, isLoading, error] = useFetching(async () => {
-        //setPasses(Array.from(await getPasses()));
-        setSchedule(Array.from(await getSchedule(week)));
-        //setStudents(
-        //Array.from((await getGroup(user!.student!.groupId)).students)
-        //);
-    });
+    // const [fetchData, isLoading, error] = useFetching(async () => {
+    //     //setPasses(Array.from(await getPasses()));
+    //     setSchedule(Array.from(await getSchedule(week)));
+    //     //setStudents(
+    //     //Array.from((await getGroup(user!.student!.groupId)).students)
+    //     //);
+    // });
 
-    useEffect(() => {
-        fetchData();
-        setWeek(Number.parseInt(params.week!));
-    }, [week]);
+    // useEffect(() => {
+    //     fetchData();
+    //     setWeek(Number.parseInt(params.week!));
+    // }, [week]);
 
     const onAddPass = async (lessonId: number, studentId: number) => {
         //addPass(lessonId, studentId);
@@ -86,7 +81,8 @@ function GroupPasses({}: Props) {
                     passes={passes}
                     addPass={onAddPass}
                     removePass={onRemovePass}
-                    isLoading={isLoading}
+                    // todo
+                    isLoading={false}
                 />
                 <FormControlLabel disabled control={<Checkbox defaultChecked />} label=' - pass' />
             </Container>

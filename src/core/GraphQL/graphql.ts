@@ -9,7 +9,7 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error';
 import { GraphQLError } from 'graphql';
-import { AuthService } from '../services';
+import { AuthService } from '../services/auth.service';
 
 const httpLink = createHttpLink({
     uri: 'http://localhost:5000/graphql',

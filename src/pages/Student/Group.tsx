@@ -1,39 +1,24 @@
-import { useContext, useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { useContext } from 'react';
+import { Context } from '../../components/GlobalContext';
 import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
-
-import { useQuery } from '@apollo/client';
-import { Context } from '../../components/GlobalContext';
-import { GET_GROUP, IStudentGroup } from '../../core/services/studentGroup.service';
+import { GET_GROUP, IFetchStudentGroup } from '../../core/services/studentGroup.service';
 
 type Props = {};
 
 function Group({}: Props) {
     const { store } = useContext(Context);
 
-    const { loading, data, refetch, error } = useQuery<{ studentByUser: { group: IStudentGroup } }>(
-        GET_GROUP,
-        { variables: { id: store.user.id } }
-    );
-
-    useEffect(() => {
-        console.log(data);
-    }, [data]);
-
-    // const [fetchGroup, isLoading, error] = useFetching(async () => {
-    //     const group: IGroup = await GroupService.getStudentGroup();
-    //     setGroup(group);
-    // });
-
-    // const onEdit = () => {
-    //     fetchGroup();
-    // };
+    const { loading, data, refetch, error } = useQuery<IFetchStudentGroup>(GET_GROUP, {
+        variables: { id: store.user.id },
+        pollInterval: 1000,
+    });
 
     return (
         <MainContentContainer header='Group'>
             <GroupTable
                 group={data?.studentByUser.group}
-                //students={students}
                 //editCallback={onEdit}
                 isLoading={loading}
                 //isFor='Student'

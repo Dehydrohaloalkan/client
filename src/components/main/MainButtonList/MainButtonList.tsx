@@ -1,10 +1,10 @@
 import Grid from '@mui/material/Unstable_Grid2';
-import { RouteType } from '../../../core/types/Route';
 import MainContentContainer from '../ContentContainer/MainContentContainer';
 import MainButtonListItem from './MainButtonListItem';
+import { IRoute } from '../../../core/models/route/IRoute';
 
 type Props = {
-    routes: RouteType[];
+    routes: IRoute[];
 };
 
 function MainButtonList({ routes }: Props) {

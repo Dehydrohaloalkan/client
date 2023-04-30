@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 import { client } from '../GraphQL/graphql';
-import { IAuthResponse } from '../models';
+import { IAuthResponse } from '../models/auth/IAuthResponse';
 
 export class AuthService {
     static async login(email: string, password: string): Promise<IAuthResponse> {

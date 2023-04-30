@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import { RouteType } from '../../core/types/Route';
+import { IRoute } from '../../core/models/route/IRoute';
 import MainAppBar from './AppBar/MainAppBar';
 import MainSideBar from './SideBar/MainSideBar';
 
 type Props = {
-    routes: RouteType[];
+    routes: IRoute[];
 };
 
 function MainLayout({ routes }: Props) {

@@ -1,32 +1,37 @@
 import { Box, Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { GradeType } from '../../core/types/Grades';
+import { IStudentGrade } from '../../core/services/studentGrades.service';
 
 type Props = {
-    grades: GradeType[];
+    grades: IStudentGrade[];
     isLoading: boolean;
 };
 
 function GradesTable({ grades, isLoading }: Props) {
     const averageGrade = useMemo(() => {
-        return grades.reduce((acc, curr) => acc + curr.grade, 0) / grades.length;
+        if (grades) {
+            return grades.reduce((acc, curr) => acc + curr.value, 0) / grades.length;
+        }
+        return 0;
     }, [grades]);
 
-    const columns = useMemo<MRT_ColumnDef<GradeType>[]>(
+    const columns = useMemo<MRT_ColumnDef<IStudentGrade>[]>(
         () => [
             {
+                id: 'lesson',
                 header: 'Lesson',
-                accessorKey: 'lesson.name',
+                accessorFn: (absence) =>
+                    `${absence.lesson.subject.course.name}. ${absence.lesson.subject.type.name}`,
             },
             {
                 header: 'Date',
-                accessorFn: (grade) => grade.lesson.date.toLocaleDateString('ru-RU'),
+                accessorFn: (grade) => new Date(grade.lesson.startTime).toLocaleDateString('ru-RU'),
                 enableGrouping: false,
             },
             {
                 header: 'Grade',
-                accessorKey: 'grade',
+                accessorKey: 'value',
                 aggregationFn: 'mean',
                 AggregatedCell: ({ cell, table }) => (
                     <>
@@ -59,7 +64,7 @@ function GradesTable({ grades, isLoading }: Props) {
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={grades}
+                data={grades ?? []}
                 enableColumnResizing
                 enableStickyHeader
                 enableStickyFooter
@@ -70,7 +75,7 @@ function GradesTable({ grades, isLoading }: Props) {
                     noRecordsToDisplay: 'No grades',
                 }}
                 initialState={{
-                    grouping: ['lesson.name'],
+                    grouping: ['lesson'],
                     expanded: true,
                     isLoading: true,
                 }}

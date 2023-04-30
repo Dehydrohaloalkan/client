@@ -1,10 +1,8 @@
 import { Button } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import GroupTable from '../../components/group/GroupTable';
 import StudentInputForm from '../../components/group/StudentInputForm';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../../core/hooks/useFetching';
-import { GroupInfoType, StudentType } from '../../core/types/Group';
 
 type Props = {};
 
@@ -15,29 +13,29 @@ function Students({}: Props) {
 
     const [open, setOpen] = useState<boolean>(false);
 
-    const [fetchData, isLoading, error] = useFetching(async () => {
-        //setStudents(Array.from(await getAllStudents()));
-        //setGroups(Array.from(await getGroups()));
-    });
+    // const [fetchData, isLoading, error] = useFetching(async () => {
+    //     //setStudents(Array.from(await getAllStudents()));
+    //     //setGroups(Array.from(await getGroups()));
+    // });
 
-    useEffect(() => {
-        fetchData();
-    }, []);
+    // useEffect(() => {
+    //     fetchData();
+    // }, []);
 
-    const onEdit = () => {
-        fetchData();
-    };
+    // const onEdit = () => {
+    //     fetchData();
+    // };
 
     return (
         <MainContentContainer header='Group'>
             <>
                 <Button onClick={() => setOpen(true)}>modal</Button>
                 <GroupTable
-                    students={students}
-                    groups={groups}
-                    editCallback={onEdit}
-                    isLoading={isLoading}
-                    isFor='Admin'
+                //students={students}
+                //groups={groups}
+                //editCallback={onEdit}
+                //isLoading={isLoading}
+                //isFor='Admin'
                 />
                 <StudentInputForm title={'Edit'} open={open} onClose={() => setOpen(false)} />
             </>

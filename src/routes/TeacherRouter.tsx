@@ -5,13 +5,13 @@ import GroupIcon from '@mui/icons-material/Group';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
-import { RouteType } from '../core/types/Route';
+import { IRoute } from '../core/models/route/IRoute';
 import GroupsGrades from '../pages/teacher/GroupsGrades';
 import GroupsLists from '../pages/teacher/GroupsLists';
 import GroupsPasses from '../pages/teacher/GroupsPasses';
 import Schedule from '../pages/teacher/Schedule';
 
-const teacherRoutes: RouteType[] = [
+const teacherRoutes: IRoute[] = [
     {
         name: 'Schedule',
         route: 'schedule/:week',
@@ -23,8 +23,7 @@ const teacherRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can find the schedule of classes for your group',
     },
     {
         name: 'Groups Lists',
@@ -37,8 +36,7 @@ const teacherRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can find the schedule of classes for your group',
     },
     {
         name: 'Groups Passes',
@@ -51,8 +49,7 @@ const teacherRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can find the schedule of classes for your group',
     },
     {
         name: 'Groups Grades',
@@ -65,8 +62,7 @@ const teacherRoutes: RouteType[] = [
             src: 'src/assets/cat.jpg',
             alt: 'text',
         },
-        description:
-            'On this page you can find the schedule of classes for your group',
+        description: 'On this page you can find the schedule of classes for your group',
     },
 ];
 
@@ -76,16 +72,9 @@ function TeacherRouter({}: Props) {
     return (
         <Routes>
             <Route path='/' element={<MainLayout routes={teacherRoutes} />}>
-                <Route
-                    index
-                    element={<MainButtonList routes={teacherRoutes} />}
-                />
+                <Route index element={<MainButtonList routes={teacherRoutes} />} />
                 {teacherRoutes.map((item, index) => (
-                    <Route
-                        element={item.element}
-                        path={item.route}
-                        key={index}
-                    />
+                    <Route element={item.element} path={item.route} key={index} />
                 ))}
             </Route>
             <Route path='*' element={<Navigate to='/' replace />} />

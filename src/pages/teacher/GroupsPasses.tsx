@@ -12,10 +12,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import GroupPassesTable from '../../components/groupPasses/GroupPassesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
-import { useFetching } from '../../core/hooks/useFetching';
-import { GroupInfoType, StudentType } from '../../core/types/Group';
-import { PassType } from '../../core/types/Passes';
-import { ScheduleType } from '../../core/types/Schedule';
 
 type Props = {};
 
@@ -32,26 +28,26 @@ function GroupsPasses({}: Props) {
     const params = useParams();
     //const { user } = useContext(Context);
 
-    const [fetchData, isLoading, error] = useFetching(async () => {
-        if (selectedGroupId != -1) {
-            //setPasses(Array.from(await getPasses()));
-            //setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
-            //setStudents(Array.from((await getGroup(selectedGroupId)).students));
-        }
-    });
+    // const [fetchData, isLoading, error] = useFetching(async () => {
+    //     if (selectedGroupId != -1) {
+    //         //setPasses(Array.from(await getPasses()));
+    //         //setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
+    //         //setStudents(Array.from((await getGroup(selectedGroupId)).students));
+    //     }
+    // });
 
-    const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
-        //setGroups(Array.from(await getGroups()));
-    });
+    // const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
+    //     //setGroups(Array.from(await getGroups()));
+    // });
 
-    useEffect(() => {
-        fetchGroups();
-    }, []);
+    // useEffect(() => {
+    //     fetchGroups();
+    // }, []);
 
-    useEffect(() => {
-        fetchData();
-        setWeek(Number.parseInt(params.week!));
-    }, [week, selectedGroupId]);
+    // useEffect(() => {
+    //     fetchData();
+    //     setWeek(Number.parseInt(params.week!));
+    // }, [week, selectedGroupId]);
 
     const goToPrevWeek = () => {
         setWeek(week - 1);
@@ -90,7 +86,7 @@ function GroupsPasses({}: Props) {
     return (
         <MainContentContainer header='Groups Passes'>
             <Container>
-                {!isLoadingGroups && (
+                {!true && (
                     <FormControl sx={{ margin: 3, minWidth: 150 }}>
                         <InputLabel htmlFor='grouped-select'>Group</InputLabel>
                         <Select
@@ -152,7 +148,8 @@ function GroupsPasses({}: Props) {
                             passes={passes}
                             addPass={onAddPass}
                             removePass={onRemovePass}
-                            isLoading={isLoading}
+                            // todo
+                            isLoading={false}
                         />
                         <FormControlLabel
                             disabled

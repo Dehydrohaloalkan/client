@@ -1,15 +1,15 @@
 import { Container } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
-import { ISubject } from '../../core/models';
+import { IStudentSubject } from '../../core/services/studentSubjects.service';
 
 type Props = {
-    subjects: ISubject[];
+    subjects?: IStudentSubject[];
     isLoading: boolean;
 };
 
 function SubjectsTable({ subjects, isLoading }: Props) {
-    const columns = useMemo<MRT_ColumnDef<ISubject>[]>(
+    const columns = useMemo<MRT_ColumnDef<IStudentSubject>[]>(
         () => [
             {
                 header: 'Type',
@@ -25,11 +25,11 @@ function SubjectsTable({ subjects, isLoading }: Props) {
             },
             {
                 header: 'Start date',
-                accessorFn: (item) => new Date(item.course.start_date).toLocaleDateString('ru-RU'),
+                accessorFn: (item) => new Date(item.course.startDate).toLocaleDateString('ru-RU'),
             },
             {
                 header: 'End date',
-                accessorFn: (item) => new Date(item.course.end_date).toLocaleDateString('ru-RU'),
+                accessorFn: (item) => new Date(item.course.endDate).toLocaleDateString('ru-RU'),
             },
         ],
         []
@@ -39,7 +39,7 @@ function SubjectsTable({ subjects, isLoading }: Props) {
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={subjects}
+                data={subjects ?? []}
                 enableRowNumbers
                 enableColumnResizing
                 enablePagination={false}
