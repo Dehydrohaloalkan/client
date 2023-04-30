@@ -1,63 +1,39 @@
-import { Container, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { useLazyQuery } from '@apollo/client';
+import { Container } from '@mui/material';
 import { useEffect, useState } from 'react';
+import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import TeacherSelects from '../../components/teacher/TeacherSelects';
+import {
+    GET_GROUP_BY_GROUP_ID,
+    IFetchGroupByGroupId,
+} from '../../core/services/teacherSubjectsAndGroups.service';
 
 type Props = {};
 
 function GroupsLists({}: Props) {
-    const [students, setStudents] = useState<StudentType[]>([]);
-    const [groups, setGroups] = useState<GroupInfoType[]>([]);
+    const [selectedSubjectId, setSelectedSubjectId] = useState<number>(-1);
     const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
 
-    // const [fetchGroup, isLoading, error] = useFetching(async () => {
-    //     //if (selectedGroupId != undefined)
-    //     //setStudents(Array.from((await getGroup(selectedGroupId)).students));
-    // });
+    const [getGroupByGroupId, { data, loading, error }] = useLazyQuery<IFetchGroupByGroupId>(
+        GET_GROUP_BY_GROUP_ID,
+        { variables: { groupId: selectedGroupId } }
+    );
 
-    // const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
-    //     //setGroups(Array.from(await getGroups()));
-    // });
-
-    // useEffect(() => {
-    //     fetchGroups();
-    // }, []);
-
-    // useEffect(() => {
-    //     if (selectedGroupId != -1) fetchGroup(selectedGroupId);
-    // }, [selectedGroupId]);
+    useEffect(() => {
+        getGroupByGroupId();
+    }, [selectedGroupId]);
 
     return (
         <MainContentContainer header='Groups Lists'>
             <Container>
-                {!true && (
-                    <FormControl sx={{ margin: 3, minWidth: 150 }}>
-                        <InputLabel htmlFor='grouped-select'>Group</InputLabel>
-                        <Select
-                            value={selectedGroupId}
-                            id='group-select'
-                            label='Group'
-                            onChange={(event) => {
-                                setSelectedGroupId(parseInt(event.target.value as string, 10));
-                            }}
-                        >
-                            <MenuItem value={-1}>
-                                <em>None</em>
-                            </MenuItem>
-                            {/* {Object.entries(reduceGroupsByForm(groups)).map((item) => [
-                                <ListSubheader key={Number.parseInt(item[0])}>
-                                    Form {item[0]}
-                                </ListSubheader>,
-                                item[1].map((group) => (
-                                    <MenuItem value={group.id} key={group.id}>
-                                        {group.number}
-                                    </MenuItem>
-                                )),
-                            ])} */}
-                        </Select>
-                    </FormControl>
-                )}
-
-                {/* {selectedGroupId != -1 && <GroupTable students={students} isLoading={isLoading} />} */}
+                <TeacherSelects
+                    selectedSubjectId={selectedSubjectId}
+                    setSelectedSubjectId={setSelectedSubjectId}
+                    selectedGroupId={selectedGroupId}
+                    setSelectedGroupId={setSelectedGroupId}
+                ></TeacherSelects>
+                {selectedGroupId != -1 && <GroupTable group={data?.group} isLoading={loading} />}
             </Container>
         </MainContentContainer>
     );
