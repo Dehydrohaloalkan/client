@@ -7,7 +7,7 @@ import { Context } from '../../components/GlobalContext';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import ScheduleTable from '../../components/schedule/ScheduleTable';
 import {
-    GET_SCHEDULE,
+    GET_STUDENT_SCHEDULE,
     IFetchStudentSchedule,
     groupLessonsByDayOfWeek,
 } from '../../core/services/studentSchedule.service';
@@ -20,13 +20,16 @@ function Schedule({}: Props) {
     const params = useParams();
     const { store } = useContext(Context);
 
-    const { loading, data, refetch, error } = useQuery<IFetchStudentSchedule>(GET_SCHEDULE, {
-        variables: {
-            id: store.user.id,
-            week: week,
-        },
-        pollInterval: 1000 * 60 * 15,
-    });
+    const { loading, data, refetch, error } = useQuery<IFetchStudentSchedule>(
+        GET_STUDENT_SCHEDULE,
+        {
+            variables: {
+                id: store.user.id,
+                week: week,
+            },
+            pollInterval: 1000 * 60 * 15,
+        }
+    );
 
     useEffect(() => {
         refetch();
@@ -43,12 +46,6 @@ function Schedule({}: Props) {
         navigate(`/schedule/${week + 1}`);
     };
 
-    useEffect(() => {
-        if (data) {
-            console.log(groupLessonsByDayOfWeek(data.studentByUser.group.schedule.lessons, week));
-        }
-    }, [data]);
-
     return (
         <MainContentContainer header='Schedule'>
             <Container>
@@ -60,27 +57,19 @@ function Schedule({}: Props) {
                 </Button>
 
                 <Grid container spacing={4} sx={{ justifyContent: 'center' }}>
-                    {
-                        data ? (
-                            groupLessonsByDayOfWeek(
-                                data.studentByUser.group.schedule.lessons,
-                                week
-                            ).map((item) => (
-                                <Grid xs={6} sx={{ maxWidth: 650 }} key={item.date.getTime()}>
-                                    <ScheduleTable day={item} isLoading={loading} isFor='Student' />
-                                </Grid>
-                            ))
-                        ) : (
-                            // TODO Add loader
-                            <p>Loading...</p>
-                        )
-
-                        /* {data.map((item, index) => (
-                        <Grid xs={6} sx={{ maxWidth: 650 }} key={index}>
-                            <ScheduleTable day={item} isLoading={isLoading} isFor='Student' />
-                        </Grid>
-                    ))} */
-                    }
+                    {data ? (
+                        groupLessonsByDayOfWeek(
+                            data.studentByUser.group.schedule.lessons,
+                            week
+                        ).map((item) => (
+                            <Grid xs={6} sx={{ maxWidth: 650 }} key={item.date.getTime()}>
+                                <ScheduleTable day={item} isLoading={loading} />
+                            </Grid>
+                        ))
+                    ) : (
+                        // TODO Add loader
+                        <p>Loading...</p>
+                    )}
                 </Grid>
             </Container>
         </MainContentContainer>

@@ -1,6 +1,6 @@
 import { gql } from '@apollo/client';
 
-export const GET_SCHEDULE = gql`
+export const GET_STUDENT_SCHEDULE = gql`
     query getStudentSchedule($id: String!, $week: Int!) {
         studentByUser(id: $id) {
             group {
@@ -41,6 +41,9 @@ export interface ILesson {
     endTime: Date;
     location: string;
     subject: {
+        groups?: {
+            number: string;
+        }[];
         course: {
             name: string;
         };

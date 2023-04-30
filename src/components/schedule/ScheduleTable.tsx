@@ -1,7 +1,9 @@
 import { Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
+import { Role } from '../../core/models/auth/Role';
 import { ILesson } from '../../core/services/studentSchedule.service';
+import { Context } from '../GlobalContext';
 
 const dateToWeekDay = (date: Date) => {
     return date.toLocaleDateString('en-US', { weekday: 'long' });
@@ -13,10 +15,11 @@ type Props = {
         lessons: ILesson[];
     };
     isLoading: boolean;
-    isFor: 'Teacher' | 'Student';
 };
 
-function ScheduleTable({ day, isLoading, isFor }: Props) {
+function ScheduleTable({ day, isLoading }: Props) {
+    const { store } = useContext(Context);
+
     const columns = useMemo<MRT_ColumnDef<ILesson>[]>(() => {
         const columns: MRT_ColumnDef<ILesson>[] = [
             {
@@ -26,7 +29,7 @@ function ScheduleTable({ day, isLoading, isFor }: Props) {
                         hour: '2-digit',
                         minute: '2-digit',
                     }),
-                size: 80,
+                size: 50,
             },
             {
                 header: 'End Time',
@@ -35,7 +38,7 @@ function ScheduleTable({ day, isLoading, isFor }: Props) {
                         hour: '2-digit',
                         minute: '2-digit',
                     }),
-                size: 80,
+                size: 50,
             },
             {
                 header: 'Lesson',
@@ -45,26 +48,21 @@ function ScheduleTable({ day, isLoading, isFor }: Props) {
             {
                 header: 'Location',
                 accessorKey: 'location',
-                size: 80,
+                size: 50,
             },
         ];
-        // if (isFor == 'Student') {
-        //     console.log('first');
-        //     columns.push({
-        //         header: 'Grade',
-        //         accessorKey: 'grade',
-        //         size: 50,
-        //     });
-        // }
-        // if (isFor == 'Teacher') {
-        //     columns.push({
-        //         header: 'Group',
-        //         accessorFn: (lesson) => lesson.group?.number,
-        //         size: 50,
-        //     });
-        // }
+
+        if (store.user.role == Role.teacher) {
+            columns.push({
+                header: 'Groups',
+                accessorFn: (lesson) =>
+                    lesson.subject.groups?.map((group) => group.number).join(', '),
+                size: 70,
+            });
+        }
+
         return columns;
-    }, [day]);
+    }, []);
 
     return (
         <>
