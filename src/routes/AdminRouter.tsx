@@ -1,10 +1,12 @@
 import AutoAwesomeMosaicIcon from '@mui/icons-material/AutoAwesomeMosaic';
 import GroupIcon from '@mui/icons-material/Group';
+import RecordVoiceOverIcon from '@mui/icons-material/RecordVoiceOver';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { IRoute } from '../core/models/route/IRoute';
 import Admins from '../pages/admin/Admins';
+import Courses from '../pages/admin/Courses';
 import Groups from '../pages/admin/Groups';
 import Students from '../pages/admin/Students';
 import Teachers from '../pages/admin/Teachers';
@@ -55,6 +57,19 @@ const adminRoutes: IRoute[] = [
         path: 'admins',
         element: <Admins />,
         icon: <GroupIcon />,
+        picture: {
+            //TODO Change
+            src: 'src/assets/cat.jpg',
+            alt: 'text',
+        },
+        description: 'On this page you can find the schedule of classes for your group',
+    },
+    {
+        name: 'Courses',
+        route: 'courses',
+        path: 'courses',
+        element: <Courses />,
+        icon: <RecordVoiceOverIcon />,
         picture: {
             //TODO Change
             src: 'src/assets/cat.jpg',
