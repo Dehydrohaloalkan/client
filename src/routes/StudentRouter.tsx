@@ -74,7 +74,7 @@ function StudentRouter({}: Props) {
                 src: 'src/assets/cat.jpg',
                 alt: 'text',
             },
-            description: 'On this page you can find the information about your passes',
+            description: 'On this page you can find the information about your absences',
         },
         {
             name: 'Grades',
@@ -93,9 +93,9 @@ function StudentRouter({}: Props) {
 
     const addMarkingRoutes = () => {
         routes.push({
-            name: 'Add Passes',
-            route: 'passes/edit/:week',
-            path: 'passes/edit/0',
+            name: 'Add Absences',
+            route: 'absences/edit/:week',
+            path: 'absences/edit/0',
             element: <GroupAbsences />,
             icon: <CrisisAlertIcon />,
             picture: {
@@ -103,13 +103,13 @@ function StudentRouter({}: Props) {
                 src: 'src/assets/cat.jpg',
                 alt: 'text',
             },
-            description: 'On this page you can add passes',
+            description: 'On this page you can add absences',
         });
         setRoutes([...routes]);
     };
 
     const removeMarkingRoutes = () => {
-        setRoutes(routes.filter((item) => item.name !== 'Add Passes'));
+        setRoutes(routes.filter((item) => item.name !== 'Add Absences'));
     };
 
     useEffect(() => {

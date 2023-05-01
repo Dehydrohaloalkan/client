@@ -15,7 +15,7 @@ import MainContentContainer from '../../components/main/ContentContainer/MainCon
 
 type Props = {};
 
-function GroupsPasses({}: Props) {
+function GroupsGrades({}: Props) {
     const [groups, setGroups] = useState<GroupInfoType[]>([]);
     const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
 
@@ -153,11 +153,6 @@ function GroupsPasses({}: Props) {
                             // TODO
                             isLoading={false}
                         />
-                        <FormControlLabel
-                            disabled
-                            control={<Checkbox defaultChecked />}
-                            label=' - pass'
-                        />
                     </>
                 )}
             </Container>
@@ -165,4 +160,4 @@ function GroupsPasses({}: Props) {
     );
 }
 
-export default GroupsPasses;
+export default GroupsGrades;

@@ -65,8 +65,7 @@ function GroupAbsences({}: Props) {
     }, [absencesLoading]);
 
     const onAddAbsence = async (lessonId: string, studentId: string) => {
-        absences.push({ lessonId, studentId });
-        setAbsences([...absences]);
+        setAbsences([...absences, { lessonId, studentId }]);
 
         await addAbsenceMutation({
             variables: {
@@ -93,12 +92,12 @@ function GroupAbsences({}: Props) {
 
     const goToPrevWeek = () => {
         setWeek(week - 1);
-        navigate(`/passes/edit/${week - 1}`);
+        navigate(`/absences/edit/${week - 1}`);
     };
 
     const goToNextWeek = () => {
         setWeek(week + 1);
-        navigate(`/passes/edit/${week + 1}`);
+        navigate(`/absences/edit/${week + 1}`);
     };
 
     return (

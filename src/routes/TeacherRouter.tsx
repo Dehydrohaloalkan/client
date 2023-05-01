@@ -6,9 +6,9 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import MainButtonList from '../components/main/MainButtonList/MainButtonList';
 import MainLayout from '../components/main/MainLayout';
 import { IRoute } from '../core/models/route/IRoute';
+import GroupsAbsences from '../pages/teacher/GroupsAbsences';
 import GroupsGrades from '../pages/teacher/GroupsGrades';
 import GroupsLists from '../pages/teacher/GroupsLists';
-import GroupsPasses from '../pages/teacher/GroupsPasses';
 import Schedule from '../pages/teacher/Schedule';
 
 const teacherRoutes: IRoute[] = [
@@ -39,10 +39,10 @@ const teacherRoutes: IRoute[] = [
         description: 'On this page you can find the schedule of classes for your group',
     },
     {
-        name: 'Groups Passes',
-        route: 'groupsPasses/:week',
-        path: 'groupsPasses/0',
-        element: <GroupsPasses />,
+        name: 'Groups Absences',
+        route: 'groupsAbsences/:week',
+        path: 'groupsAbsences/0',
+        element: <GroupsAbsences />,
         icon: <CrisisAlertIcon />,
         picture: {
             //TODO Change
