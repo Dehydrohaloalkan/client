@@ -10,7 +10,7 @@ import {
     ADD_GROUP_ABSENCE,
     IGroupAbsence,
     REMOVE_GROUP_ABSENCE,
-    createGroupScheduleForAbsences,
+    createGroupScheduleForAbsencesAndGrades,
 } from '../../core/services/groupAbsences.service';
 import {
     GET_GROUP_INFO_BY_GROUP_ID,
@@ -121,9 +121,8 @@ function GroupsAbsences({}: Props) {
                         <Button sx={{ margin: 1 }} variant='contained' onClick={goToNextWeek}>
                             Next Week
                         </Button>
-
                         <GroupAbsencesTable
-                            schedule={createGroupScheduleForAbsences(
+                            schedule={createGroupScheduleForAbsencesAndGrades(
                                 scheduleData?.group.subjectSchedule
                             )}
                             students={groupData?.group.students}
@@ -132,7 +131,6 @@ function GroupsAbsences({}: Props) {
                             removeAbsence={onRemoveAbsence}
                             isLoading={groupLoading || scheduleLoading || absencesLoading}
                         />
-
                         <FormControlLabel
                             disabled
                             control={<Checkbox defaultChecked />}

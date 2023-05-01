@@ -98,7 +98,7 @@ export interface IGroupAbsence {
     lessonId: string;
 }
 
-export interface IGroupScheduleForAbsences {
+export interface IGroupScheduleForAbsencesAndGrades {
     days: IGroupScheduleDay[];
 }
 
@@ -133,10 +133,10 @@ export interface IGroupScheduleDay {
     lessons: ILesson[];
 }
 
-export function createGroupScheduleForAbsences(
+export function createGroupScheduleForAbsencesAndGrades(
     schedule?: IGroupSchedule
-): IGroupScheduleForAbsences {
-    const scheduleForAbsences: IGroupScheduleForAbsences = { days: [] };
+): IGroupScheduleForAbsencesAndGrades {
+    const scheduleForAbsences: IGroupScheduleForAbsencesAndGrades = { days: [] };
 
     type LessonsByDate = {
         [date: string]: ILesson[];

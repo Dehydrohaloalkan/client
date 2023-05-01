@@ -1,36 +1,33 @@
 import { Box, NativeSelect, Typography } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
-import { useMemo } from 'react';
-import { GradeType } from '../../core/types/Grades';
-import { StudentType } from '../../core/types/Group';
-import { ScheduleType } from '../../core/types/Schedule';
+import { useEffect, useMemo } from 'react';
+import {
+    IGroupScheduleForAbsencesAndGrades,
+    IGroupStudent,
+} from '../../core/services/groupAbsences.service';
+import { IGroupGrade } from '../../core/services/teacherGroupAbsencesAndGrades.service';
 
 type Props = {
-    students: StudentType[];
-    schedule: ScheduleType[];
-    grades: GradeType[];
-    addGrade: (lessonId: number, studentId: number, grade: number) => void;
-    removeGrade: (lessonId: number, studentId: number) => void;
+    students?: IGroupStudent[];
+    schedule?: IGroupScheduleForAbsencesAndGrades;
+    grades?: IGroupGrade[];
+    setGrade: (lessonId: string, studentId: string, value: number) => void;
     isLoading: boolean;
 };
 
-function GroupGradesTable({ students, schedule, grades, addGrade, removeGrade, isLoading }: Props) {
-    const getGrade = (lessonId: number, studentId: number): number => {
-        const index = grades.findIndex(
-            (grade) => grade.lesson.id == lessonId && grade.student.id == studentId
-        );
-        return index != -1 ? grades[index].grade : -1;
-    };
+function GroupGradesTable({ students, schedule, grades, setGrade, isLoading }: Props) {
+    function getStudentFullName(student: IGroupStudent) {
+        return `${student.surname} ${student.name}`;
+    }
 
-    const onGradeChange = (lessonId: number, studentId: number, grade: number) => {
-        if (grade != -1) addGrade(lessonId, studentId, grade);
-        else removeGrade(lessonId, studentId);
-    };
+    useEffect(() => {
+        console.log(grades);
+    }, [grades]);
 
-    const columns = useMemo<MRT_ColumnDef<StudentType>[]>(() => {
-        const lessonsColumns: MRT_ColumnDef<StudentType>[] = [];
+    const columns = useMemo<MRT_ColumnDef<IGroupStudent>[]>(() => {
+        const lessonsColumns: MRT_ColumnDef<IGroupStudent>[] = [];
 
-        schedule.forEach((day) => {
+        schedule?.days.forEach((day) => {
             if (day.lessons.length != 0)
                 lessonsColumns.push({
                     id: day.date.toISOString(),
@@ -38,8 +35,15 @@ function GroupGradesTable({ students, schedule, grades, addGrade, removeGrade, i
                     columns: day.lessons.map((lesson) => {
                         return {
                             id: lesson.id.toString(),
-                            header: lesson.subject.name,
-                            accessorFn: (student) => student,
+                            header: `${lesson.subject.course.name}. ${lesson.subject.type.name} 
+                            (${new Date(lesson.startTime).toLocaleTimeString('ru-RU', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })} - ${new Date(lesson.endTime).toLocaleTimeString('ru-RU', {
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })})`,
+                            accessorFn: (student: IGroupStudent) => student,
                             Cell: ({ cell, column }) => (
                                 <Box
                                     sx={{
@@ -48,21 +52,25 @@ function GroupGradesTable({ students, schedule, grades, addGrade, removeGrade, i
                                     }}
                                 >
                                     <NativeSelect
-                                        defaultValue={getGrade(
-                                            Number.parseInt(column.id),
-                                            cell.getValue<StudentType>().id
-                                        )}
+                                        value={
+                                            grades?.find(
+                                                (grade) =>
+                                                    grade.lessonId == column.id &&
+                                                    grade.studentId ==
+                                                        cell.getValue<IGroupStudent>().studentId
+                                            )?.value ?? -1
+                                        }
                                         onChange={(event) =>
-                                            onGradeChange(
-                                                Number.parseInt(column.id),
-                                                cell.getValue<StudentType>().id,
+                                            setGrade(
+                                                column.id,
+                                                cell.getValue<IGroupStudent>().studentId,
                                                 parseInt(event.target.value as string)
                                             )
                                         }
                                     >
-                                        {[-1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
+                                        {[-1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item) => (
                                             <option value={item} key={item}>
-                                                {item != -1 ? item : ''}
+                                                {item != -1 ? item : '-'}
                                             </option>
                                         ))}
                                     </NativeSelect>
@@ -81,7 +89,7 @@ function GroupGradesTable({ students, schedule, grades, addGrade, removeGrade, i
                 accessorFn: (student) => student,
                 Cell: ({ cell }) => (
                     <Typography variant='subtitle2' sx={{ paddingLeft: 1 }}>
-                        {/* {getStudentFullName(cell.getValue<StudentType>())} */}
+                        {getStudentFullName(cell.getValue<IGroupStudent>())}
                     </Typography>
                 ),
             },
@@ -92,7 +100,7 @@ function GroupGradesTable({ students, schedule, grades, addGrade, removeGrade, i
     return (
         <MaterialReactTable
             columns={columns}
-            data={students}
+            data={students ?? []}
             enableStickyHeader
             enableColumnActions={false}
             enablePinning

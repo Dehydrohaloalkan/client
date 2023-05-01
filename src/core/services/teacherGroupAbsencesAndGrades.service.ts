@@ -89,3 +89,19 @@ export interface IGroupGrade {
     lessonId: string;
     value: number;
 }
+
+export const SET_GROUP_GRADE = gql`
+    mutation setGrade($studentId: String!, $lessonId: String!, $value: Int!) {
+        setGrade(studentId: $studentId, lessonId: $lessonId, value: $value) {
+            studentId
+            lessonId
+        }
+    }
+`;
+
+export interface ISetGroupGrade {
+    setGrade: {
+        studentId: string;
+        lessonId: string;
+    };
+}

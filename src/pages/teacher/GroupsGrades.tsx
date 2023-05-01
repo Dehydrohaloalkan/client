@@ -1,53 +1,111 @@
-import {
-    Button,
-    Checkbox,
-    Container,
-    FormControl,
-    FormControlLabel,
-    InputLabel,
-    MenuItem,
-    Select,
-} from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useLazyQuery, useMutation } from '@apollo/client';
+import { Button, Container } from '@mui/material';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Context } from '../../components/GlobalContext';
 import GroupGradesTable from '../../components/groupGrades/GroupGradesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import TeacherSelects from '../../components/teacher/TeacherSelects';
+import { createGroupScheduleForAbsencesAndGrades } from '../../core/services/groupAbsences.service';
+import {
+    GET_GROUP_INFO_BY_GROUP_ID,
+    GET_GROUP_SUBJECT_GRADES,
+    GET_GROUP_SUBJECT_SCHEDULE,
+    IFetchGroupInfo,
+    IFetchGroupSubjectGrades,
+    IFetchGroupSubjectSchedule,
+    IGroupGrade,
+    SET_GROUP_GRADE,
+} from '../../core/services/teacherGroupAbsencesAndGrades.service';
 
 type Props = {};
 
 function GroupsGrades({}: Props) {
-    const [groups, setGroups] = useState<GroupInfoType[]>([]);
-    const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
-
-    const [schedule, setSchedule] = useState<ScheduleType[]>([]);
-    const [students, setStudents] = useState<StudentType[]>([]);
-    const [grades, setGrades] = useState<GradeType[]>([]);
-    const [week, setWeek] = useState(0);
-
+    const { store } = useContext(Context);
     const navigate = useNavigate();
     const params = useParams();
-    //const { user } = useContext(Context);
 
-    // const [fetchData, isLoading, error] = useFetching(async () => {
-    //     if (selectedGroupId != -1) {
-    //         //setGrades(Array.from(await getGrades()));
-    //         //setSchedule(Array.from(await getSchedule(week, selectedGroupId)));
-    //         //setStudents(Array.from((await getGroup(selectedGroupId)).students));
-    //     }
-    // });
+    const [week, setWeek] = useState(0);
+    const [selectedSubjectId, setSelectedSubjectId] = useState<number>(-1);
+    const [selectedGroupId, setSelectedGroupId] = useState<number>(-1);
+    const [grades, setGrades] = useState<IGroupGrade[]>([]);
 
-    // const [fetchGroups, isLoadingGroups, errorGroups] = useFetching(async () => {
-    //     //setGroups(Array.from(await getGroups()));
-    // });
+    const [getGroup, { loading: groupLoading, data: groupData, error: groupError }] =
+        useLazyQuery<IFetchGroupInfo>(GET_GROUP_INFO_BY_GROUP_ID, {
+            variables: { groupId: selectedGroupId },
+        });
 
-    // useEffect(() => {
-    //     fetchGroups();
-    // }, []);
+    const [getSchedule, { loading: scheduleLoading, data: scheduleData, error: scheduleError }] =
+        useLazyQuery<IFetchGroupSubjectSchedule>(GET_GROUP_SUBJECT_SCHEDULE, {
+            variables: { groupId: selectedGroupId, week: week, subjectId: selectedSubjectId },
+        });
 
-    // useEffect(() => {
-    //     fetchData();
-    //     setWeek(Number.parseInt(params.week!));
-    // }, [week, selectedGroupId]);
+    const [getGrades, { loading: gradesLoading, data: gradesData, error: gradesError }] =
+        useLazyQuery<IFetchGroupSubjectGrades>(GET_GROUP_SUBJECT_GRADES, {
+            variables: { groupId: selectedGroupId, week: week, subjectId: selectedSubjectId },
+        });
+
+    const [setGradeMutation] = useMutation(SET_GROUP_GRADE);
+
+    useEffect(() => {
+        (async () => {
+            if (selectedGroupId != -1) {
+                await getGroup();
+                await getSchedule();
+                await getGrades();
+            }
+        })();
+    }, [selectedGroupId]);
+
+    useEffect(() => {
+        if (!gradesLoading) {
+            setGrades(gradesData?.group.subjectGrades ?? []);
+        }
+    }, [gradesLoading]);
+
+    const onSetGrade = async (lessonId: string, studentId: string, value: number) => {
+        if (grades.find((grade) => grade.lessonId == lessonId && grade.studentId == studentId)) {
+            if (value == -1) {
+                setGrades(
+                    grades.filter(
+                        (grade) => grade.lessonId != lessonId || grade.studentId != studentId
+                    )
+                );
+                setGradeMutation({
+                    variables: {
+                        studentId: studentId,
+                        lessonId: lessonId,
+                        value: value,
+                    },
+                });
+            } else {
+                setGrades([
+                    ...grades.filter(
+                        (grade) => grade.lessonId != lessonId || grade.studentId != studentId
+                    ),
+                    { lessonId: lessonId, studentId: studentId, value: value },
+                ]);
+                setGradeMutation({
+                    variables: {
+                        studentId: studentId,
+                        lessonId: lessonId,
+                        value: value,
+                    },
+                });
+            }
+        } else {
+            if (value != -1) {
+                setGrades([...grades, { lessonId: lessonId, studentId: studentId, value: value }]);
+                setGradeMutation({
+                    variables: {
+                        studentId: studentId,
+                        lessonId: lessonId,
+                        value: value,
+                    },
+                });
+            }
+        }
+    };
 
     const goToPrevWeek = () => {
         setWeek(week - 1);
@@ -59,99 +117,32 @@ function GroupsGrades({}: Props) {
         navigate(`/groupsGrades/${week + 1}`);
     };
 
-    const onAddGrade = async (lessonId: number, studentId: number, grade: number) => {
-        //addGrade(lessonId, studentId, grade);
-        grades.push({
-            lesson: {
-                id: lessonId,
-                name: 'Матеша',
-                date: new Date('01.02.2020'),
-            },
-            student: {
-                id: studentId,
-            },
-            grade: grade,
-        });
-        setGrades(Array.from(grades));
-    };
-    const onRemoveGrade = async (lessonId: number, studentId: number) => {
-        //removeGrade(lessonId, studentId);
-        grades.splice(
-            grades.findIndex(
-                (grade) => grade.student.id == studentId && grade.lesson.id == lessonId
-            ),
-            1
-        );
-        setGrades(Array.from(grades));
-    };
-
     return (
         <MainContentContainer header='Groups Grades'>
             <Container>
-                {!true && (
-                    <FormControl sx={{ margin: 3, minWidth: 150 }}>
-                        <InputLabel htmlFor='grouped-select'>Group</InputLabel>
-                        <Select
-                            value={selectedGroupId}
-                            id='group-select'
-                            label='Group'
-                            onChange={(event) => {
-                                setSelectedGroupId(parseInt(event.target.value as string, 10));
-                            }}
-                        >
-                            <MenuItem value={-1}>
-                                <em>None</em>
-                            </MenuItem>
-                            {/* {Object.entries(reduceGroupsByForm(groups)).map(
-                                (item) => [
-                                    <ListSubheader
-                                        key={Number.parseInt(item[0])}
-                                    >
-                                        Form {item[0]}
-                                    </ListSubheader>,
-                                    item[1].map((group) => (
-                                        <MenuItem
-                                            value={group.id}
-                                            key={group.id}
-                                        >
-                                            {group.number}
-                                        </MenuItem>
-                                    )),
-                                ]
-                            )} */}
-                        </Select>
-                    </FormControl>
-                )}
+                <TeacherSelects
+                    selectedSubjectId={selectedSubjectId}
+                    setSelectedSubjectId={setSelectedSubjectId}
+                    selectedGroupId={selectedGroupId}
+                    setSelectedGroupId={setSelectedGroupId}
+                ></TeacherSelects>
 
-                {selectedGroupId != -1 && (
+                {selectedGroupId != -1 && selectedSubjectId != -1 && (
                     <>
-                        <div>
-                            <Button
-                                sx={{ margin: 1 }}
-                                variant='contained'
-                                onClick={() => goToPrevWeek()}
-                            >
-                                Save and go to Previous Week
-                            </Button>
-                            <Button
-                                sx={{ margin: 1 }}
-                                variant='contained'
-                                onClick={() => goToNextWeek()}
-                            >
-                                Save and go to Next Week
-                            </Button>
-                            <Button sx={{ margin: 1 }} variant='contained' color='success'>
-                                Save
-                            </Button>
-                        </div>
+                        <Button sx={{ margin: 1 }} variant='contained' onClick={goToPrevWeek}>
+                            Previous Week
+                        </Button>
+                        <Button sx={{ margin: 1 }} variant='contained' onClick={goToNextWeek}>
+                            Next Week
+                        </Button>
                         <GroupGradesTable
-                            schedule={schedule}
-                            students={students}
+                            schedule={createGroupScheduleForAbsencesAndGrades(
+                                scheduleData?.group.subjectSchedule
+                            )}
+                            students={groupData?.group.students}
                             grades={grades}
-                            addGrade={onAddGrade}
-                            removeGrade={onRemoveGrade}
-                            // TODO
-                            isLoading={false}
+                            setGrade={onSetGrade}
+                            isLoading={groupLoading || scheduleLoading || gradesLoading}
                         />
                     </>
                 )}

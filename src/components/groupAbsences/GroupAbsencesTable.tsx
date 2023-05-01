@@ -3,13 +3,13 @@ import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo } from 'react';
 import {
     IGroupAbsence,
-    IGroupScheduleForAbsences,
+    IGroupScheduleForAbsencesAndGrades,
     IGroupStudent,
 } from '../../core/services/groupAbsences.service';
 
 type Props = {
     students?: IGroupStudent[];
-    schedule?: IGroupScheduleForAbsences;
+    schedule?: IGroupScheduleForAbsencesAndGrades;
     absences?: IGroupAbsence[];
     addAbsence: (lessonId: string, studentId: string) => void;
     removeAbsence: (lessonId: string, studentId: string) => void;
@@ -38,7 +38,7 @@ function GroupAbsencesTable({
                 columns: day.lessons.map((lesson) => {
                     return {
                         id: lesson.id,
-                        header: `${lesson.subject.course.name}. ${lesson.subject.type.name} ${'\n'} 
+                        header: `${lesson.subject.course.name}. ${lesson.subject.type.name}
                         (${new Date(lesson.startTime).toLocaleTimeString('ru-RU', {
                             hour: '2-digit',
                             minute: '2-digit',

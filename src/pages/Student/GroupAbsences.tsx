@@ -15,7 +15,7 @@ import {
     IFetchGroupSchedule,
     IGroupAbsence,
     REMOVE_GROUP_ABSENCE,
-    createGroupScheduleForAbsences,
+    createGroupScheduleForAbsencesAndGrades,
 } from '../../core/services/groupAbsences.service';
 
 type Props = {};
@@ -111,7 +111,7 @@ function GroupAbsences({}: Props) {
                 </Button>
 
                 <GroupAbsencesTable
-                    schedule={createGroupScheduleForAbsences(scheduleData?.group.schedule)}
+                    schedule={createGroupScheduleForAbsencesAndGrades(scheduleData?.group.schedule)}
                     students={groupData?.studentByUser.group.students}
                     absences={absences}
                     addAbsence={onAddAbsence}
