@@ -40,6 +40,11 @@ export interface IStudent {
     isLeader: boolean;
     isMarking: boolean;
     subgroup: boolean;
+    groupId?: number;
+    group?: {
+        id: number;
+        number: string;
+    };
 }
 
 export const UPDATE_STUDENT = gql`
@@ -52,6 +57,7 @@ export const UPDATE_STUDENT = gql`
         $subgroup: Boolean
         $isLeader: Boolean
         $isMarking: Boolean
+        $groupId: Int
     ) {
         updateStudent(
             updateStudentInput: {
@@ -63,6 +69,7 @@ export const UPDATE_STUDENT = gql`
                 subgroup: $subgroup
                 isLeader: $isLeader
                 isMarking: $isMarking
+                groupId: $groupId
             }
         ) {
             studentId

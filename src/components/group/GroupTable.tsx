@@ -1,10 +1,13 @@
 import { Delete, Edit } from '@mui/icons-material';
-import { Box, Container, IconButton, Tooltip } from '@mui/material';
+import { Box, Button, Container, IconButton, Tooltip } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useContext, useMemo, useState } from 'react';
 import { Role } from '../../core/models/auth/Role';
-import { IStudent, IStudentGroup } from '../../core/services/studentGroup.service';
+import { IStudent } from '../../core/services/studentGroup.service';
 import { Context } from '../GlobalContext';
+import AdminCreateStudentForm from './AdminCreateStudentForm';
+import AdminEditStudentForm from './AdminEditStudentForm';
+import AdminRemoveStudentForm from './AdminRemoveStudentForm';
 import StudentEditForm from './StudentEditForm';
 
 // function that sort students by surname in IStudentGroup
@@ -17,21 +20,23 @@ function sortStudents(a: IStudent, b: IStudent) {
 }
 
 type Props = {
-    group?: IStudentGroup;
-    editCallback?: Function;
+    students?: IStudent[];
     isLoading: boolean;
+    editCallback?: Function;
+    createCallback?: Function;
+    removeCallback?: Function;
 };
 
-function GroupTable({ group, isLoading, editCallback }: Props) {
+function GroupTable({ students, isLoading, editCallback, createCallback, removeCallback }: Props) {
     const { store } = useContext(Context);
 
     const [editOpen, setEditOpen] = useState(false);
-    const [addOpen, setAddOpen] = useState(false);
+    const [createOpen, setCreateOpen] = useState(false);
     const [removeOpen, setRemoveOpen] = useState(false);
 
     const [selectedStudent, setSelectedStudent] = useState<IStudent>();
 
-    const students = useMemo(() => Array.from(group?.students ?? []), [group?.students]);
+    const studentsData = useMemo(() => Array.from(students ?? []), [students]);
 
     const columns = useMemo<MRT_ColumnDef<IStudent>[]>(() => {
         const columns: MRT_ColumnDef<IStudent>[] = [
@@ -77,26 +82,18 @@ function GroupTable({ group, isLoading, editCallback }: Props) {
             },
         ];
 
-        // if (store.user.role == 'admin') {
-        //     columns.push({
-        //         id: 'group',
-        //         header: 'group',
-        //         accessorFn: (student) => student.group?.number,
-        //         muiTableBodyCellEditTextFieldProps: {
-        //             select: true,
-        //             children: groups?.map((group) => (
-        //                 <MenuItem key={group.id} value={group.id}>
-        //                     {group.number}
-        //                 </MenuItem>
-        //             )),
-        //         },
-        //     });
-        // }
+        if (store.user.role == Role.admin) {
+            columns.push({
+                id: 'group',
+                header: 'group',
+                accessorFn: (student) => student.group?.number,
+            });
+        }
 
         return columns;
     }, []);
 
-    const leaderActions = ({ row, table, cell }: any) => (
+    const leaderActions = ({ row }: any) => (
         <Box
             sx={{
                 display: 'flex',
@@ -106,6 +103,7 @@ function GroupTable({ group, isLoading, editCallback }: Props) {
         >
             <Tooltip arrow placement='left' title='Edit'>
                 <IconButton
+                    color='info'
                     onClick={() => {
                         setEditOpen(true);
                         setSelectedStudent(row.original);
@@ -117,8 +115,7 @@ function GroupTable({ group, isLoading, editCallback }: Props) {
         </Box>
     );
 
-    // TODO
-    const adminActions = ({ row, table }: any) => (
+    const adminActions = ({ row }: any) => (
         <Box
             sx={{
                 display: 'flex',
@@ -128,28 +125,50 @@ function GroupTable({ group, isLoading, editCallback }: Props) {
             }}
         >
             <Tooltip arrow placement='left' title='Edit'>
-                <IconButton>
+                <IconButton
+                    color='info'
+                    onClick={() => {
+                        setEditOpen(true);
+                        setSelectedStudent(row.original);
+                    }}
+                >
                     <Edit />
                 </IconButton>
             </Tooltip>
             <Tooltip arrow placement='right' title='Delete'>
-                <IconButton color='error'>
+                <IconButton
+                    color='error'
+                    onClick={() => {
+                        setRemoveOpen(true);
+                        setSelectedStudent(row.original);
+                    }}
+                >
                     <Delete />
                 </IconButton>
             </Tooltip>
         </Box>
     );
 
-    const onConfirmEdit = (newStudent: IStudent) => {
-        editCallback?.(newStudent);
+    const onConfirmEdit = async (newStudent: IStudent) => {
+        await editCallback?.(newStudent);
         setEditOpen(false);
+    };
+
+    const onConfirmCreate = async (newStudent: IStudent) => {
+        await createCallback?.(newStudent);
+        setCreateOpen(false);
+    };
+
+    const onConfirmRemove = async (studentId: string) => {
+        await removeCallback?.(studentId);
+        setRemoveOpen(false);
     };
 
     return (
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={students.sort(sortStudents)}
+                data={studentsData.sort(sortStudents)}
                 enableGrouping
                 enableRowNumbers
                 enableStickyHeader
@@ -177,13 +196,44 @@ function GroupTable({ group, isLoading, editCallback }: Props) {
                 }}
                 enableEditing={store.user.role == Role.leader || store.user.role == Role.admin}
                 renderRowActions={store.user.role == Role.admin ? adminActions : leaderActions}
+                renderTopToolbarCustomActions={() => {
+                    if (store.user.role == Role.admin)
+                        return (
+                            <Button color='info' onClick={() => setCreateOpen(true)} variant='text'>
+                                Create New Student
+                            </Button>
+                        );
+                }}
             />
-            <StudentEditForm
-                open={editOpen}
-                onClose={() => setEditOpen(false)}
-                onConfirm={onConfirmEdit}
-                student={selectedStudent}
-            />
+            {store.user.role == Role.leader && (
+                <StudentEditForm
+                    open={editOpen}
+                    onClose={() => setEditOpen(false)}
+                    onConfirm={onConfirmEdit}
+                    student={selectedStudent}
+                />
+            )}
+            {store.user.role == Role.admin && (
+                <>
+                    <AdminCreateStudentForm
+                        open={createOpen}
+                        onClose={() => setCreateOpen(false)}
+                        onConfirm={onConfirmCreate}
+                    />
+                    <AdminEditStudentForm
+                        open={editOpen}
+                        onClose={() => setEditOpen(false)}
+                        onConfirm={onConfirmEdit}
+                        student={selectedStudent}
+                    />
+                    <AdminRemoveStudentForm
+                        open={removeOpen}
+                        onClose={() => setRemoveOpen(false)}
+                        onConfirm={onConfirmRemove}
+                        student={selectedStudent}
+                    />
+                </>
+            )}
         </Container>
     );
 }

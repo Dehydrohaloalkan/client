@@ -29,10 +29,6 @@ function Group({}: Props) {
         updateStudent({
             variables: {
                 studentId: student.studentId,
-                name: student.name,
-                surname: student.surname,
-                patronymic: student.patronymic,
-                email: student.email,
                 subgroup: student.subgroup,
                 isLeader: student.isLeader,
                 isMarking: student.isMarking,
@@ -44,7 +40,7 @@ function Group({}: Props) {
     return (
         <MainContentContainer header='Group'>
             <GroupTable
-                group={data?.studentByUser.group}
+                students={data?.studentByUser.group.students}
                 editCallback={onStudentEdit}
                 isLoading={loading}
             />

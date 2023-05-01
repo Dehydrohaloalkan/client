@@ -33,7 +33,9 @@ function GroupsLists({}: Props) {
                     selectedGroupId={selectedGroupId}
                     setSelectedGroupId={setSelectedGroupId}
                 ></TeacherSelects>
-                {selectedGroupId != -1 && <GroupTable group={data?.group} isLoading={loading} />}
+                {selectedGroupId != -1 && (
+                    <GroupTable students={data?.group.students} isLoading={loading} />
+                )}
             </Container>
         </MainContentContainer>
     );

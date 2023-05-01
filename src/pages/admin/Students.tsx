@@ -1,44 +1,74 @@
-import { Button } from '@mui/material';
-import { useState } from 'react';
+import { useMutation, useQuery } from '@apollo/client';
 import GroupTable from '../../components/group/GroupTable';
-import StudentEditForm from '../../components/group/StudentEditForm';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import {
+    CREATE_STUDENT,
+    GET_ALL_STUDENTS,
+    IFetchAllStudents,
+    REMOVE_STUDENT,
+} from '../../core/services/adminStudents.service';
+import { IStudent, UPDATE_STUDENT } from '../../core/services/studentGroup.service';
 
 type Props = {};
 
 function Students({}: Props) {
-    const [students, setStudents] = useState<StudentType[]>([]);
-    const [groups, setGroups] = useState<GroupInfoType[]>([]);
-    //const { user } = useContext(Context);
+    const { loading, data, refetch, error } = useQuery<IFetchAllStudents>(GET_ALL_STUDENTS, {
+        pollInterval: 1000 * 60 * 15,
+    });
 
-    const [open, setOpen] = useState<boolean>(false);
+    const [updateStudent] = useMutation(UPDATE_STUDENT);
+    const [createStudent] = useMutation(CREATE_STUDENT);
+    const [removeStudent] = useMutation(REMOVE_STUDENT);
 
-    // const [fetchData, isLoading, error] = useFetching(async () => {
-    //     //setStudents(Array.from(await getAllStudents()));
-    //     //setGroups(Array.from(await getGroups()));
-    // });
-
-    // useEffect(() => {
-    //     fetchData();
-    // }, []);
-
-    // const onEdit = () => {
-    //     fetchData();
-    // };
+    const editCallback = async (student: IStudent) => {
+        await updateStudent({
+            variables: {
+                studentId: student.studentId,
+                name: student.name,
+                surname: student.surname,
+                patronymic: student.patronymic,
+                email: student.email,
+                subgroup: student.subgroup,
+                isLeader: student.isLeader,
+                isMarking: student.isMarking,
+                groupId: student.groupId,
+            },
+        });
+        await refetch();
+    };
+    const createCallback = async (student: Omit<IStudent, 'studentId'>) => {
+        await createStudent({
+            variables: {
+                name: student.name,
+                surname: student.surname,
+                patronymic: student.patronymic,
+                email: student.email,
+                subgroup: student.subgroup,
+                isLeader: student.isLeader,
+                isMarking: student.isMarking,
+                groupId: student.groupId,
+            },
+        });
+        await refetch();
+    };
+    const removeCallback = async (studentId: string) => {
+        await removeStudent({
+            variables: {
+                studentId: studentId,
+            },
+        });
+        await refetch();
+    };
 
     return (
-        <MainContentContainer header='Group'>
-            <>
-                <Button onClick={() => setOpen(true)}>modal</Button>
-                <GroupTable
-                //students={students}
-                //groups={groups}
-                //editCallback={onEdit}
-                //isLoading={isLoading}
-                //isFor='Admin'
-                />
-                <StudentEditForm title={'Edit'} open={open} onClose={() => setOpen(false)} />
-            </>
+        <MainContentContainer header='Students'>
+            <GroupTable
+                students={data?.students}
+                isLoading={loading}
+                editCallback={editCallback}
+                createCallback={createCallback}
+                removeCallback={removeCallback}
+            />
         </MainContentContainer>
     );
 }
