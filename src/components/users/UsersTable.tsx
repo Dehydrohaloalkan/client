@@ -107,7 +107,7 @@ function UsersTable({ users, isLoading, editCallback, createCallback, removeCall
                 enableStickyFooter
                 enableColumnResizing
                 initialState={{
-                    density: 'compact',
+                    density: 'comfortable',
                     isLoading: true,
                 }}
                 state={{

@@ -1,4 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
+import GroupsTable from '../../components/groups/GroupsTable';
+import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
 import {
     CREATE_GROUP,
     GET_ALL_GROUPS,
@@ -7,8 +9,6 @@ import {
     REMOVE_GROUP,
     UPDATE_GROUP,
 } from '../../core/services/adminGroups.service';
-import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
-import GroupsTable from '../../components/groups/GroupsTable';
 
 type Props = {};
 
@@ -18,7 +18,9 @@ function Groups({}: Props) {
         loading: groupsLoading,
         error: groupsError,
         refetch: groupsRefetch,
-    } = useQuery<IFetchAllGroups>(GET_ALL_GROUPS);
+    } = useQuery<IFetchAllGroups>(GET_ALL_GROUPS, {
+        fetchPolicy: 'cache-and-network',
+    });
 
     const [createGroup] = useMutation(CREATE_GROUP);
     const [updateGroup] = useMutation(UPDATE_GROUP);

@@ -35,6 +35,11 @@ function GroupsTable({ groups, isLoading, editCallback, createCallback, removeCa
                 header: 'Form',
                 accessorKey: 'form',
             },
+            {
+                id: 'count',
+                header: 'Students in group',
+                accessorFn: (group) => group.students?.length,
+            },
         ];
     }, []);
 

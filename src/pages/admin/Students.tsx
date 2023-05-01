@@ -14,6 +14,7 @@ type Props = {};
 function Students({}: Props) {
     const { loading, data, refetch, error } = useQuery<IFetchAllStudents>(GET_ALL_STUDENTS, {
         pollInterval: 1000 * 60 * 15,
+        fetchPolicy: 'cache-and-network',
     });
 
     const [createStudent] = useMutation(CREATE_STUDENT);

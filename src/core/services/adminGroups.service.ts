@@ -6,6 +6,9 @@ export const GET_ALL_GROUPS = gql`
             id
             number
             form
+            students {
+                isLeader
+            }
         }
     }
 `;
@@ -18,6 +21,9 @@ export interface IGroup {
     id: number;
     number: string;
     form: number;
+    students?: {
+        isLeader: boolean;
+    }[];
 }
 
 export const CREATE_GROUP = gql`

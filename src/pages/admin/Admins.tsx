@@ -18,7 +18,9 @@ function Admins({}: Props) {
         loading: adminsLoading,
         error: adminsError,
         refetch: adminsRefetch,
-    } = useQuery<IFetchAllAdmins>(GET_ALL_ADMINS);
+    } = useQuery<IFetchAllAdmins>(GET_ALL_ADMINS, {
+        fetchPolicy: 'cache-and-network',
+    });
 
     const [createAdmin] = useMutation(CREATE_USER);
     const [updateAdmin] = useMutation(UPDATE_USER);

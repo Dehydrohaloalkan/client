@@ -19,7 +19,7 @@ function RemoveGroupForm({ open, onClose, onConfirm, group }: Props) {
             open={open}
             onClose={onClose}
             onConfirm={onConfirmRemove}
-            title={'Remove User'}
+            title={'Remove Group'}
             confirmButtonText='Yes'
         >
             <Typography sx={{ display: 'flex', justifyContent: 'center' }}>

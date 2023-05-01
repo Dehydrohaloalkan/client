@@ -18,7 +18,9 @@ function Teachers({}: Props) {
         loading: teachersLoading,
         error: teachersError,
         refetch: teachersRefetch,
-    } = useQuery<IFetchAllTeachers>(GET_ALL_TEACHERS);
+    } = useQuery<IFetchAllTeachers>(GET_ALL_TEACHERS, {
+        fetchPolicy: 'cache-and-network',
+    });
 
     const [createTeacher] = useMutation(CREATE_USER);
     const [updateTeacher] = useMutation(UPDATE_USER);
