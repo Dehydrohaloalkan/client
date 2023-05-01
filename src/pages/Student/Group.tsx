@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useContext } from 'react';
 import { Context } from '../../components/GlobalContext';
-import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import StudentsTable from '../../components/students/StudentsTable';
 import {
     GET_GROUP_WITH_STUDENTS,
     IFetchStudentGroup,
@@ -39,7 +39,7 @@ function Group({}: Props) {
 
     return (
         <MainContentContainer header='Group'>
-            <GroupTable
+            <StudentsTable
                 students={data?.studentByUser.group.students}
                 editCallback={onStudentEdit}
                 isLoading={loading}

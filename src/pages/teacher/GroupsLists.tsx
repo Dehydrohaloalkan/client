@@ -1,8 +1,8 @@
 import { useLazyQuery } from '@apollo/client';
 import { Container } from '@mui/material';
 import { useEffect, useState } from 'react';
-import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import StudentsTable from '../../components/students/StudentsTable';
 import TeacherSelects from '../../components/teacher/TeacherSelects';
 import {
     GET_GROUP_BY_GROUP_ID,
@@ -34,7 +34,7 @@ function GroupsLists({}: Props) {
                     setSelectedGroupId={setSelectedGroupId}
                 ></TeacherSelects>
                 {selectedGroupId != -1 && (
-                    <GroupTable students={data?.group.students} isLoading={loading} />
+                    <StudentsTable students={data?.group.students} isLoading={loading} />
                 )}
             </Container>
         </MainContentContainer>

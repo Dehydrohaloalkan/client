@@ -27,7 +27,13 @@ type Props = {
     removeCallback?: Function;
 };
 
-function GroupTable({ students, isLoading, editCallback, createCallback, removeCallback }: Props) {
+function StudentsTable({
+    students,
+    isLoading,
+    editCallback,
+    createCallback,
+    removeCallback,
+}: Props) {
     const { store } = useContext(Context);
 
     const [editOpen, setEditOpen] = useState(false);
@@ -154,7 +160,7 @@ function GroupTable({ students, isLoading, editCallback, createCallback, removeC
         setEditOpen(false);
     };
 
-    const onConfirmCreate = async (newStudent: IStudent) => {
+    const onConfirmCreate = async (newStudent: Omit<IStudent, 'studentId'>) => {
         await createCallback?.(newStudent);
         setCreateOpen(false);
     };
@@ -174,7 +180,6 @@ function GroupTable({ students, isLoading, editCallback, createCallback, removeC
                 enableStickyHeader
                 enableStickyFooter
                 enableColumnResizing
-                editingMode='modal'
                 initialState={{
                     density: 'compact',
                     isLoading: true,
@@ -238,4 +243,4 @@ function GroupTable({ students, isLoading, editCallback, createCallback, removeC
     );
 }
 
-export default GroupTable;
+export default StudentsTable;

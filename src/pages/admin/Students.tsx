@@ -1,6 +1,6 @@
 import { useMutation, useQuery } from '@apollo/client';
-import GroupTable from '../../components/group/GroupTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import StudentsTable from '../../components/students/StudentsTable';
 import {
     CREATE_STUDENT,
     GET_ALL_STUDENTS,
@@ -16,8 +16,8 @@ function Students({}: Props) {
         pollInterval: 1000 * 60 * 15,
     });
 
-    const [updateStudent] = useMutation(UPDATE_STUDENT);
     const [createStudent] = useMutation(CREATE_STUDENT);
+    const [updateStudent] = useMutation(UPDATE_STUDENT);
     const [removeStudent] = useMutation(REMOVE_STUDENT);
 
     const editCallback = async (student: IStudent) => {
@@ -62,7 +62,7 @@ function Students({}: Props) {
 
     return (
         <MainContentContainer header='Students'>
-            <GroupTable
+            <StudentsTable
                 students={data?.students}
                 isLoading={loading}
                 editCallback={editCallback}

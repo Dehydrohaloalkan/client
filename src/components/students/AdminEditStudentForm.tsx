@@ -10,40 +10,55 @@ type Props = {
     open: boolean;
     onClose?: Function;
     onConfirm?: Function;
+    student?: IStudent;
 };
 
-function AdminCreateStudentForm({ open, onClose, onConfirm }: Props) {
+function AdminEditStudentForm({ open, onClose, onConfirm, student }: Props) {
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [patronymic, setPatronymic] = useState('');
     const [email, setEmail] = useState('');
-    const [role, setRole] = useState<string>(Role.student);
-    const [subGroup, setSubGroup] = useState<number>(1);
-    const [groupId, setGroupId] = useState<number>(-1);
+    const [role, setRole] = useState<string>();
+    const [subGroup, setSubGroup] = useState<number>();
+    const [groupId, setGroupId] = useState<number>();
 
     const [getAllGroups, { data: groupsData, loading }] =
         useLazyQuery<IFetchAllGroups>(GET_ALL_GROUPS);
 
     useEffect(() => {
+        setName(student?.name || '');
+        setSurname(student?.surname || '');
+        setPatronymic(student?.patronymic || '');
+        setEmail(student?.email || '');
+        setRole(student?.isLeader ? Role.leader : student?.isMarking ? Role.marking : Role.student);
+        setSubGroup(student?.subgroup ? 2 : 1);
+        setGroupId(student?.groupId);
+    }, [student]);
+
+    useEffect(() => {
         getAllGroups();
     }, []);
 
-    const onSave = async () => {
-        const newStudent: Omit<IStudent, 'studentId'> = {
-            name: name,
-            surname: surname,
-            patronymic: patronymic,
-            email: email,
-            isMarking: role == Role.marking,
-            isLeader: role == Role.leader,
-            subgroup: subGroup == 2,
-            groupId: groupId,
-        };
+    const onConfirmEdit = async () => {
+        const newStudent = { ...student };
+        newStudent.name = name;
+        newStudent.surname = surname;
+        newStudent.patronymic = patronymic;
+        newStudent.email = email;
+        newStudent.isMarking = role == Role.marking;
+        newStudent.isLeader = role == Role.leader;
+        newStudent.subgroup = subGroup == 2;
+        newStudent.groupId = groupId;
         await onConfirm?.(newStudent);
     };
 
     return (
-        <MainModalInput open={open} onClose={onClose} onConfirm={onSave} title={'Edit Student'}>
+        <MainModalInput
+            open={open}
+            onClose={onClose}
+            onConfirm={onConfirmEdit}
+            title={'Edit Student'}
+        >
             <TextField
                 label='Name'
                 value={name}
@@ -97,28 +112,26 @@ function AdminCreateStudentForm({ open, onClose, onConfirm }: Props) {
                     <MenuItem value={2}>2</MenuItem>
                 </Select>
             </FormControl>
-
-            <FormControl fullWidth>
-                <InputLabel id='group-label'>Group</InputLabel>
-                <Select
-                    labelId='group-label'
-                    id='group-select'
-                    label='Group'
-                    value={groupId}
-                    onChange={(e) => setGroupId(e.target.value as number)}
-                >
-                    <MenuItem key={-1} value={-1}>
-                        <em>None</em>
-                    </MenuItem>
-                    {groupsData?.groups.map((g) => (
-                        <MenuItem key={g.id} value={g.id}>
-                            {g.number}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
+            {groupId && (
+                <FormControl fullWidth>
+                    <InputLabel id='group-label'>Group</InputLabel>
+                    <Select
+                        labelId='group-label'
+                        id='group-select'
+                        label='Group'
+                        value={groupId}
+                        onChange={(e) => setGroupId(e.target.value as number)}
+                    >
+                        {groupsData?.groups.map((g) => (
+                            <MenuItem key={g.id} value={g.id}>
+                                {g.number}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+            )}
         </MainModalInput>
     );
 }
 
-export default AdminCreateStudentForm;
+export default AdminEditStudentForm;
