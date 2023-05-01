@@ -24,7 +24,7 @@ function Admins({}: Props) {
     const [updateAdmin] = useMutation(UPDATE_USER);
     const [removeAdmin] = useMutation(REMOVE_USER);
 
-    const createCallback = async (admin: Omit<IUser, 'userId'>) => {
+    const createCallback = async (admin: Omit<IUser, 'id'>) => {
         await createAdmin({
             variables: {
                 name: admin.name,

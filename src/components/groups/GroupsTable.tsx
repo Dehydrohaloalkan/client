@@ -2,48 +2,38 @@ import { Delete, Edit } from '@mui/icons-material';
 import { Box, Button, Container, IconButton, Tooltip } from '@mui/material';
 import MaterialReactTable, { MRT_ColumnDef } from 'material-react-table';
 import { useMemo, useState } from 'react';
-import { IUser } from '../../core/services/adminUsers.service';
-import CreateUserForm from './CreateUserForm';
-import EditUserForm from './EditUserForm';
-import RemoveUserForm from './RemoveUserForm';
+import { IGroup } from '../../core/services/adminGroups.service';
+import CreateGroupForm from './CreateGroupForm';
+import EditGroupForm from './EditGroupForm';
+import RemoveGroupForm from './RemoveGroupForm';
 
 type Props = {
-    users?: IUser[];
+    groups?: IGroup[];
     isLoading: boolean;
     editCallback?: Function;
     createCallback?: Function;
     removeCallback?: Function;
 };
 
-function UsersTable({ users, isLoading, editCallback, createCallback, removeCallback }: Props) {
+function GroupsTable({ groups, isLoading, editCallback, createCallback, removeCallback }: Props) {
     const [editOpen, setEditOpen] = useState(false);
     const [createOpen, setCreateOpen] = useState(false);
     const [removeOpen, setRemoveOpen] = useState(false);
 
-    const [selectedUser, setSelectedUser] = useState<IUser>();
+    const [selectedGroup, setSelectedGroup] = useState<IGroup>();
 
-    const columns = useMemo<MRT_ColumnDef<IUser>[]>(() => {
+    const columns = useMemo<MRT_ColumnDef<IGroup>[]>(() => {
         return [
             {
-                id: 'surname',
-                header: 'Surname',
-                accessorKey: 'surname',
+                id: 'number',
+                header: 'Number',
+                accessorKey: 'number',
+                enableGrouping: false,
             },
             {
-                id: 'name',
-                header: 'Name',
-                accessorKey: 'name',
-            },
-            {
-                id: 'patronymic',
-                header: 'Patronymic',
-                accessorKey: 'patronymic',
-            },
-            {
-                id: 'email',
-                header: 'Email',
-                accessorKey: 'email',
-                enableClickToCopy: true,
+                id: 'form',
+                header: 'Form',
+                accessorKey: 'form',
             },
         ];
     }, []);
@@ -62,7 +52,7 @@ function UsersTable({ users, isLoading, editCallback, createCallback, removeCall
                     color='info'
                     onClick={() => {
                         setEditOpen(true);
-                        setSelectedUser(row.original);
+                        setSelectedGroup(row.original);
                     }}
                 >
                     <Edit />
@@ -73,7 +63,7 @@ function UsersTable({ users, isLoading, editCallback, createCallback, removeCall
                     color='error'
                     onClick={() => {
                         setRemoveOpen(true);
-                        setSelectedUser(row.original);
+                        setSelectedGroup(row.original);
                     }}
                 >
                     <Delete />
@@ -82,18 +72,18 @@ function UsersTable({ users, isLoading, editCallback, createCallback, removeCall
         </Box>
     );
 
-    const onConfirmEdit = async (newStudent: IUser) => {
-        await editCallback?.(newStudent);
+    const onConfirmEdit = async (newGroup: IGroup) => {
+        await editCallback?.(newGroup);
         setEditOpen(false);
     };
 
-    const onConfirmCreate = async (newStudent: Omit<IUser, 'id'>) => {
-        await createCallback?.(newStudent);
+    const onConfirmCreate = async (newGroup: Omit<IGroup, 'id'>) => {
+        await createCallback?.(newGroup);
         setCreateOpen(false);
     };
 
-    const onConfirmRemove = async (id: string) => {
-        await removeCallback?.(id);
+    const onConfirmRemove = async (groupId: string) => {
+        await removeCallback?.(groupId);
         setRemoveOpen(false);
     };
 
@@ -101,13 +91,14 @@ function UsersTable({ users, isLoading, editCallback, createCallback, removeCall
         <Container>
             <MaterialReactTable
                 columns={columns}
-                data={users ?? []}
+                data={groups ?? []}
                 enableRowNumbers
+                enableGrouping
                 enableStickyHeader
                 enableStickyFooter
                 enableColumnResizing
                 initialState={{
-                    density: 'compact',
+                    density: 'comfortable',
                     isLoading: true,
                 }}
                 state={{
@@ -129,29 +120,29 @@ function UsersTable({ users, isLoading, editCallback, createCallback, removeCall
                 renderRowActions={actions}
                 renderTopToolbarCustomActions={() => (
                     <Button color='info' onClick={() => setCreateOpen(true)} variant='text'>
-                        Create New User
+                        Create New Group
                     </Button>
                 )}
             />
-            <CreateUserForm
+            <CreateGroupForm
                 open={createOpen}
                 onClose={() => setCreateOpen(false)}
                 onConfirm={onConfirmCreate}
             />
-            <EditUserForm
+            <EditGroupForm
                 open={editOpen}
                 onClose={() => setEditOpen(false)}
                 onConfirm={onConfirmEdit}
-                user={selectedUser}
+                group={selectedGroup}
             />
-            <RemoveUserForm
+            <RemoveGroupForm
                 open={removeOpen}
                 onClose={() => setRemoveOpen(false)}
                 onConfirm={onConfirmRemove}
-                user={selectedUser}
+                group={selectedGroup}
             />
         </Container>
     );
 }
 
-export default UsersTable;
+export default GroupsTable;

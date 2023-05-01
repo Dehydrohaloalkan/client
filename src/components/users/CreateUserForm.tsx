@@ -22,7 +22,7 @@ function CreateUserForm({ open, onClose, onConfirm }: Props) {
         setEmail('');
     }, [open]);
 
-    const onSave = async () => {
+    const onConfirmCreate = async () => {
         const newUser: Omit<IUser, 'id'> = {
             name: name,
             surname: surname,
@@ -33,7 +33,12 @@ function CreateUserForm({ open, onClose, onConfirm }: Props) {
     };
 
     return (
-        <MainModalInput open={open} onClose={onClose} onConfirm={onSave} title={'Create User'}>
+        <MainModalInput
+            open={open}
+            onClose={onClose}
+            onConfirm={onConfirmCreate}
+            title={'Create User'}
+        >
             <TextField
                 label='Name'
                 value={name}

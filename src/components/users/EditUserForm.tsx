@@ -23,7 +23,7 @@ function EditUserForm({ open, onClose, onConfirm, user }: Props) {
         setEmail(user?.email || '');
     }, [user]);
 
-    const onSave = async () => {
+    const onConfirmEdit = async () => {
         const newUser = { ...user };
         newUser.name = name;
         newUser.surname = surname;
@@ -33,7 +33,7 @@ function EditUserForm({ open, onClose, onConfirm, user }: Props) {
     };
 
     return (
-        <MainModalInput open={open} onClose={onClose} onConfirm={onSave} title={'Edit User'}>
+        <MainModalInput open={open} onClose={onClose} onConfirm={onConfirmEdit} title={'Edit User'}>
             <TextField
                 label='Name'
                 value={name}
