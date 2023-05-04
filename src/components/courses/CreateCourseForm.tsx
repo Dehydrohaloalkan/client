@@ -1,4 +1,6 @@
 import { TextField } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs';
 import { useEffect, useState } from 'react';
 import { ICourse } from '../../core/services/adminCourses.service';
 import MainModalInput from '../main/MainModalInput/MainModalInput';
@@ -16,22 +18,22 @@ export const formatDate = (date: Date | string) => {
 
 function CreateCourseForm({ open, onClose, onConfirm }: Props) {
     const [name, setName] = useState('');
-    const [startDate, setStartDate] = useState(formatDate(new Date()));
-    const [endDate, setEndDate] = useState(formatDate(new Date()));
+    const [startDate, setStartDate] = useState(dayjs(new Date()));
+    const [endDate, setEndDate] = useState(dayjs(new Date()));
     const [form, setForm] = useState(1);
 
     useEffect(() => {
         setName('');
-        setStartDate(formatDate(new Date()));
-        setEndDate(formatDate(new Date()));
+        setStartDate(dayjs(new Date()));
+        setEndDate(dayjs(new Date()));
         setForm(1);
     }, [open]);
 
     const onConfirmCreate = async () => {
         const newCourse: Omit<ICourse, 'id'> = {
             name: name,
-            startDate: new Date(startDate),
-            endDate: new Date(endDate),
+            startDate: new Date(startDate.toDate()),
+            endDate: new Date(endDate.toDate()),
             form: form,
         };
         await onConfirm?.(newCourse);
@@ -50,19 +52,17 @@ function CreateCourseForm({ open, onClose, onConfirm }: Props) {
                 onChange={(e) => setName(e.target.value)}
                 variant='outlined'
             />
-            <TextField
+            <DatePicker
                 label='Start Date'
-                value={startDate}
-                type='date'
-                onChange={(e) => setStartDate(formatDate(e.target.value))}
-                variant='outlined'
+                format='DD.MM.YYYY'
+                value={dayjs(startDate)}
+                onChange={(newDate) => setStartDate(newDate ?? dayjs(new Date()))}
             />
-            <TextField
+            <DatePicker
                 label='End Date'
+                format='DD.MM.YYYY'
                 value={endDate}
-                type='date'
-                onChange={(e) => setEndDate(formatDate(e.target.value))}
-                variant='outlined'
+                onChange={(newDate) => setEndDate(newDate ?? dayjs(new Date()))}
             />
             <TextField
                 label='Form'

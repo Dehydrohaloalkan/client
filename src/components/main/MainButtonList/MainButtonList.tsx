@@ -1,4 +1,4 @@
-import Grid from '@mui/material/Unstable_Grid2';
+import { Grid } from '@mui/material';
 import { IRoute } from '../../../core/models/route/IRoute';
 import MainContentContainer from '../ContentContainer/MainContentContainer';
 import MainButtonListItem from './MainButtonListItem';
@@ -14,12 +14,13 @@ function MainButtonList({ routes }: Props) {
                 container
                 spacing={2}
                 sx={{
+                    p: 2,
                     alignItems: 'center',
                     justifyContent: 'center',
                 }}
             >
                 {routes.map((item, index) => (
-                    <Grid xs='auto' sx={{ width: 500 }} key={index}>
+                    <Grid item xs={12} md={6} lg={4} key={index}>
                         <MainButtonListItem item={item} />
                     </Grid>
                 ))}

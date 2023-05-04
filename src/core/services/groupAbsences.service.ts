@@ -46,6 +46,7 @@ export const GET_GROUP_SCHEDULE = gql`
                             name
                         }
                     }
+                    location
                 }
             }
         }
@@ -74,6 +75,7 @@ export interface ILesson {
             name: string;
         };
     };
+    location: string;
 }
 
 export const GET_GROUP_ABSENCES = gql`

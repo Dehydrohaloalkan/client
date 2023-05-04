@@ -35,10 +35,12 @@ export const GET_ALL_GROUPS = gql`
 `;
 
 export interface IFetchAllGroups {
-    groups: {
-        id: number;
-        number: string;
-    }[];
+    groups: IGroup[];
+}
+
+export interface IGroup {
+    id: number;
+    number: string;
 }
 
 export const CREATE_STUDENT = gql`
