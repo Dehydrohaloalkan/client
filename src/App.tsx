@@ -3,7 +3,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { observer } from 'mobx-react-lite';
 import { useContext, useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import './App.css';
 import { Context } from './components/GlobalContext';
 import ComplexRouter from './routes/ComplexRouter';
 
