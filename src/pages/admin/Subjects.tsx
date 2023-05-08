@@ -28,6 +28,7 @@ function Subjects({}: Props) {
     const [subjectForRemove, setSubjectForRemove] = useState<ISubject>();
     const [removeOpen, setRemoveOpen] = useState(false);
     const [createOpen, setCreateOpen] = useState(false);
+    const [flag, setFlag] = useState(false);
 
     const {
         data: subjectsData,
@@ -35,7 +36,7 @@ function Subjects({}: Props) {
         refetch: subjectRefetch,
         error: subjectsError,
     } = useQuery<IFetchAllSubjects>(GET_ALL_SUBJECTS, {
-        fetchPolicy: 'cache-and-network',
+        fetchPolicy: 'network-only',
     });
 
     const {
@@ -78,8 +79,8 @@ function Subjects({}: Props) {
     const [updateSubjectMutation] = useMutation(UPDATE_SUBJECT);
     const [removeSubjectMutation] = useMutation(REMOVE_SUBJECT);
 
-    // ! not working, need to fix server. Problem with groups. Not tested
     const onEditSave = async (subject: ICreateUpdateSubject) => {
+        setFlag(true);
         await updateSubjectMutation({
             variables: {
                 id: subject.id,
@@ -92,6 +93,7 @@ function Subjects({}: Props) {
         });
         setSelectedSubject(undefined);
         await subjectRefetch();
+        setFlag(false);
     };
 
     const onCreateSave = async (subject: ICreateUpdateSubject) => {
@@ -127,6 +129,7 @@ function Subjects({}: Props) {
         <MainContentContainer header='Subjects'>
             <Container>
                 {subjectsData &&
+                    !flag &&
                     subjectsData.subjects.map((subject) =>
                         selectedSubject?.id == subject.id ? (
                             <EditBlock

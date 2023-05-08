@@ -57,14 +57,21 @@ function EditBlock({ courses, teachers, groups, types, subject, onCancel, onSave
         }
     }, [subject]);
 
+    const minimizeRecurrence = (recurrence: IRecurrence): IRecurrence => {
+        return {
+            week: recurrence.week?.filter((day) => day.lessonsInfo.length > 0),
+        };
+    };
+
     const onSaveClick = () => {
+        const recurrence = minimizeRecurrence(recurrenceObject);
         const newSubject: ICreateUpdateSubject = {
             id: subject?.id,
             courseId,
             typeId,
             teacherId,
             groups: groupsId,
-            recurrence: recurrenceObject.week?.length ? JSON.stringify(recurrenceObject) : '',
+            recurrence: recurrence.week?.length ? JSON.stringify(recurrence) : '',
         };
         onSave?.(newSubject);
     };
