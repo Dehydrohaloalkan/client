@@ -37,6 +37,7 @@ export interface IStudentSchedule {
 }
 
 export interface ILesson {
+    id?: string;
     startTime: Date;
     endTime: Date;
     location: string;

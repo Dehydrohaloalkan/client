@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { ILesson } from './studentSchedule.service';
 
 export const GET_GROUP_FOR_ABSENCES = gql`
     query getGroup($id: String!) {
@@ -38,6 +39,7 @@ export const GET_GROUP_SCHEDULE = gql`
                     id
                     startTime
                     endTime
+                    location
                     subject {
                         course {
                             name
@@ -46,7 +48,6 @@ export const GET_GROUP_SCHEDULE = gql`
                             name
                         }
                     }
-                    location
                 }
             }
         }
@@ -61,21 +62,6 @@ export interface IFetchGroupSchedule {
 
 export interface IGroupSchedule {
     lessons: ILesson[];
-}
-
-export interface ILesson {
-    id: string;
-    startTime: Date;
-    endTime: Date;
-    subject: {
-        course: {
-            name: string;
-        };
-        type: {
-            name: string;
-        };
-    };
-    location: string;
 }
 
 export const GET_GROUP_ABSENCES = gql`
