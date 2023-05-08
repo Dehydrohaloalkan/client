@@ -11,10 +11,10 @@ import {
     GET_TEACHER_SCHEDULE,
     IFetchTeacherSchedule,
 } from '../../core/services/teacherSchedule.service';
+import Loader from '../../components/main/Loader/Loader';
 
 type Props = {};
 
-// TODO unite this with StudentSchedule
 function Schedule({}: Props) {
     const [week, setWeek] = useState(0);
     const navigate = useNavigate();
@@ -65,8 +65,7 @@ function Schedule({}: Props) {
                             </Grid>
                         ))
                     ) : (
-                        // TODO Add loader
-                        <p>Loading...</p>
+                        <Loader />
                     )}
                 </Grid>
             </Container>

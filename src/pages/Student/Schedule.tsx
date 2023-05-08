@@ -5,6 +5,7 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../../components/GlobalContext';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import Loader from '../../components/main/Loader/Loader';
 import ScheduleTable from '../../components/schedule/ScheduleTable';
 import {
     GET_STUDENT_SCHEDULE,
@@ -67,8 +68,7 @@ function Schedule({}: Props) {
                             </Grid>
                         ))
                     ) : (
-                        // TODO Add loader
-                        <p>Loading...</p>
+                        <Loader />
                     )}
                 </Grid>
             </Container>
