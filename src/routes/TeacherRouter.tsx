@@ -19,11 +19,10 @@ const teacherRoutes: IRoute[] = [
         element: <Schedule />,
         icon: <EventNoteIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/7.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page displays the schedule for a teacher.',
     },
     {
         name: 'Groups Lists',
@@ -32,11 +31,10 @@ const teacherRoutes: IRoute[] = [
         element: <GroupsLists />,
         icon: <GroupIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/8.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page allows you to view the lists of groups.',
     },
     {
         name: 'Groups Absences',
@@ -45,11 +43,10 @@ const teacherRoutes: IRoute[] = [
         element: <GroupsAbsences />,
         icon: <CrisisAlertIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/9.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page enables you to mark absences for various groups.',
     },
     {
         name: 'Groups Grades',
@@ -58,11 +55,10 @@ const teacherRoutes: IRoute[] = [
         element: <GroupsGrades />,
         icon: <GradeIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/10.png',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page allows you to enter grades for various groups.',
     },
 ];
 

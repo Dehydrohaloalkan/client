@@ -21,11 +21,10 @@ const adminRoutes: IRoute[] = [
         element: <Students />,
         icon: <GroupIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/4.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page provides a list of all students.',
     },
     {
         name: 'Groups',
@@ -34,11 +33,10 @@ const adminRoutes: IRoute[] = [
         element: <Groups />,
         icon: <AutoAwesomeMosaicIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/5.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page provides a list of all groups.',
     },
     {
         name: 'Teachers',
@@ -47,11 +45,10 @@ const adminRoutes: IRoute[] = [
         element: <Teachers />,
         icon: <GroupIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/1.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page provides a list of all teachers.',
     },
     {
         name: 'Admins',
@@ -60,11 +57,10 @@ const adminRoutes: IRoute[] = [
         element: <Admins />,
         icon: <GroupIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/3.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page provides a list of all admins.',
     },
     {
         name: 'Courses',
@@ -73,11 +69,10 @@ const adminRoutes: IRoute[] = [
         element: <Courses />,
         icon: <RecordVoiceOverIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/2.jpg',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page provides a list of all courses.',
     },
     {
         name: 'Subjects',
@@ -86,11 +81,10 @@ const adminRoutes: IRoute[] = [
         element: <Subjects />,
         icon: <SubtitlesIcon />,
         picture: {
-            //TODO Change
-            src: 'src/assets/cat.jpg',
-            alt: 'text',
+            src: 'src/assets/10.png',
+            alt: 'abstract picture',
         },
-        description: 'On this page you can find the schedule of classes for your group',
+        description: 'This page provides a list of all subjects.',
     },
 ];
 

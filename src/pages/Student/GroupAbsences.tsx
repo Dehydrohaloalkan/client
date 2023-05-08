@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Context } from '../../components/GlobalContext';
 import GroupAbsencesTable from '../../components/groupAbsences/GroupAbsencesTable';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import { connectSocket, socket } from '../../core/WebSockets/socket';
 import {
     ADD_GROUP_ABSENCE,
     GET_GROUP_ABSENCES,
@@ -64,30 +65,71 @@ function GroupAbsences({}: Props) {
         }
     }, [absencesLoading]);
 
-    const onAddAbsence = async (lessonId: string, studentId: string) => {
-        setAbsences([...absences, { lessonId, studentId }]);
+    const addAbsencesHandler = ({
+        lessonId,
+        studentId,
+    }: {
+        lessonId: string;
+        studentId: string;
+    }) => {
+        setAbsences((absences) => [...absences, { lessonId, studentId }]);
+    };
 
-        await addAbsenceMutation({
-            variables: {
-                lessonId: lessonId,
-                studentId: studentId,
-            },
+    const removeAbsencesHandler = ({
+        lessonId,
+        studentId,
+    }: {
+        lessonId: string;
+        studentId: string;
+    }) => {
+        setAbsences((absences) =>
+            absences.filter(
+                (absence) => absence.lessonId !== lessonId || absence.studentId !== studentId
+            )
+        );
+    };
+
+    useEffect(() => {
+        return connectSocket([
+            ['addAbsence', addAbsencesHandler],
+            ['removeAbsence', removeAbsencesHandler],
+        ]);
+    }, []);
+
+    const onAddAbsence = async (lessonId: string, studentId: string) => {
+        setAbsences((absences) => [...absences, { lessonId, studentId }]);
+
+        socket.emit('addAbsence', {
+            lessonId,
+            studentId,
         });
+
+        // await addAbsenceMutation({
+        //     variables: {
+        //         lessonId: lessonId,
+        //         studentId: studentId,
+        //     },
+        // });
     };
 
     const onRemoveAbsence = async (lessonId: string, studentId: string) => {
-        setAbsences(
+        setAbsences((absences) =>
             absences.filter(
                 (absence) => absence.lessonId !== lessonId || absence.studentId !== studentId
             )
         );
 
-        await removeAbsenceMutation({
-            variables: {
-                lessonId: lessonId,
-                studentId: studentId,
-            },
+        socket.emit('removeAbsence', {
+            lessonId,
+            studentId,
         });
+
+        // await removeAbsenceMutation({
+        //     variables: {
+        //         lessonId: lessonId,
+        //         studentId: studentId,
+        //     },
+        // });
     };
 
     const goToPrevWeek = () => {

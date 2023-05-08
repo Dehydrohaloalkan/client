@@ -10,7 +10,7 @@ function MainButtonListItem({ item }: Props) {
     const navigate = useNavigate();
 
     return (
-        <Card sx={{ minWidth: 300 }}>
+        <Card sx={{ height: '100%' }}>
             <CardActionArea onClick={() => navigate(item.path)}>
                 {item.picture && (
                     <CardMedia

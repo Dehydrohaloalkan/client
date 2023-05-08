@@ -31,11 +31,10 @@ function StudentRouter({}: Props) {
             element: <Schedule />,
             icon: <EventNoteIcon />,
             picture: {
-                //TODO Change
-                src: 'src/assets/cat.jpg',
-                alt: 'text',
+                src: 'src/assets/1.jpg',
+                alt: 'abstract picture',
             },
-            description: 'On this page you can find the schedule of classes for your group',
+            description: 'This page allows you to view the weekly schedule for a specific group.',
         },
         {
             name: 'Group',
@@ -44,11 +43,10 @@ function StudentRouter({}: Props) {
             element: <Group />,
             icon: <GroupIcon />,
             picture: {
-                //TODO Change
-                src: 'src/assets/cat.jpg',
-                alt: 'text',
+                src: 'src/assets/2.jpg',
+                alt: 'abstract picture',
             },
-            description: 'On this page you can find the information about your group',
+            description: 'This page displays the members of a specific group.',
         },
         {
             name: 'Subjects',
@@ -57,11 +55,10 @@ function StudentRouter({}: Props) {
             element: <Subjects />,
             icon: <ClassIcon />,
             picture: {
-                //TODO Change
-                src: 'src/assets/cat.jpg',
-                alt: 'text',
+                src: 'src/assets/3.jpg',
+                alt: 'abstract picture',
             },
-            description: 'On this page you can find the information about your subjects',
+            description: 'This page provides a list of currently studied subjects.',
         },
         {
             name: 'Absences',
@@ -70,11 +67,10 @@ function StudentRouter({}: Props) {
             element: <Absences />,
             icon: <CancelIcon />,
             picture: {
-                //TODO Change
-                src: 'src/assets/cat.jpg',
-                alt: 'text',
+                src: 'src/assets/4.jpg',
+                alt: 'abstract picture',
             },
-            description: 'On this page you can find the information about your absences',
+            description: 'This page shows a list of absences from lessons.',
         },
         {
             name: 'Grades',
@@ -83,11 +79,10 @@ function StudentRouter({}: Props) {
             element: <Grades />,
             icon: <GradeIcon />,
             picture: {
-                //TODO Change
-                src: 'src/assets/cat.jpg',
-                alt: 'text',
+                src: 'src/assets/5.jpg',
+                alt: 'abstract picture',
             },
-            description: 'On this page you can find the information about your grades',
+            description: 'This page displays a list of grades by subject.',
         },
     ]);
 
@@ -99,11 +94,10 @@ function StudentRouter({}: Props) {
             element: <GroupAbsences />,
             icon: <CrisisAlertIcon />,
             picture: {
-                //TODO Change
-                src: 'src/assets/cat.jpg',
-                alt: 'text',
+                src: 'src/assets/6.jpg',
+                alt: 'abstract picture',
             },
-            description: 'On this page you can add absences',
+            description: 'On this page, you can mark students absent from lessons.',
         });
         setRoutes([...routes]);
     };

@@ -13,10 +13,9 @@ function MainButtonList({ routes }: Props) {
             <Grid
                 container
                 spacing={2}
+                alignItems={'stretch'}
                 sx={{
                     p: 2,
-                    alignItems: 'center',
-                    justifyContent: 'center',
                 }}
             >
                 {routes.map((item, index) => (
