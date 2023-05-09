@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { Box, Container } from '@mui/material';
 import { useState } from 'react';
 import MainContentContainer from '../../components/main/ContentContainer/MainContentContainer';
+import Loader from '../../components/main/Loader/Loader';
 import CreateButtonBlock from '../../components/subjectConstructor/CreateButtonBlock';
 import EditBlock from '../../components/subjectConstructor/EditBlock';
 import RemoveSubjectModal from '../../components/subjectConstructor/RemoveSubjectModal';
@@ -128,8 +129,7 @@ function Subjects({}: Props) {
     return (
         <MainContentContainer header='Subjects'>
             <Container>
-                {subjectsData &&
-                    !flag &&
+                {subjectsData && !flag ? (
                     subjectsData.subjects.map((subject) =>
                         selectedSubject?.id == subject.id ? (
                             <EditBlock
@@ -150,7 +150,10 @@ function Subjects({}: Props) {
                                 onRemove={() => openRemoveModal(subject)}
                             />
                         )
-                    )}
+                    )
+                ) : (
+                    <Loader />
+                )}
                 {!createOpen ? (
                     <CreateButtonBlock setCreateOpen={setCreateOpen} />
                 ) : (
